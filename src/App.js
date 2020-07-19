@@ -117,7 +117,7 @@ function App() {
   };
 
   const handleAddShip = (shipToAdd) => {
-    setShipSelectorIsOpen(false); 
+    setShipSelectorIsOpen(false);
 
     if (!shipToAdd)
       return;
@@ -147,7 +147,7 @@ function App() {
       <span className={classes.costLabel}>
         {cost + "/" + selectedGameMode.maxPoints}
       </span>
-      
+
       <FormControl className={classes.formControl}>
         <InputLabel>Choose game Mode</InputLabel>
         <Select
@@ -219,7 +219,7 @@ function App() {
                     <Checkbox name="flagship" />}
                   label="Flagship"
                 />
-                <Button onClick={() => handleRemoveShip(ship)}>Remove</Button>               
+                <Button onClick={() => handleRemoveShip(ship)}>Remove</Button>
               </Grid>
 
               <FormControl>
@@ -229,32 +229,58 @@ function App() {
                       control={
                         <Checkbox name={upgrade.name} />}
                       label={upgrade.name + " (+ " + upgrade.cost + ")"}
-                    /> 
+                    />
                   )}
 
-                        <Divider />
-                        <FormControl className={classes.formControl}>
-        <InputLabel>Choose Commander</InputLabel>
-        <Select
-          displayEmpty
-          className={classes.selectEmpty}
-          label="Select Commander"
-          value={ship.commander}
-          onChange={handleCommanderChange}>
-          {availableCommanders.map((commander) => (
-            <MenuItem key={commander.name} value={commander}>
-              {commander.name + " (+" + commander.cost + ")"}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-
+                  <Divider />
+                  <FormControl className={classes.formControl}>
+                    <InputLabel>Commander</InputLabel>
+                    <Select
+                      displayEmpty
+                      className={classes.selectEmpty}
+                      label="Select Commander"
+                      value={ship.commander}
+                      onChange={handleCommanderChange}>
+                      {availableCommanders.map((commander) => (
+                        <MenuItem key={commander.name} value={commander}>
+                          {commander.name + " (+" + commander.cost + ")"}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                  <Divider></Divider>
+                  <FormControl className={classes.formControl}>
+                    <InputLabel>Upgrade card 1</InputLabel>
+                    <Select
+                      displayEmpty
+                      className={classes.selectEmpty}
+                      label="Select Crew Upgrade"
+                      value={ship.commander}
+                      onChange={handleCommanderChange}>
+                      {availableCommanders.map((commander) => (
+                        <MenuItem key={commander.name} value={commander}>
+                          {commander.name + " (+" + commander.cost + ")"}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                  <FormControl className={classes.formControl}>
+                    <InputLabel>Upgrade card 2</InputLabel>
+                    <Select
+                      displayEmpty
+                      className={classes.selectEmpty}
+                      label="Select Crew Upgrade"
+                      value={ship.commander}
+                      onChange={handleCommanderChange}>
+                      {availableCommanders.map((commander) => (
+                        <MenuItem key={commander.name} value={commander}>
+                          {commander.name + " (+" + commander.cost + ")"}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
                 </FormGroup>
-
               </FormControl>
-              <Divider />
-
-
             </Grid>
           </Card>)
         )}
@@ -289,7 +315,6 @@ function App() {
                 label={card.name + " (" + card.initiativeValue + ") (" + card.mainFaction + ")"}
               />
             )}
-
           </FormGroup>
         </FormControl>
 
