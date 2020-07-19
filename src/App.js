@@ -32,7 +32,7 @@ function App() {
     shipsBg: {
       backgroundColor: grey[300]
     },
-    costLabel:{
+    costLabel: {
       margin: theme.spacing(1)
     }
   }));
@@ -64,25 +64,28 @@ function App() {
     setAvailableInitiativeCards(initiativeCardsForFaction);
 
     /*Update available ships*/
-    if (selectedGameMode && selectedFaction && selectedAdmiral){
-    var shipsForFaction = Ships.allowed(selectedGameMode, selectedFaction, selectedAdmiral);
-    setAvailableShips(shipsForFaction);
+    if (selectedGameMode && selectedFaction && selectedAdmiral) {
+      var shipsForFaction = Ships.allowed(selectedGameMode, selectedFaction, selectedAdmiral);
+      setAvailableShips(shipsForFaction);
     }
 
-  },[selectedFaction, selectedAdmiral, selectedGameMode]);
+  }, [selectedFaction, selectedAdmiral, selectedGameMode]);
 
-    useEffect(() => {
-    console.log("Recalculate cost", selectedShips);    
+  useEffect(() => {
+    // Calculate cost
+    if (selectedGameMode && selectedFaction && selectedGameMode) {
+      console.log("Calculating cost", selectedShips);
 
       var newCost = 0;
-
       newCost = newCost + selectedAdmiral.cost;
 
       selectedShips.forEach(ship => {
-        newCost = newCost + ship.cost;        
+        newCost = newCost + ship.cost;
       });
 
-    },[selectedShips])
+      SetCost(newCost);
+    };
+  })
 
   const handleGameModeChange = (event) => {
     console.log(event.target);
@@ -99,8 +102,8 @@ function App() {
 
   const handleRemoveShip = (shipToRemove) => {
     var newSelectionOfShips = selectedShips;
-    
-    const indexOfShipToRemove = newSelectionOfShips.indexOf(shipToRemove);
+
+    var indexOfShipToRemove = newSelectionOfShips.indexOf(shipToRemove);
     newSelectionOfShips.splice(indexOfShipToRemove, 1);
     setSelectedShips(newSelectionOfShips);
   };
@@ -114,6 +117,7 @@ function App() {
     var newSelectionOfShips = selectedShips;
     newSelectionOfShips.push(shipToAdd);
     setSelectedShips(newSelectionOfShips);
+
     console.log("ship added", shipToAdd, newSelectionOfShips);
   };
 
@@ -124,7 +128,7 @@ function App() {
   return (
     <div className="App">
       <span className={classes.costLabel}>
-      {cost + "/" + selectedGameMode.maxPoints}
+        {cost + "/" + selectedGameMode.maxPoints}
       </span>
       <FormControl className={classes.formControl}>
         <InputLabel>Choose game Mode</InputLabel>
@@ -136,7 +140,7 @@ function App() {
           onChange={handleGameModeChange}>
           {gameModes.map((gameMode) => (
             <MenuItem key={gameMode.name} value={gameMode}>
-              {gameMode.name + " (" + gameMode.maxPoints + " Points)"} 
+              {gameMode.name + " (" + gameMode.maxPoints + " Points)"}
             </MenuItem>
           ))}
         </Select>
@@ -177,7 +181,7 @@ function App() {
 
       <Divider />
 
-      <Grid 
+      <Grid
         className={classes.shipsBg}
         container
         direction="column"
@@ -186,40 +190,40 @@ function App() {
         {selectedShips.map(ship => (
           <Card className={classes.card}>
             <Grid
-            container
-            direction="column"
-            justify="center"
-            alignItems="flex-start">
-            <Grid>
-            {ship.name + " (+" + ship.cost + ")"}
-            <FormControlLabel
-              control={
-                <Checkbox name="flagship"/>}
+              container
+              direction="column"
+              justify="center"
+              alignItems="flex-start">
+              <Grid>
+                {ship.name + " (+" + ship.cost + ")"}
+                <FormControlLabel
+                  control={
+                    <Checkbox name="flagship" />}
                   label="Flagship"
-              />
+                />
+              </Grid>
+
+              <FormControl>
+                <FormGroup>
+                  {ship.upgrades.map(upgrade =>
+                    <FormControlLabel
+                      control={
+                        <Checkbox name={upgrade.name} />}
+                      label={upgrade.name + " (+ " + upgrade.cost + ")"}
+                    />
+                  )}
+
+                </FormGroup>
+
+              </FormControl>
+              <Divider />
+
+
             </Grid>
-
-            <FormControl>
-              <FormGroup>
-              {ship.upgrades.map(upgrade =>    
-              <FormControlLabel
-              control={
-                <Checkbox name={upgrade.name}/>}
-                  label={upgrade.name + " (+ " + upgrade.cost +")"}
-              />
-              )}
-
-            </FormGroup>
-          
-          </FormControl>
-          <Divider />
-
-
-          </Grid>
           </Card>)
         )}
 
-        <Divider />        
+        <Divider />
 
         <Button
           className={classes.addShipButton}
@@ -231,7 +235,7 @@ function App() {
         <ShipSelector open={shipSelectorIsOpen} availableShips={availableShips} selectionDone={handleAddShip}></ShipSelector>
 
       </Grid>
-      
+
       <Divider />
 
       <Grid
@@ -239,21 +243,21 @@ function App() {
         direction="column"
         justify="center"
         alignItems="flex-start">
-      <FormControl component="fieldset" className={classes.formControl}>
-        <FormLabel component="legend">Available Initiative Cards</FormLabel>
-        <FormGroup>
-          {availableInitiativeCards.map(card =>
-            <FormControlLabel
-              control={
-              <Checkbox name={card.name} />}
-              label={card.name + " (" + card.initiativeValue + ") (" + card.mainFaction + ")"}
-            />
-          )}
+        <FormControl component="fieldset" className={classes.formControl}>
+          <FormLabel component="legend">Available Initiative Cards</FormLabel>
+          <FormGroup>
+            {availableInitiativeCards.map(card =>
+              <FormControlLabel
+                control={
+                  <Checkbox name={card.name} />}
+                label={card.name + " (" + card.initiativeValue + ") (" + card.mainFaction + ")"}
+              />
+            )}
 
-        </FormGroup>
-      </FormControl>
+          </FormGroup>
+        </FormControl>
 
-    </Grid>
+      </Grid>
 
     </div>
   );
