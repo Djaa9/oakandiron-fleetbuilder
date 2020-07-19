@@ -10,6 +10,7 @@ import { factions } from './data/factions.js'
 import { initiativeCards } from './data/initiativeCards.js'
 import { gameModes } from './data/gameModes.js'
 import Ships from './data/ships.js'
+import { grey } from '@material-ui/core/colors';
 
 function App() {
 
@@ -26,7 +27,10 @@ function App() {
       marginTop: theme.spacing(2)
     },
     addShipButton: {
-      margin: theme.spacing(2),
+      margin: theme.spacing(2)
+    },
+    shipsBg: {
+      backgroundColor: grey[300]
     }
   }));
 
@@ -46,14 +50,17 @@ function App() {
     /*Update available admirals for new faction*/
     var admiralsInFaction = admirals.filter(admiral => admiral.factions.includes(faction));
     setAvailableAdmirals(admiralsInFaction);
+    console.log(admiralsInFaction);
 
     /*Update available initiative cards for new faction*/
     var initiativeCardsForFaction = initiativeCards.filter(card => card.factions.includes(faction));
     setAvailableInitiativeCards(initiativeCardsForFaction);
+    console.log(initiativeCardsForFaction);
 
     /*Update available ships*/
-    var shipsForFaction = Ships.forFaction(faction).filter(ship => ship.factions.includes(faction));
+    var shipsForFaction = Ships.forFactionAndAdmiral(faction, "");
     setAvailableShips(shipsForFaction);
+    console.log(shipsForFaction);
   },
     [faction]);
 
@@ -67,6 +74,14 @@ function App() {
 
   const handleAdmiralChange = (event) => {
     setAdmiral(event.target.value);
+  };
+
+  const handleRemoveShip = (shipToRemove) => {
+    var newSelectionOfShips = selectedShips;
+    
+    const indexOfShipToRemove = newSelectionOfShips.indexOf(shipToRemove);
+    newSelectionOfShips.splice(indexOfShipToRemove, 1);
+    setSelectedShips(newSelectionOfShips);
   };
 
   const handleAddShip = (shipToAdd) => {
@@ -156,6 +171,7 @@ function App() {
       </FormControl>
 
       <Divider />
+
       <Grid
         container
         direction="column"
@@ -167,35 +183,57 @@ function App() {
           {availableInitiativeCards.map(card =>
             <FormControlLabel
               control={
-              <Checkbox name="card.name" />}
-              label={card.name + " (" + card.initiativeValue + ")" + " (" + card.mainFaction + ")"}
+              <Checkbox name={card.name} />}
+              label={card.name + " (" + card.initiativeValue + ") (" + card.mainFaction + ")"}
             />
           )}
 
         </FormGroup>
       </FormControl>
+
     </Grid>
 
       <Divider />
 
-      <Grid
+      <Grid 
+        className={classes.shipsBg}
         container
         direction="column"
         justify="center"
         alignItems="flex-start">
         {selectedShips.map(ship => (
           <Card className={classes.card}>
-            {ship.name}
-             
+            <Grid
+            container
+            direction="column"
+            justify="center"
+            alignItems="flex-start">
+            <Grid>
+            {ship.name + " (+" + ship.cost + ")"}
+            <FormControlLabel
+              control={
+                <Checkbox name="flagship"/>}
+                  label="Flagship"
+              />
+            </Grid>
+
             <FormControl>
               <FormGroup>
               {ship.upgrades.map(upgrade =>    
-              "test"
+              <FormControlLabel
+              control={
+                <Checkbox name={upgrade.name}/>}
+                  label={upgrade.name + " (+ " + upgrade.cost +")"}
+              />
               )}
 
             </FormGroup>
           
           </FormControl>
+          <Divider />
+
+
+          </Grid>
           </Card>)
         )}
 
