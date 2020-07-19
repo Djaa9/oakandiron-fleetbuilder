@@ -1,4 +1,4 @@
-  export const allShips = [
+  const allShips = [
     {
       name: "Sloop",
       cost: 7,
@@ -177,3 +177,50 @@
       factions: ["Pirate"]
     }
   ];
+
+  const Ships = {
+    forFaction: function(faction){
+      
+      var shipsAvailableForFaction = allShips.filter(ship => ship.factions.includes(faction));
+      
+      switch(faction){
+        case "English" || "Dutch" || "Pirate":
+          return shipsAvailableForFaction;
+
+        case "French":
+          var frenchShips = shipsAvailableForFaction;
+          frenchShips.forEach(ship => {
+            ship.upgrades.forEach(upgrade =>{
+              if (upgrade.name === "Swift" || "Weatherly")
+              {
+                if (upgrade.cost > 0)
+                  upgrade.cost - 1;
+              }
+              if (upgrade.name === "Additional Guns")
+                {
+                  if (upgrade.cost > 1)
+                    upgrade.cost - 1;
+                }
+            })
+          })
+          return allShips;
+          
+        case "Spanish":
+          var spanishShips = shipsAvailableForFaction;
+          spanishShips.forEach(ship => {
+            ship.upgrades.forEach( upgrade => {
+              if (upgrade.name === "Stout")
+                Math.floor(upgrade.cost / 2);
+              }
+            )}
+          );
+
+          return spanishShips;
+      }
+
+      return allShips;
+    }
+  };
+
+export default Ships;
+  

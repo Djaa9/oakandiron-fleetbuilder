@@ -9,7 +9,7 @@ import { admirals } from './data/admirals.js'
 import { factions } from './data/factions.js'
 import { initiativeCards } from './data/initiativeCards.js'
 import { gameModes } from './data/gameModes.js'
-import { allShips } from './data/ships.js'
+import Ships from './data/ships.js'
 
 function App() {
 
@@ -52,7 +52,7 @@ function App() {
     setAvailableInitiativeCards(initiativeCardsForFaction);
 
     /*Update available ships*/
-    var shipsForFaction = allShips.filter(ship => ship.factions.includes(faction));
+    var shipsForFaction = Ships.forFaction(faction).filter(ship => ship.factions.includes(faction));
     setAvailableShips(shipsForFaction);
   },
     [faction]);
@@ -190,12 +190,12 @@ function App() {
             <FormControl>
               <FormGroup>
               {ship.upgrades.map(upgrade =>    
-              ()
+              "test"
               )}
 
             </FormGroup>
           
-          
+          </FormControl>
           </Card>)
         )}
 
