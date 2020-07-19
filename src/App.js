@@ -184,9 +184,20 @@ function App() {
         justify="center"
         alignItems="flex-start">
         {selectedShips.map(ship => (
-          <Card className={classes.card}>{ship.name}</Card>)
-        )}
+          <Card className={classes.card}>
+            {ship.name}
+             
+            <FormControl>
+              <FormGroup>
+              {ship.upgrades.map(upgrade =>    
+              ()
+              )}
 
+            </FormGroup>
+          
+          
+          </Card>)
+        )}
 
         <Button
           className={classes.addShipButton}

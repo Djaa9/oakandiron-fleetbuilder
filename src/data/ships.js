@@ -1,138 +1,179 @@
   export const allShips = [
     {
       name: "Sloop",
+      cost: 7,
       upgrades: [
-        "Additional Crew", 
-        "Additional Guns",
-        "Sweeps",
-        "Swift"
+        {name: "Skill 1", cost: 2},
+        {name: "Skill 2", cost: 4},
+        {name: "Additional Crew", cost: 2},
+        {name: "Additional Guns", cost: 2},
+        {name: "Sweeps", cost: 1},
+        {name: "Swift", cost: 1}
       ],
       factions: ["English", "Spanish", "Dutch", "French", "Pirate"]
     },
     {
       name: "Corvette",
+      cost: 7,
       upgrades: [
-        "Additional Crew", 
-        "Additional Guns",
-        "Sweeps",
-        "Swift"
+        {name: "Skill 1", cost: 2},
+        {name: "Skill 2", cost: 4},
+        {name: "Additional Crew", cost: 2},
+        {name: "Additional Guns", cost: 2},
+        {name: "Sweeps", cost: 1},
+        {name: "Swift", cost: 1}
       ],
       factions: ["English", "Spanish", "Dutch", "French", "Pirate"]
     },
     {
       name: "Brigantine",
-      upgrades: [
-        "Additional Crew",
-        "Additional Guns",
-        "Sweeps",
-        "Swift",
-        "Weatherly"
+      cost: 8,      
+      upgrades: [        
+        {name: "Skill 1", cost: 2},
+        {name: "Skill 2", cost: 4},
+        {name: "Additional Crew", cost: 2},
+        {name: "Additional Guns", cost: 2},
+        {name: "Sweeps", cost: 1},
+        {name: "Swift", cost: 1},
+        {name: "Weatherly", cost: 2}
       ],
       factions: ["English", "Spanish", "Dutch", "French", "Pirate"]
     },
     {
       name: "Fluyt",
+      cost: 11,
       upgrades: [
-        "Additional Crew", 
-        "Additional Guns",
-        "Stout"
+        {name: "Skill 1", cost: 2},
+        {name: "Skill 2", cost: 4},
+        {name: "Additional Crew", cost: 2},
+        {name: "Additional Guns", cost: 2},
+        {name: "Stout", cost: 4}
       ],
       factions: ["English", "Spanish", "Dutch", "French", "Pirate"]
     },
     {
       name: "Petite Fregate",
+      cost: 13,
       upgrades: [
-        "Additional Crew", 
-        "Additional Guns",
-        "Sweeps",
-        "Weatherly"
+        {name: "Skill 1", cost: 2},
+        {name: "Skill 2", cost: 4},
+        {name: "Additional Crew",  cost: 4},
+        {name: "Additional Guns", cost: 2},
+        {name: "Sweeps", cost: 1},
+        {name: "Weatherly", cost: 2}
       ],
       factions: ["English", "Spanish", "Dutch", "French", "Pirate"]
     },
     {
       name: "Light Galleon",
+      cost: 17,
       upgrades: [
-        "Additional Crew", 
-        "Additional Guns",
-        "Stout",
-        "Weatherly"
+        {name: "Skill 1", cost: 2},
+        {name: "Skill 2", cost: 4},
+        {name: "Additional Crew", cost: 6},
+        {name: "Additional Guns", cost: 2},
+        {name: "Stout", cost: 6},
+        {name: "Weatherly", cost: 2}
       ],
       factions: ["English", "Spanish", "Dutch", "French", "Pirate"]
     },
     {
       name: "Sixth Rate",
+      cost: 13,
       upgrades: [
-        "Additional Crew", 
-        "Additional Guns",
-        "Stout",
-        "Swift",
-        "Weatherly"
+        {name: "Skill 1", cost: 2},
+        {name: "Skill 2", cost: 4},
+        {name: "Additional Crew", cost: 4},
+        {name: "Additional Guns", cost: 2},
+        {name: "Stout", cost: 4},
+        {name: "Swift", cost: 1},
+        {name: "Weatherly", cost: 2}
       ],
       factions: ["English", "Spanish", "Dutch", "French", "Pirate"]
     },
     {
       name: "Fifth Rate",
+      cost: 16,
       upgrades: [
-        "Additional Crew", 
-        "Additional Guns",
-        "Stout",
-        "Swift",
-        "Weatherly"
+        {name: "Skill 1", cost: 2},
+        {name: "Skill 2", cost: 4},
+        {name: "Additional Crew", cost: 4},
+        {name: "Additional Guns", cost: 2},
+        {name: "Stout", cost: 4},
+        {name: "Swift", cost: 1},
+        {name: "Weatherly", cost: 2}
       ],
       factions: ["English", "Spanish", "Dutch", "French", "Pirate"]
     },
     {
       name: "Fourth Rate",
+      cost: 23,
       upgrades: [
-        "Additional Crew", 
-        "Additional Guns",
-        "Stout",
-        "Swift",
-        "Weatherly"
+        {name: "Skill 1", cost: 2},
+        {name: "Skill 2", cost: 4},
+        {name: "Additional Crew", cost: 6},
+        {name: "Additional Guns", cost: 2},
+        {name: "Stout", cost: 6},
+        {name: "Swift", cost: 1},
+        {name: "Weatherly", cost: 2}
       ],
       factions: ["English", "Spanish", "Dutch", "French", "Pirate"]
     },
     {
       name: "Third Rate",
+      cost: 37,
       upgrades: [
-        "Additional Crew", 
-        "Additional Guns",
-        "Stout",
-        "Swift"
+        {name: "Skill 1", cost: 2},
+        {name: "Skill 2", cost: 4},
+        {name: "Additional Crew", cost: 8}, 
+        {name: "Additional Guns", cost: 6},
+        {name: "Stout", cost: 6},
+        {name: "Swift", cost: 1}
       ],
       factions: ["English", "Spanish", "Dutch", "French", "Pirate"]
     },
     {
       name: "Second Rate",
+      cost: 55,
       upgrades: [
-        "Additional Crew", 
-        "Additional Guns",
-        "Stout",
-        "Swift",
-        "Weatherly"
+        {name: "Skill 1", cost: 2},
+        {name: "Skill 2", cost: 4},
+        {name: "Additional Crew", cost: 8}, 
+        {name: "Additional Guns", cost: 2},
+        {name: "Stout", cost: 8},
+        {name: "Swift", cost: 1},
+        {name: "Weatherly", cost: 2}
       ],
       factions: ["English", "Spanish", "Dutch", "French", "Pirate"]
-    },
-    ,
+    },    
     {
       name: "First Rate",
+      cost: 58,
       upgrades: [
-        "Additional Crew", 
-        "Additional Guns",
-        "Stout",
-        "Swift",
-        "Weatherly"
+        {name: "Skill 1", cost: 2},
+        {name: "Skill 2", cost: 4},
+        {name: "Additional Crew", cost: 8}, 
+        {name: "Additional Guns", cost: 2},
+        {name: "Stout", cost: 8},
+        {name: "Swift", cost: 1},
+        {name: "Weatherly", cost: 2}
       ],
       factions: ["English", "Spanish", "Dutch", "French", "Pirate"]
     },			
     {
       name: "Revenge",
-      upgrades: [],
+      upgrades: [
+        {name: "Skill 1", cost: 2},
+        {name: "Skill 2", cost: 4},
+      ],
       factions: ["Pirate"]
     },
     {
       name: "Queen Anne's Revenge",
-      upgrades: [],
+      upgrades: [
+        {name: "Skill 1", cost: 2},
+        {name: "Skill 2", cost: 4},
+      ],
       factions: ["Pirate"]
     }
   ];
