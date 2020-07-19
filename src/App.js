@@ -10,6 +10,7 @@ import { factions } from './data/factions.js'
 import { initiativeCards } from './data/initiativeCards.js'
 import { gameModes } from './data/gameModes.js'
 import Ships from './data/ships.js'
+import Commanders from './data/commanders'
 import { grey } from '@material-ui/core/colors';
 
 function App() {
@@ -47,27 +48,36 @@ function App() {
   const [selectedShips, setSelectedShips] = useState([]);
   const [availableShips, setAvailableShips] = useState([]);
   const [shipSelectorIsOpen, setShipSelectorIsOpen] = useState(false);
-  const [cost, SetCost] = useState(0);
+  const [cost, setCost] = useState(0);
+  const [shipIdCounter, setShipIdCounter] = useState(0);
+  const [availableCommanders, setAvailableCommanders] = useState([]);
 
   useEffect(() => {
     console.log("mode, faction or admiral changed");
 
     //TODO Confirmation dialog
-    //setSelectedShips([]);
+    setSelectedShips([]);
 
     /*Update available admirals*/
     var admiralsInFaction = admirals.filter(admiral => admiral.factions.includes(selectedFaction.name));
     setAvailableAdmirals(admiralsInFaction);
 
     /*Update available initiative cards*/
-    var initiativeCardsForFaction = initiativeCards.filter(card => card.factions.includes(selectedFaction));
+    var initiativeCardsForFaction = initiativeCards.filter(card => card.factions.includes(selectedFaction.name));
     setAvailableInitiativeCards(initiativeCardsForFaction);
 
     /*Update available ships*/
     if (selectedGameMode && selectedFaction && selectedAdmiral) {
       var shipsForFaction = Ships.allowed(selectedGameMode, selectedFaction, selectedAdmiral);
       setAvailableShips(shipsForFaction);
-    }
+    };
+
+    /*Update available Commanders*/
+    if (selectedFaction) {
+      var commandersForFaction = Commanders.allowed(selectedFaction);
+      setAvailableCommanders(commandersForFaction);
+      console.log("New commanders", commandersForFaction);
+    };
 
   }, [selectedFaction, selectedAdmiral, selectedGameMode]);
 
@@ -83,7 +93,7 @@ function App() {
         newCost = newCost + ship.cost;
       });
 
-      SetCost(newCost);
+      setCost(newCost);
     };
   })
 
@@ -101,18 +111,20 @@ function App() {
   };
 
   const handleRemoveShip = (shipToRemove) => {
-    var newSelectionOfShips = selectedShips;
-
-    var indexOfShipToRemove = newSelectionOfShips.indexOf(shipToRemove);
-    newSelectionOfShips.splice(indexOfShipToRemove, 1);
+    console.log("remove", shipToRemove);
+    var newSelectionOfShips = selectedShips.filter(ship => ship.id !== shipToRemove.id);
     setSelectedShips(newSelectionOfShips);
   };
 
   const handleAddShip = (shipToAdd) => {
-    setShipSelectorIsOpen(false);
+    setShipSelectorIsOpen(false); 
 
     if (!shipToAdd)
       return;
+
+    shipToAdd.id = shipIdCounter;
+    shipToAdd.id++;
+    setShipIdCounter(shipToAdd.id);
 
     var newSelectionOfShips = selectedShips;
     newSelectionOfShips.push(shipToAdd);
@@ -125,11 +137,17 @@ function App() {
     setShipSelectorIsOpen(true);
   };
 
+  const handleCommanderChange = (event) => {
+    console.log("df");
+  };
+
   return (
     <div className="App">
+
       <span className={classes.costLabel}>
         {cost + "/" + selectedGameMode.maxPoints}
       </span>
+      
       <FormControl className={classes.formControl}>
         <InputLabel>Choose game Mode</InputLabel>
         <Select
@@ -201,6 +219,7 @@ function App() {
                     <Checkbox name="flagship" />}
                   label="Flagship"
                 />
+                <Button onClick={() => handleRemoveShip(ship)}>Remove</Button>               
               </Grid>
 
               <FormControl>
@@ -210,8 +229,25 @@ function App() {
                       control={
                         <Checkbox name={upgrade.name} />}
                       label={upgrade.name + " (+ " + upgrade.cost + ")"}
-                    />
+                    /> 
                   )}
+
+                        <Divider />
+                        <FormControl className={classes.formControl}>
+        <InputLabel>Choose Commander</InputLabel>
+        <Select
+          displayEmpty
+          className={classes.selectEmpty}
+          label="Select Commander"
+          value={ship.commander}
+          onChange={handleCommanderChange}>
+          {availableCommanders.map((commander) => (
+            <MenuItem key={commander.name} value={commander}>
+              {commander.name + " (+" + commander.cost + ")"}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
 
                 </FormGroup>
 
