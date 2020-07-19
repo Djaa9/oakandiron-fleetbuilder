@@ -180,7 +180,7 @@ const allShips = [
 
 const Ships = {
   allowed: function (gameMode, faction, admiral) {
-
+    console.log("Ships.allowed() called", faction, gameMode, admiral)
     if (!gameMode)
       throw new Error("Game Mode not selected (gameMode = " + gameMode + "). Allowed Ships could not be determined");
 
@@ -197,17 +197,14 @@ const Ships = {
       allowedShips.filter(ship => ship.class !== "Ship of the Line");
 
     // Handle Admiral
-    if (admiral === undefined || admiral === "" || admiral === null)
-      return [];
-
     if (admiral.keywords.includes("Rogues"))
       allowedShips.filter(ship => ship.class !== "Ship of the Line");
 
     // Handle Faction
-    if (faction === "English" || faction === "Dutch") {
+    if (faction.name === "English" || faction.name === "Dutch") {
       return allowedShips.filter(ship => ship.class !== "Pirate");
     }
-    else if (faction === "French") {
+    else if (faction.name === "French") {
       var frenchShips = allowedShips.filter(ship => ship.class !== "Pirate");
 
       frenchShips.forEach(ship => {
@@ -226,7 +223,7 @@ const Ships = {
 
       return frenchShips;
     }
-    else if (faction === "Spanish") {
+    else if (faction.name === "Spanish") {
       var spanishShips = allowedShips.filter(ship => ship.class !== "Pirate");
 
       spanishShips.forEach(ship => {
@@ -238,7 +235,7 @@ const Ships = {
 
       return spanishShips;
     }
-    else if (faction === "Pirate") {
+    else if (faction.name === "Pirate") {
       var pirateShips = allowedShips.filter(ship => ship.class !== "Ship of the Line");
 
       pirateShips.forEach(ship => {

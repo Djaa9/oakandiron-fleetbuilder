@@ -31,6 +31,9 @@ function App() {
     },
     shipsBg: {
       backgroundColor: grey[300]
+    },
+    costLabel:{
+      margin: theme.spacing(1)
     }
   }));
 
@@ -47,34 +50,42 @@ function App() {
   const [cost, SetCost] = useState(0);
 
   useEffect(() => {
+    console.log("mode, faction or admiral changed");
 
     //TODO Confirmation dialog
-    setSelectedShips([]);
+    //setSelectedShips([]);
 
-    /*Update available admirals for new faction*/
-    var admiralsInFaction = admirals.filter(admiral => admiral.factions.includes(selectedFaction));
+    /*Update available admirals*/
+    var admiralsInFaction = admirals.filter(admiral => admiral.factions.includes(selectedFaction.name));
     setAvailableAdmirals(admiralsInFaction);
-    console.log(admiralsInFaction);
 
-    /*Update available initiative cards for new faction*/
+    /*Update available initiative cards*/
     var initiativeCardsForFaction = initiativeCards.filter(card => card.factions.includes(selectedFaction));
     setAvailableInitiativeCards(initiativeCardsForFaction);
-    console.log(initiativeCardsForFaction);
 
     /*Update available ships*/
     if (selectedGameMode && selectedFaction && selectedAdmiral){
     var shipsForFaction = Ships.allowed(selectedGameMode, selectedFaction, selectedAdmiral);
     setAvailableShips(shipsForFaction);
-    console.log(shipsForFaction);
     }
-    
+
   },[selectedFaction, selectedAdmiral, selectedGameMode]);
 
     useEffect(() => {
     console.log("Recalculate cost", selectedShips);    
+
+      var newCost = 0;
+
+      newCost = newCost + selectedAdmiral.cost;
+
+      selectedShips.forEach(ship => {
+        newCost = newCost + ship.cost;        
+      });
+
     },[selectedShips])
 
   const handleGameModeChange = (event) => {
+    console.log(event.target);
     setSelectedGameMode(event.target.value);
   };
 
@@ -97,12 +108,13 @@ function App() {
   const handleAddShip = (shipToAdd) => {
     setShipSelectorIsOpen(false);
 
-    if (shipToAdd === null || "")
+    if (!shipToAdd)
       return;
 
     var newSelectionOfShips = selectedShips;
     newSelectionOfShips.push(shipToAdd);
     setSelectedShips(newSelectionOfShips);
+    console.log("ship added", shipToAdd, newSelectionOfShips);
   };
 
   const handleOpenShipSelector = (event) => {
@@ -111,7 +123,9 @@ function App() {
 
   return (
     <div className="App">
-
+      <span className={classes.costLabel}>
+      {cost + "/" + selectedGameMode.maxPoints}
+      </span>
       <FormControl className={classes.formControl}>
         <InputLabel>Choose game Mode</InputLabel>
         <Select
@@ -121,8 +135,8 @@ function App() {
           value={selectedGameMode}
           onChange={handleGameModeChange}>
           {gameModes.map((gameMode) => (
-            <MenuItem key={gameMode.name} value={gameMode.name}>
-              {gameMode.name}
+            <MenuItem key={gameMode.name} value={gameMode}>
+              {gameMode.name + " (" + gameMode.maxPoints + " Points)"} 
             </MenuItem>
           ))}
         </Select>
@@ -136,9 +150,9 @@ function App() {
           label="Choose a faction"
           onChange={handleFactionChange}
           value={selectedFaction}>
-          {factions.map((option) => (
-            <MenuItem key={option.name} value={option.name}>
-              {option.name}
+          {factions.map((faction) => (
+            <MenuItem key={faction.name} value={faction}>
+              {faction.name}
             </MenuItem>
           ))}
         </Select>
@@ -150,12 +164,12 @@ function App() {
           displayEmpty
           className={classes.selectEmpty}
           label="Select Admiral"
-          disabled={selectedFaction === ""}
+          disabled={!selectedFaction}
           value={selectedAdmiral}
           onChange={handleAdmiralChange}>
-          {availableAdmirals.map((option) => (
-            <MenuItem key={option.name} value={option}>
-              {option.name}
+          {availableAdmirals.map(admiral => (
+            <MenuItem key={admiral.name} value={admiral}>
+              {admiral.name}
             </MenuItem>
           ))}
         </Select>
@@ -211,7 +225,7 @@ function App() {
           className={classes.addShipButton}
           variant="contained"
           onClick={handleOpenShipSelector}
-          disabled={selectedFaction === "" || selectedGameMode === "" || selectedAdmiral === ""}>
+          disabled={!selectedFaction || !selectedGameMode || !selectedAdmiral}>
           Add Ship
       </Button>
         <ShipSelector open={shipSelectorIsOpen} availableShips={availableShips} selectionDone={handleAddShip}></ShipSelector>
