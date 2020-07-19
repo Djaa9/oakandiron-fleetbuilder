@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import './App.css';
 import { makeStyles } from '@material-ui/core/styles';
-import { MenuItem, Checkbox, FormGroup, FormLabel, FormControlLabel, Card, Divider, Button, InputLabel, Dialog, DialogTitle, List, ListItem, Grid } from '@material-ui/core';
+import { MenuItem, Checkbox, FormGroup, FormLabel, FormControlLabel, Card, Divider, Button, InputLabel, Grid } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import { admirals } from './data/admirals.js'
-import { factions } from './data/factions.js'
-import { initiativeCards } from './data/initiativeCards.js'
-import { gameModes } from './data/gameModes.js'
+import { admirals } from './data/admirals'
+import { factions } from './data/factions'
+import { initiativeCards } from './data/initiativeCards'
+import { gameModes } from './data/gameModes'
 import Ships from './data/ships.js'
-import Commanders from './data/commanders'
 import { grey } from '@material-ui/core/colors';
+import ShipSelector from './Components/ShipSelector';
+import Ship from './Components/Ship.js';
 
 function App() {
 
@@ -50,11 +50,9 @@ function App() {
   const [shipSelectorIsOpen, setShipSelectorIsOpen] = useState(false);
   const [cost, setCost] = useState(0);
   const [shipIdCounter, setShipIdCounter] = useState(0);
-  const [availableCommanders, setAvailableCommanders] = useState([]);
+
 
   useEffect(() => {
-    console.log("mode, faction or admiral changed");
-
     //TODO Confirmation dialog
     setSelectedShips([]);
 
@@ -72,19 +70,11 @@ function App() {
       setAvailableShips(shipsForFaction);
     };
 
-    /*Update available Commanders*/
-    if (selectedFaction) {
-      var commandersForFaction = Commanders.allowed(selectedFaction);
-      setAvailableCommanders(commandersForFaction);
-      console.log("New commanders", commandersForFaction);
-    };
-
-  }, [selectedFaction, selectedAdmiral, selectedGameMode]);
+  },[selectedFaction, selectedAdmiral, selectedGameMode]);
 
   useEffect(() => {
     // Calculate cost
     if (selectedGameMode && selectedFaction && selectedGameMode) {
-      console.log("Calculating cost", selectedShips);
 
       var newCost = 0;
       newCost = newCost + selectedAdmiral.cost;
@@ -95,10 +85,9 @@ function App() {
 
       setCost(newCost);
     };
-  })
+  },[JSON.stringify(selectedShips), selectedAdmiral])
 
   const handleGameModeChange = (event) => {
-    console.log(event.target);
     setSelectedGameMode(event.target.value);
   };
 
@@ -111,7 +100,6 @@ function App() {
   };
 
   const handleRemoveShip = (shipToRemove) => {
-    console.log("remove", shipToRemove);
     var newSelectionOfShips = selectedShips.filter(ship => ship.id !== shipToRemove.id);
     setSelectedShips(newSelectionOfShips);
   };
@@ -129,22 +117,16 @@ function App() {
     var newSelectionOfShips = selectedShips;
     newSelectionOfShips.push(shipToAdd);
     setSelectedShips(newSelectionOfShips);
-
-    console.log("ship added", shipToAdd, newSelectionOfShips);
   };
 
   const handleOpenShipSelector = (event) => {
     setShipSelectorIsOpen(true);
   };
 
-  const handleCommanderChange = (event) => {
-    console.log("df");
-  };
-
   return (
     <div className="App">
 
-      <span className={classes.costLabel}>
+      <span visibility={!selectedGameMode ? "visible" : "hidden"} className={classes.costLabel}>
         {cost + "/" + selectedGameMode.maxPoints}
       </span>
 
@@ -206,83 +188,8 @@ function App() {
         justify="center"
         alignItems="flex-start">
         {selectedShips.map(ship => (
-          <Card className={classes.card}>
-            <Grid
-              container
-              direction="column"
-              justify="center"
-              alignItems="flex-start">
-              <Grid>
-                {ship.name + " (+" + ship.cost + ")"}
-                <FormControlLabel
-                  control={
-                    <Checkbox name="flagship" />}
-                  label="Flagship"
-                />
-                <Button onClick={() => handleRemoveShip(ship)}>Remove</Button>
-              </Grid>
-
-              <FormControl>
-                <FormGroup>
-                  {ship.upgrades.map(upgrade =>
-                    <FormControlLabel
-                      control={
-                        <Checkbox name={upgrade.name} />}
-                      label={upgrade.name + " (+ " + upgrade.cost + ")"}
-                    />
-                  )}
-
-                  <Divider />
-                  <FormControl className={classes.formControl}>
-                    <InputLabel>Commander</InputLabel>
-                    <Select
-                      displayEmpty
-                      className={classes.selectEmpty}
-                      label="Select Commander"
-                      value={ship.commander}
-                      onChange={handleCommanderChange}>
-                      {availableCommanders.map((commander) => (
-                        <MenuItem key={commander.name} value={commander}>
-                          {commander.name + " (+" + commander.cost + ")"}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                  <Divider></Divider>
-                  <FormControl className={classes.formControl}>
-                    <InputLabel>Upgrade card 1</InputLabel>
-                    <Select
-                      displayEmpty
-                      className={classes.selectEmpty}
-                      label="Select Crew Upgrade"
-                      value={ship.commander}
-                      onChange={handleCommanderChange}>
-                      {availableCommanders.map((commander) => (
-                        <MenuItem key={commander.name} value={commander}>
-                          {commander.name + " (+" + commander.cost + ")"}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                  <FormControl className={classes.formControl}>
-                    <InputLabel>Upgrade card 2</InputLabel>
-                    <Select
-                      displayEmpty
-                      className={classes.selectEmpty}
-                      label="Select Crew Upgrade"
-                      value={ship.commander}
-                      onChange={handleCommanderChange}>
-                      {availableCommanders.map((commander) => (
-                        <MenuItem key={commander.name} value={commander}>
-                          {commander.name + " (+" + commander.cost + ")"}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </FormGroup>
-              </FormControl>
-            </Grid>
-          </Card>)
+          <Ship ship={ship} faction={selectedFaction} gameMode={selectedGameMode} removeShip={handleRemoveShip}/>
+          )
         )}
 
         <Divider />
@@ -295,7 +202,6 @@ function App() {
           Add Ship
       </Button>
         <ShipSelector open={shipSelectorIsOpen} availableShips={availableShips} selectionDone={handleAddShip}></ShipSelector>
-
       </Grid>
 
       <Divider />
@@ -325,32 +231,3 @@ function App() {
 }
 
 export default App;
-
-
-function ShipSelector(props) {
-  //const classes = useStyles();
-  const { open, selectionDone, availableShips } = props;
-
-  const handleListItemClick = (value) => {
-    selectionDone(value);
-  };
-
-  return (
-    <Dialog onClose={selectionDone} open={open}>
-      <DialogTitle> Choose ship </DialogTitle>
-      <List>
-        {availableShips.map((ship) =>
-          <ListItem key={ship.name} button onClick={() => handleListItemClick(ship)}>
-            {ship.name}
-          </ListItem>
-        )}
-      </List>
-    </Dialog>
-  );
-}
-
-ShipSelector.propTypes = {
-  open: PropTypes.bool.isRequired,
-  selectionDone: PropTypes.func.isRequired,
-  availableShips: PropTypes.array
-};

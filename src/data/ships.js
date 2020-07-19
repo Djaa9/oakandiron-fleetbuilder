@@ -42,11 +42,11 @@ const allShips = [
   {
     name: "Fluyt",
     class: "Unrated",
-    cost: 11,
+    cost: 13,
     upgrades: [
       { name: "Skill 1", cost: 2 },
       { name: "Skill 2", cost: 4 },
-      { name: "Additional Crew", cost: 2 },
+      { name: "Additional Crew", cost: 4 },
       { name: "Additional Guns", cost: 2 },
       { name: "Stout", cost: 4 }
     ]
