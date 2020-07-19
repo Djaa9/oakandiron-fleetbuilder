@@ -22,7 +22,7 @@
     {
       name: "Brigantine",
       upgrades: [
-        "Additional Crew", 
+        "Additional Crew",
         "Additional Guns",
         "Sweeps",
         "Swift",

@@ -112,13 +112,14 @@ function App() {
           onChange={handleFactionChange}
           value={faction}>
           {factions.map((option) => (
-            <MenuItem key={option} value={option.name}>
+            <MenuItem key={option.name} value={option.name}>
               {option.name}
             </MenuItem>
           ))}
         </Select>
       </FormControl>
 
+      {/* 
       {faction === "Pirate" ? (
         <FormControl className={classes.formControl}>
           <InputLabel>Choose Pirate Faction</InputLabel>
@@ -126,9 +127,7 @@ function App() {
             displayEmpty
             className={classes.selectEmpty}
             value={faction}
-            label="Select faction"
-            value={faction}
-            helperText="Faction">
+            label="Select faction">
             {factions.filter(x => x.name !== "Pirate").map((option) => (
               <MenuItem key={option.name} value={option.name}>
                 {option.name}
@@ -136,7 +135,8 @@ function App() {
             ))}
           </Select>
         </FormControl>
-      ) : null}
+            ) : null} 
+      */}
 
       <FormControl className={classes.formControl}>
         <InputLabel>Choose Admiral</InputLabel>
@@ -146,8 +146,7 @@ function App() {
           label="Select Admiral"
           disabled={faction === ""}
           value={admiral}
-          onChange={handleAdmiralChange}
-          helperText="Admiral">
+          onChange={handleAdmiralChange}>
           {availableAdmirals.map((option) => (
             <MenuItem key={option.name} value={option}>
               {option.name}
@@ -157,19 +156,26 @@ function App() {
       </FormControl>
 
       <Divider />
-
+      <Grid
+        container
+        direction="column"
+        justify="center"
+        alignItems="flex-start">
       <FormControl component="fieldset" className={classes.formControl}>
         <FormLabel component="legend">Available Initiative Cards</FormLabel>
         <FormGroup>
           {availableInitiativeCards.map(card =>
             <FormControlLabel
-              control={<Checkbox name="card.name" />}
-              label={card.name + " (" + card.initiativeValue + ")"}
+              control={
+              <Checkbox name="card.name" />}
+              label={card.name + " (" + card.initiativeValue + ")" + " (" + card.mainFaction + ")"}
             />
           )}
 
         </FormGroup>
       </FormControl>
+    </Grid>
+
       <Divider />
 
       <Grid
@@ -206,12 +212,6 @@ function ShipSelector(props) {
   const handleListItemClick = (value) => {
     selectionDone(value);
   };
-
-  // Construtor for Debug
-  useEffect(() => {
-
-    console.log(availableShips);
-  }, [])
 
   return (
     <Dialog onClose={selectionDone} open={open}>
