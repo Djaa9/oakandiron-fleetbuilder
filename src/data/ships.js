@@ -1,4 +1,4 @@
-  export const Ships = [
+  export const allShips = [
     {
       name: "Sloop",
       upgrades: [
