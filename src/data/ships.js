@@ -179,13 +179,36 @@ const allShips = [
 ];
 
 const Ships = {
-  forFactionAndAdmiral: function (faction, admiral) {
+  allowed: function (gameMode, faction, admiral) {
 
+    if (!gameMode)
+      throw new Error("Game Mode not selected (gameMode = " + gameMode + "). Allowed Ships could not be determined");
+
+    if (!admiral)
+      throw new Error("Admiral not selected (admiral = " + admiral + "). Allowed Ships could not be determined");
+
+    if (!faction)
+      throw new Error("Faction not selected (faction = " + faction + "). Allowed Ships could not be determined");
+
+    var allowedShips = allShips;
+
+    // Handle Game Mode
+    if (gameMode === "Patrol")
+      allowedShips.filter(ship => ship.class !== "Ship of the Line");
+
+    // Handle Admiral
+    if (admiral === undefined || admiral === "" || admiral === null)
+      return [];
+
+    if (admiral.keywords.includes("Rogues"))
+      allowedShips.filter(ship => ship.class !== "Ship of the Line");
+
+    // Handle Faction
     if (faction === "English" || faction === "Dutch") {
-      return allShips.filter(ship => ship.class !== "Pirate");
+      return allowedShips.filter(ship => ship.class !== "Pirate");
     }
     else if (faction === "French") {
-      var frenchShips = allShips.filter(ship => ship.class !== "Pirate");
+      var frenchShips = allowedShips.filter(ship => ship.class !== "Pirate");
 
       frenchShips.forEach(ship => {
         ship.upgrades.forEach(upgrade => {
@@ -204,7 +227,7 @@ const Ships = {
       return frenchShips;
     }
     else if (faction === "Spanish") {
-      var spanishShips = allShips.filter(ship => ship.class !== "Pirate");
+      var spanishShips = allowedShips.filter(ship => ship.class !== "Pirate");
 
       spanishShips.forEach(ship => {
         ship.upgrades.forEach(upgrade => {
@@ -216,7 +239,7 @@ const Ships = {
       return spanishShips;
     }
     else if (faction === "Pirate") {
-      var pirateShips = allShips.filter(ship => ship.class !== "Ship of the Line");
+      var pirateShips = allowedShips.filter(ship => ship.class !== "Ship of the Line");
 
       pirateShips.forEach(ship => {
         ship.upgrades.forEach(upgrade => {

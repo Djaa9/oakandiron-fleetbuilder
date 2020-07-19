@@ -1,22 +1,23 @@
 export const gameModes = [
     {
-      value: 'patrol',
-      label: 'Patrol 50 points',
-      points: 50
+      name: 'Patrol',
+      maxPoints: 50,
+      minShips: 2,
+      maxShips: 4,
+      NotAllowedShipClasses: ["Ship of the Line"]
     },
     {
-      value: 'campaign',
-      label: 'Campaign start 75 points',
-      points: 75
+      name: 'Skirmish',
+      maxPoints: 100,
+      minShips: 3,
+      maxShips: 8,
+      NotAllowedShipClasses: []
     },
     {
-      value: 'skirmish',
-      label: 'Skirmish 100 points',
-      points: 100
-    },
-    {
-      value: 'engagement',
-      label: 'Engagement 200 points',
-      points: 200
+      name: 'Engagement',
+      maxPoints: 200,
+      minShips: 4,
+      maxShips: 10,
+      NotAllowedShipClasses: ["Ship of the Line"]
     },
   ];

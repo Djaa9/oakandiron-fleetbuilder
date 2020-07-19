@@ -36,44 +36,54 @@ function App() {
 
   const classes = useStyles();
 
-  const [faction, setFaction] = useState("");
-  const [gameMode, setGameMode] = useState("");
-  const [admiral, setAdmiral] = useState("");
+  const [selectedFaction, setSelectedFaction] = useState("");
+  const [selectedGameMode, setSelectedGameMode] = useState("");
+  const [selectedAdmiral, setSelectedAdmiral] = useState("");
   const [availableAdmirals, setAvailableAdmirals] = useState([]);
   const [availableInitiativeCards, setAvailableInitiativeCards] = useState([]);
   const [selectedShips, setSelectedShips] = useState([]);
   const [availableShips, setAvailableShips] = useState([]);
   const [shipSelectorIsOpen, setShipSelectorIsOpen] = useState(false);
+  const [cost, SetCost] = useState(0);
 
   useEffect(() => {
 
+    //TODO Confirmation dialog
+    setSelectedShips([]);
+
     /*Update available admirals for new faction*/
-    var admiralsInFaction = admirals.filter(admiral => admiral.factions.includes(faction));
+    var admiralsInFaction = admirals.filter(admiral => admiral.factions.includes(selectedFaction));
     setAvailableAdmirals(admiralsInFaction);
     console.log(admiralsInFaction);
 
     /*Update available initiative cards for new faction*/
-    var initiativeCardsForFaction = initiativeCards.filter(card => card.factions.includes(faction));
+    var initiativeCardsForFaction = initiativeCards.filter(card => card.factions.includes(selectedFaction));
     setAvailableInitiativeCards(initiativeCardsForFaction);
     console.log(initiativeCardsForFaction);
 
     /*Update available ships*/
-    var shipsForFaction = Ships.forFactionAndAdmiral(faction, "");
+    if (selectedGameMode && selectedFaction && selectedAdmiral){
+    var shipsForFaction = Ships.allowed(selectedGameMode, selectedFaction, selectedAdmiral);
     setAvailableShips(shipsForFaction);
     console.log(shipsForFaction);
-  },
-    [faction]);
+    }
+    
+  },[selectedFaction, selectedAdmiral, selectedGameMode]);
+
+    useEffect(() => {
+    console.log("Recalculate cost", selectedShips);    
+    },[selectedShips])
 
   const handleGameModeChange = (event) => {
-    setGameMode(event.target.value);
+    setSelectedGameMode(event.target.value);
   };
 
   const handleFactionChange = (event) => {
-    setFaction(event.target.value);
+    setSelectedFaction(event.target.value);
   };
 
   const handleAdmiralChange = (event) => {
-    setAdmiral(event.target.value);
+    setSelectedAdmiral(event.target.value);
   };
 
   const handleRemoveShip = (shipToRemove) => {
@@ -108,11 +118,11 @@ function App() {
           displayEmpty
           className={classes.selectEmpty}
           label="Select Game Mode"
-          value={gameMode}
+          value={selectedGameMode}
           onChange={handleGameModeChange}>
-          {gameModes.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
+          {gameModes.map((gameMode) => (
+            <MenuItem key={gameMode.name} value={gameMode.name}>
+              {gameMode.name}
             </MenuItem>
           ))}
         </Select>
@@ -125,7 +135,7 @@ function App() {
           className={classes.selectEmpty}
           label="Choose a faction"
           onChange={handleFactionChange}
-          value={faction}>
+          value={selectedFaction}>
           {factions.map((option) => (
             <MenuItem key={option.name} value={option.name}>
               {option.name}
@@ -134,33 +144,14 @@ function App() {
         </Select>
       </FormControl>
 
-      {/* 
-      {faction === "Pirate" ? (
-        <FormControl className={classes.formControl}>
-          <InputLabel>Choose Pirate Faction</InputLabel>
-          <Select
-            displayEmpty
-            className={classes.selectEmpty}
-            value={faction}
-            label="Select faction">
-            {factions.filter(x => x.name !== "Pirate").map((option) => (
-              <MenuItem key={option.name} value={option.name}>
-                {option.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-            ) : null} 
-      */}
-
       <FormControl className={classes.formControl}>
         <InputLabel>Choose Admiral</InputLabel>
         <Select
           displayEmpty
           className={classes.selectEmpty}
           label="Select Admiral"
-          disabled={faction === ""}
-          value={admiral}
+          disabled={selectedFaction === ""}
+          value={selectedAdmiral}
           onChange={handleAdmiralChange}>
           {availableAdmirals.map((option) => (
             <MenuItem key={option.name} value={option}>
@@ -169,29 +160,6 @@ function App() {
           ))}
         </Select>
       </FormControl>
-
-      <Divider />
-
-      <Grid
-        container
-        direction="column"
-        justify="center"
-        alignItems="flex-start">
-      <FormControl component="fieldset" className={classes.formControl}>
-        <FormLabel component="legend">Available Initiative Cards</FormLabel>
-        <FormGroup>
-          {availableInitiativeCards.map(card =>
-            <FormControlLabel
-              control={
-              <Checkbox name={card.name} />}
-              label={card.name + " (" + card.initiativeValue + ") (" + card.mainFaction + ")"}
-            />
-          )}
-
-        </FormGroup>
-      </FormControl>
-
-    </Grid>
 
       <Divider />
 
@@ -237,16 +205,42 @@ function App() {
           </Card>)
         )}
 
+        <Divider />        
+
         <Button
           className={classes.addShipButton}
           variant="contained"
           onClick={handleOpenShipSelector}
-          disabled={faction === ""}>
+          disabled={selectedFaction === "" || selectedGameMode === "" || selectedAdmiral === ""}>
           Add Ship
       </Button>
         <ShipSelector open={shipSelectorIsOpen} availableShips={availableShips} selectionDone={handleAddShip}></ShipSelector>
 
       </Grid>
+      
+      <Divider />
+
+      <Grid
+        container
+        direction="column"
+        justify="center"
+        alignItems="flex-start">
+      <FormControl component="fieldset" className={classes.formControl}>
+        <FormLabel component="legend">Available Initiative Cards</FormLabel>
+        <FormGroup>
+          {availableInitiativeCards.map(card =>
+            <FormControlLabel
+              control={
+              <Checkbox name={card.name} />}
+              label={card.name + " (" + card.initiativeValue + ") (" + card.mainFaction + ")"}
+            />
+          )}
+
+        </FormGroup>
+      </FormControl>
+
+    </Grid>
+
     </div>
   );
 }
