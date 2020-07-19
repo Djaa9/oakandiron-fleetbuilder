@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import './App.css';
-import { makeStyles } from '@material-ui/core/styles';
-import { MenuItem, Checkbox, FormGroup, FormLabel, FormControlLabel, FormHelperText } from '@material-ui/core';
-import { Divider } from '@material-ui/core';
-import { Button } from '@material-ui/core';
+import {makeStyles} from '@material-ui/core/styles';
+import {MenuItem, Checkbox, FormGroup, FormLabel, FormControlLabel, Card, Divider, Button, InputLabel, Dialog, DialogTitle } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import { InputLabel } from '@material-ui/core';
 import {admirals} from './data/admirals.js'
 import {factions} from './data/factions.js'
 import {initiativeCards} from './data/initiativeCards.js'
@@ -38,6 +36,7 @@ function App() {
   const [availableInitiativeCards, setAvailableInitiativeCards] = useState([]);
   const [ships, setShips] = useState([]);
   const [availableShips, setAvailableShips] = useState([]);
+  const [shipSelectorIsOpen, setShipSelectorIsOpen] = useState(false);
 
   // Update form when faction is changed
   useEffect(() => {
@@ -65,8 +64,13 @@ function App() {
     setAdmiral(event.target.value);
   };
 
-  const handleAddShip = (event) => {
+  const handleAddShip = (event) => {   
+    console.log("SELECTED"); 
+    setShipSelectorIsOpen(false);    
+  };
 
+  const handleOpenShipSelector = (event) => {
+    setShipSelectorIsOpen(true);
   };
 
   return (
@@ -157,15 +161,47 @@ function App() {
       </FormControl>
       <Divider />
 
+{ships.map(ship =>
+  <Card></Card>
+  )}
       <Button
         className={classes.button}
         variant="contained"
-        onClick={handleAddShip}>
+        onClick={handleOpenShipSelector}>
         Add Ship
       </Button>
+      <ShipSelector open={shipSelectorIsOpen} availableShips={availableShips} selectionDone={handleAddShip}></ShipSelector>
 
     </div>
   );
 }
 
 export default App;
+
+
+function ShipSelector(props) {
+  //const classes = useStyles();
+  const { open, selectionDone, availableShips } = props;
+
+  const handleListItemClick = (value) => {
+    selectionDone(value);
+  };
+
+  useEffect(() => { 
+  
+  console.log(open);
+  },[])
+
+  return (
+    <Dialog onClose={selectionDone} open={open}>
+      <DialogTitle> Choose ship </DialogTitle>
+      Hey
+    </Dialog>
+  );
+}
+
+ShipSelector.propTypes = {
+  open: PropTypes.bool.isRequired,
+  selectionDone: PropTypes.func.isRequired,
+  availableShips: PropTypes.array
+};
