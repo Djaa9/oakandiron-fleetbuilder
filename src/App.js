@@ -123,6 +123,10 @@ function App() {
     setShipSelectorIsOpen(true);
   };
 
+  const handleShipCostUpdated = (ship) => {
+    console.log("ship cost updated", ship.cost)
+  };
+
   return (
     <div className="App">
 
@@ -188,7 +192,7 @@ function App() {
         justify="center"
         alignItems="flex-start">
         {selectedShips.map(ship => (
-          <Ship ship={ship} faction={selectedFaction} gameMode={selectedGameMode} removeShip={handleRemoveShip}/>
+          <Ship ship={ship} faction={selectedFaction} removeShip={handleRemoveShip} costUpdated={handleShipCostUpdated}/>
           )
         )}
 
