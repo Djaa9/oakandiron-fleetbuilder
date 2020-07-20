@@ -66,3 +66,14 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+### TODO
+
+- Update cost when upgrades are chosen
+- Update cost when Commander is chosen
+- Update cost when Upgrade Cards are chosen
+- Handle undefined cost before game mode is selected
+- Put initiative card selection in dialog
+- Make sure there is only one flag ship (Move selection)
+- Handle crash when shipselector is closed without selection
+- Styling
