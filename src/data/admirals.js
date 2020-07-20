@@ -1,4 +1,4 @@
-export const admirals = [
+ const allAdmirals = [
     {
       name: "Untested Admiral",
       keywords: [],
@@ -9,15 +9,15 @@ export const admirals = [
       name: "Experienced Admiral",
       keywords: [],
       factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
-      cost: 1
+      cost: 2
     },
     {
       name: "Seasoned Admiral",
       keywords: [],
       factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
-      cost: 2
+      cost: 4
     },
-    {
+    /*{
       name: "Untested Bold Admiral",
       keywords: [],
       factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
@@ -124,7 +124,7 @@ export const admirals = [
       keywords: [],
       factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
       cost: 0
-    },
+    },*/
     {
       name: "Abraham Crijinssen",
       keywords: ["Rogues", "Raider", "Brave"],
@@ -222,3 +222,14 @@ export const admirals = [
       cost: 3
     }   
   ];
+
+  const Admirals = {
+    allowed: function(faction) {
+        if(!faction)
+            throw new Error("Faction not selected (faction = " + faction + "). Allowed Ships could not be determined");
+
+            return allAdmirals.filter(admiral => admiral.factions.includes(faction.name));
+    }
+  };
+
+  export default Admirals;

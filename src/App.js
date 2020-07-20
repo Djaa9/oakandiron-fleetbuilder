@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { MenuItem, Checkbox, FormGroup, FormLabel, FormControlLabel, Card, Divider, Button, InputLabel, Grid } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import { admirals } from './data/admirals'
+import Admirals from './data/admirals'
 import { factions } from './data/factions'
 import { initiativeCards } from './data/initiativeCards'
 import { gameModes } from './data/gameModes'
@@ -57,8 +57,10 @@ function App() {
     setSelectedShips([]);
 
     /*Update available admirals*/
-    var admiralsInFaction = admirals.filter(admiral => admiral.factions.includes(selectedFaction.name));
-    setAvailableAdmirals(admiralsInFaction);
+    if(selectedFaction) {
+      var admiralsInFaction = Admirals.allowed(selectedFaction);
+      setAvailableAdmirals(admiralsInFaction);
+    };
 
     /*Update available initiative cards*/
     var initiativeCardsForFaction = initiativeCards.filter(card => card.factions.includes(selectedFaction.name));

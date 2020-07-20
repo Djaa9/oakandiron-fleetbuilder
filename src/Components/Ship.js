@@ -25,7 +25,7 @@ function Ship(props) {
     }));
 
     const classes = useStyles();
-    const { ship, faction, costUpdated, removeShip } = props;
+    const { ship, faction, removeShip } = props;
 
     const [availableCommanders, setAvailableCommanders] = useState([]);
     const [availableUpgradeCards, setAvailableUpgradeCards] = useState([]);
