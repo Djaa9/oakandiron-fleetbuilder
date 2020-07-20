@@ -28,11 +28,18 @@ function Ship(props) {
     const { ship, faction, costUpdated, removeShip } = props;
 
     const [availableCommanders, setAvailableCommanders] = useState([]);
+    const [availableUpgradeCards, setAvailableUpgradeCards] = useState([]);
     const [cost, setCost] = useState(ship.cost);
     const [skill1, setSkill1] = useState({ name: "Skill 1", cost: 2, selected: false })
     const [skill2, setSkill2] = useState({ name: "Skill 2", cost: 4, selected: false })
     const [skill2Enabled, setSkill2Enabled] = useState(true);
     const [skill1Enabled, setSkill1Enabled] = useState(false);
+    const [upgrades, setUpgrades] = useState(ship.upgrades);
+    const [selectedCommander, setSelectedCommander] = useState("");
+    const [isFlagship, setIsFlagship] = useState(false);
+    const [commanderSelectionDisabled, setCommanderSelectionEnabled] = useState(false);
+    const [selectedUpgradeCard1, setSelectedUpgradeCard1] = useState("");
+    const [selectedUpgradeCard2, setSelectedUpgradeCard2] = useState("");
 
     useEffect(() => {
         /*Update available Commanders*/
@@ -40,6 +47,10 @@ function Ship(props) {
             var commandersForFaction = Commanders.allowed(faction);
             setAvailableCommanders(commandersForFaction);
         };
+
+         var availableUpgradeCards = UpgradeCards.allowed(faction, ship, isFlagship);
+         setAvailableUpgradeCards(availableUpgradeCards);
+
     }, []);
 
     useEffect(() => {
@@ -47,12 +58,26 @@ function Ship(props) {
 
     }, [cost]);
 
+    useEffect(() => {
+        var availableUpgradeCards = UpgradeCards.allowed(faction, ship, isFlagship);
+         setAvailableUpgradeCards(availableUpgradeCards);
+    }, [isFlagship]);
+
+
     const handleRemoveClicked = (ship) => {
         removeShip(ship);
     };
 
     const handleCommanderChange = (event) => {
-        console.log("df");
+        setSelectedCommander(event.target.value)
+    };
+
+    const handleFlagshipChange = (event) => {
+        setIsFlagship(event.target.checked);
+        setCommanderSelectionEnabled(event.target.checked);
+        setSelectedCommander("");
+
+
     };
 
     const handleSkill1Changed = (event) => {
@@ -81,6 +106,21 @@ function Ship(props) {
             setCost(cost -skill2.cost);
     };
 
+    const handleUpgradeSelectionChanged = (event, upgrade) => {
+        if(event.target.checked)
+            setCost(cost + upgrade.cost);
+        else if(!event.target.checked)
+            setCost(cost - upgrade.cost);
+    };
+
+    const handleUpgradeCard1Change = (event) => {
+        setSelectedUpgradeCard1(event.target.value);
+    };
+
+    const handleUpgradeCard2Change = (event) => {
+        setSelectedUpgradeCard2(event.target.value);
+    };
+
     return (
         <Card className={classes.card}>
             <Grid
@@ -92,7 +132,7 @@ function Ship(props) {
                     {ship.name + " (+" + ship.cost + ")"}
                     <FormControlLabel
                         control={
-                            <Checkbox name="flagship" />}
+                            <Checkbox name="flagship" onChange={handleFlagshipChange}/>}
                         label="Flagship"
                     />
                     <Button onClick={() => handleRemoveClicked(ship)}>Remove</Button>
@@ -119,7 +159,7 @@ function Ship(props) {
                         {ship.upgrades.map(upgrade =>
                             <FormControlLabel
                                 control={
-                                    <Checkbox name={upgrade.name} />}
+                                    <Checkbox name={upgrade.name} onChange={(event) => handleUpgradeSelectionChanged(event, upgrade)}/>}
                                 label={upgrade.name + " (+ " + upgrade.cost + ")"}
                             />
                         )}
@@ -130,9 +170,10 @@ function Ship(props) {
                             <Select
                                 displayEmpty
                                 isClearable={true}
+                                disabled={commanderSelectionDisabled}
                                 className={classes.selectEmpty}
                                 label="Select Commander"
-                                value={ship.commander}
+                                value={selectedCommander}
                                 onChange={handleCommanderChange}>
                                 {availableCommanders.map((commander) => (
                                     <MenuItem key={commander.name} value={commander}>
@@ -149,11 +190,11 @@ function Ship(props) {
                                 isClearable={true}
                                 className={classes.selectEmpty}
                                 label="Select Crew Upgrade"
-                                value={ship.commander}
-                                onChange={handleCommanderChange}>
-                                {availableCommanders.map((commander) => (
-                                    <MenuItem key={commander.name} value={commander}>
-                                        {commander.name + " (+" + commander.cost + ")"}
+                                value={selectedUpgradeCard1}
+                                onChange={handleUpgradeCard1Change}>
+                                {availableUpgradeCards.map((card) => (
+                                    <MenuItem key={card.name} value={card}>
+                                        {card.name + " (+" + card.cost + ")"}
                                     </MenuItem>
                                 ))}
                             </Select>
@@ -165,11 +206,11 @@ function Ship(props) {
                                 isClearable={true}
                                 className={classes.selectEmpty}
                                 label="Select Crew Upgrade"
-                                value={ship.commander}
-                                onChange={handleCommanderChange}>
-                                {availableCommanders.map((commander) => (
-                                    <MenuItem key={commander.name} value={commander}>
-                                        {commander.name + " (+" + commander.cost + ")"}
+                                value={selectedUpgradeCard2}
+                                onChange={handleUpgradeCard2Change}>
+                                {availableUpgradeCards.map((card) => (
+                                    <MenuItem key={card.name} value={card}>
+                                        {card.name + " (+" + card.cost + ")"}
                                     </MenuItem>
                                 ))}
                             </Select>

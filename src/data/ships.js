@@ -150,7 +150,6 @@ const allShips = [
 
 const Ships = {
   allowed: function (gameMode, faction, admiral) {
-    console.log("Ships.allowed() called", faction, gameMode, admiral)
     if (!gameMode)
       throw new Error("Game Mode not selected (gameMode = " + gameMode + "). Allowed Ships could not be determined");
 
