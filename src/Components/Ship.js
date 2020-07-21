@@ -218,12 +218,11 @@ function Ship(props) {
                                 displayEmpty
                                 isClearable={true}
                                 className={classes.selectEmpty}
-                                label="Select Crew Upgrade"
                                 value={selectedUpgradeCard1}
                                 onChange={handleUpgradeCard1Change}>
                                 {availableUpgradeCards.map((card) => (
                                     <MenuItem key={card.name} value={card}>
-                                        {card.name + " (+" + card.cost + ")"}
+                                        {card.cost > 0 ? card.name + " (+" + card.cost + ")" : card.name + " (" + card.cost + ")"}
                                     </MenuItem>
                                 ))}
                             </Select>
@@ -234,12 +233,11 @@ function Ship(props) {
                                 displayEmpty
                                 isClearable={true}
                                 className={classes.selectEmpty}
-                                label="Select Crew Upgrade"
                                 value={selectedUpgradeCard2}
                                 onChange={handleUpgradeCard2Change}>
                                 {availableUpgradeCards.map((card) => (
                                     <MenuItem key={card.name} value={card}>
-                                        {card.name + " (+" + card.cost + ")"}
+                                        {card.cost > 0 ? card.name + " (+" + card.cost + ")" : card.name + " (" + card.cost + ")"}
                                     </MenuItem>
                                 ))}
                             </Select>

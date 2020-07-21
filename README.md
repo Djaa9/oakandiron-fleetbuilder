@@ -69,12 +69,12 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 ### TODO
 
-- Show negative cost with out "+"
 - Handle undefined cost before game mode is selected
 - Put initiative card selection in dialog
 - Handle crash when shipselector is closed without selection
 - Handle initiative card effects for admirals
 - Floation top selections / scroll container for ships and initiative cards
 - Make sure there is only one flag ship (Move selection)
+- Make sure only one type of each upgrade card can be selected for each ship
 - Styling
 - Show pictures of cards
