@@ -53,6 +53,7 @@ function App() {
 
 
   useEffect(() => {
+    console.log("admiral or ship updated", selectedShips);
     //TODO Confirmation dialog
     setSelectedShips([]);
 
@@ -82,7 +83,7 @@ function App() {
       newCost = newCost + selectedAdmiral.cost;
 
       selectedShips.forEach(ship => {
-        newCost = newCost + ship.cost;
+        newCost = newCost + ship.costIncludingUpgrades;
       });
 
       setCost(newCost);
@@ -125,8 +126,15 @@ function App() {
     setShipSelectorIsOpen(true);
   };
 
-  const handleShipCostUpdated = (ship) => {
-    console.log("ship cost updated", ship.cost)
+  const handleShipCostUpdated = (shipId, newCost) => {
+    var updatedListOfSelectedShips = selectedShips.map(ship => {
+      if(ship.id == shipId)
+        ship.costIncludingUpgrades = newCost;
+        
+        return ship;
+    });
+
+    setSelectedShips(updatedListOfSelectedShips);
   };
 
   return (

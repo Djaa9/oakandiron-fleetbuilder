@@ -25,11 +25,11 @@ function Ship(props) {
     }));
 
     const classes = useStyles();
-    const { ship, faction, removeShip } = props;
+    const { ship, faction, costUpdated, removeShip } = props;
 
     const [availableCommanders, setAvailableCommanders] = useState([]);
     const [availableUpgradeCards, setAvailableUpgradeCards] = useState([]);
-    const [cost, setCost] = useState(ship.cost);
+    const [costIncludingUpgrades, setCostIncludingUpgrades] = useState(ship.cost)
     const [skill1, setSkill1] = useState({ name: "Skill 1", cost: 2, selected: false })
     const [skill2, setSkill2] = useState({ name: "Skill 2", cost: 4, selected: false })
     const [skill2Enabled, setSkill2Enabled] = useState(true);
@@ -37,10 +37,11 @@ function Ship(props) {
     const [upgrades, setUpgrades] = useState(ship.upgrades);
     const [selectedCommander, setSelectedCommander] = useState("");
     const [isFlagship, setIsFlagship] = useState(false);
-    const [commanderSelectionDisabled, setCommanderSelectionEnabled] = useState(false);
+    const [commanderSelectionDisabled, setCommanderSelectionDisabled] = useState(false);
     const [selectedUpgradeCard1, setSelectedUpgradeCard1] = useState("");
     const [selectedUpgradeCard2, setSelectedUpgradeCard2] = useState("");
 
+    // CONSTRUCTOR
     useEffect(() => {
         /*Update available Commanders*/
         if (faction) {
@@ -48,36 +49,70 @@ function Ship(props) {
             setAvailableCommanders(commandersForFaction);
         };
 
-         var availableUpgradeCards = UpgradeCards.allowed(faction, ship, isFlagship);
-         setAvailableUpgradeCards(availableUpgradeCards);
+        /* Set slected property of all upgrades to false*/
+        var unselectedUpgrades = upgrades.map(upgrade => {
+            upgrade.selected = false
+            return upgrade;
+        });
+        setUpgrades(unselectedUpgrades);
+
+        /*Get available upgrade cards*/
+        var availableUpgradeCards = UpgradeCards.allowed(faction, ship, isFlagship);
+        setAvailableUpgradeCards(availableUpgradeCards);
 
     }, []);
 
+    // Calculate new cost of ship when selections change
     useEffect(() => {
-        console.log(cost);
+        console.log("will calc cost", upgrades);
+        var newCostOfShip = ship.cost;
+        newCostOfShip = selectedCommander ? selectedCommander.cost + newCostOfShip : newCostOfShip;
+        newCostOfShip = skill1.selected ? newCostOfShip + skill1.cost : newCostOfShip;
+        newCostOfShip = skill2.selected ? newCostOfShip + skill2.cost : newCostOfShip;
+        newCostOfShip = selectedUpgradeCard1 ? newCostOfShip + selectedUpgradeCard1.cost : newCostOfShip;
+        newCostOfShip = selectedUpgradeCard2 ? newCostOfShip + selectedUpgradeCard2.cost : newCostOfShip;
 
-    }, [cost]);
+        upgrades.filter(upgrade => upgrade.selected).forEach(upgrade => {
+            newCostOfShip = newCostOfShip + upgrade.cost;
+        });;
 
+        setCostIncludingUpgrades(newCostOfShip);
+
+    }, [selectedCommander, upgrades, skill1.selected, skill2.selected, selectedUpgradeCard1, selectedUpgradeCard2])
+
+    // Alert listeners of cost change
+    useEffect(() => {
+        ship.costIncludingUpgrades = costIncludingUpgrades;
+        console.log("ShipId", ship.id);
+        costUpdated(ship.id, costIncludingUpgrades);
+    }, [costIncludingUpgrades]);
+
+    // Handle change in flagship state
     useEffect(() => {
         var availableUpgradeCards = UpgradeCards.allowed(faction, ship, isFlagship);
-         setAvailableUpgradeCards(availableUpgradeCards);
+        setAvailableUpgradeCards(availableUpgradeCards);
+
+        if (isFlagship) {
+            setSelectedCommander(false);
+            setCommanderSelectionDisabled(true);
+        }
+        else {
+            setCommanderSelectionDisabled(false);
+        }
+
     }, [isFlagship]);
 
-
+    // EVENT LISTENERS
     const handleRemoveClicked = (ship) => {
         removeShip(ship);
     };
 
     const handleCommanderChange = (event) => {
-        setSelectedCommander(event.target.value)
+        setSelectedCommander(event.target.value);
     };
 
     const handleFlagshipChange = (event) => {
         setIsFlagship(event.target.checked);
-        setCommanderSelectionEnabled(event.target.checked);
-        setSelectedCommander("");
-
-
     };
 
     const handleSkill1Changed = (event) => {
@@ -86,11 +121,6 @@ function Ship(props) {
         setSkill1(newSkillState);
 
         setSkill2Enabled(!newSkillState.selected);
-
-        if (event.target.checked)
-        setCost(cost + skill1.cost);
-    else if (!event.target.checked)
-        setCost(cost -skill1.cost);
     };
 
     const handleSkill2Changed = (event) => {
@@ -99,18 +129,17 @@ function Ship(props) {
         setSkill2(newSkillState);
 
         setSkill1Enabled(newSkillState.selected);
-
-        if (event.target.checked)
-            setCost(cost + skill2.cost);
-        else if (!event.target.checked)
-            setCost(cost -skill2.cost);
     };
 
-    const handleUpgradeSelectionChanged = (event, upgrade) => {
-        if(event.target.checked)
-            setCost(cost + upgrade.cost);
-        else if(!event.target.checked)
-            setCost(cost - upgrade.cost);
+    const handleUpgradeSelectionChanged = (event, updatedUpgrade) => {
+        var newUpgrades = upgrades.map(upgrade => {
+            if (upgrade.name === updatedUpgrade.name) {
+                upgrade.selected = event.target.checked;
+            }
+            return upgrade;
+        });
+
+        setUpgrades(newUpgrades);
     };
 
     const handleUpgradeCard1Change = (event) => {
@@ -132,7 +161,7 @@ function Ship(props) {
                     {ship.name + " (+" + ship.cost + ")"}
                     <FormControlLabel
                         control={
-                            <Checkbox name="flagship" onChange={handleFlagshipChange}/>}
+                            <Checkbox name="flagship" onChange={handleFlagshipChange} />}
                         label="Flagship"
                     />
                     <Button onClick={() => handleRemoveClicked(ship)}>Remove</Button>
@@ -142,16 +171,16 @@ function Ship(props) {
                     <FormGroup>
                         <FormControlLabel
                             control={
-                                <Checkbox 
-                                    disabled={skill1Enabled} 
-                                    name={skill1.name} onChange={handleSkill1Changed}/>}
+                                <Checkbox
+                                    disabled={skill1Enabled}
+                                    name={skill1.name} onChange={handleSkill1Changed} />}
                             label={skill1.name + " (+ " + skill1.cost + ")"}
                         />
                         <FormControlLabel
                             control={
                                 <Checkbox
                                     disabled={skill2Enabled}
-                                    name={skill2.name} onChange={handleSkill2Changed}/>}
+                                    name={skill2.name} onChange={handleSkill2Changed} />}
                             label={skill2.name + " (+ " + skill2.cost + ")"}
                         />
 
@@ -159,7 +188,7 @@ function Ship(props) {
                         {ship.upgrades.map(upgrade =>
                             <FormControlLabel
                                 control={
-                                    <Checkbox name={upgrade.name} onChange={(event) => handleUpgradeSelectionChanged(event, upgrade)}/>}
+                                    <Checkbox name={upgrade.name} onChange={(event) => handleUpgradeSelectionChanged(event, upgrade)} />}
                                 label={upgrade.name + " (+ " + upgrade.cost + ")"}
                             />
                         )}
