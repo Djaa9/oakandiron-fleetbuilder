@@ -140,9 +140,13 @@ function App() {
   return (
     <div className="App">
 
-      <span visibility={!selectedGameMode ? "visible" : "hidden"} className={classes.costLabel}>
+      {selectedGameMode ? (
+      <h2 className={classes.costLabel}>
         {cost + "/" + selectedGameMode.maxPoints}
-      </span>
+      </h2>
+      ) : (<h2 className={classes.costLabel}>
+        {"0/0"}
+      </h2>)}
 
       <FormControl className={classes.formControl}>
         <InputLabel>Choose game Mode</InputLabel>

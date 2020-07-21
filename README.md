@@ -72,9 +72,11 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 - Handle undefined cost before game mode is selected
 - Put initiative card selection in dialog
 - Handle crash when shipselector is closed without selection
-- Handle initiative card effects for admirals
+- Ability to clear commanders and upgrade cards
+
+- Handle initiative card modifiers for admirals (see todo in data/admirals)
 - Floation top selections / scroll container for ships and initiative cards
-- Make sure there is only one flag ship (Move selection)
-- Make sure only one type of each upgrade card can be selected for each ship
-- Styling
+- Make sure only one flag ship can be chosen (Move selection)
+- Make sure upgrade cards can only be chosen once for a ship
+- Styling (Make pretty)
 - Show pictures of cards
