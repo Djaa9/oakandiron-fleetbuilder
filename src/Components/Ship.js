@@ -64,7 +64,6 @@ function Ship(props) {
 
     // Calculate new cost of ship when selections change
     useEffect(() => {
-        console.log("will calc cost", upgrades);
         var newCostOfShip = ship.cost;
         newCostOfShip = selectedCommander ? selectedCommander.cost + newCostOfShip : newCostOfShip;
         newCostOfShip = skill1.selected ? newCostOfShip + skill1.cost : newCostOfShip;
@@ -83,7 +82,6 @@ function Ship(props) {
     // Alert listeners of cost change
     useEffect(() => {
         ship.costIncludingUpgrades = costIncludingUpgrades;
-        console.log("ShipId", ship.id);
         costUpdated(ship.id, costIncludingUpgrades);
     }, [costIncludingUpgrades]);
 

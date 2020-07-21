@@ -69,10 +69,8 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 ### TODO
 
-- Handle undefined cost before game mode is selected
-- Put initiative card selection in dialog
-- Handle crash when shipselector is closed without selection
 - Ability to clear commanders and upgrade cards
+- Put initiative card selection in dialog
 
 - Handle initiative card modifiers for admirals (see todo in data/admirals)
 - Floation top selections / scroll container for ships and initiative cards

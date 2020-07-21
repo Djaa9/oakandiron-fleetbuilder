@@ -53,7 +53,6 @@ function App() {
 
 
   useEffect(() => {
-    console.log("admiral or ship updated", selectedShips);
     //TODO Confirmation dialog
     setSelectedShips([]);
 
@@ -107,7 +106,7 @@ function App() {
     setSelectedShips(newSelectionOfShips);
   };
 
-  const handleAddShip = (shipToAdd) => {
+  const handleShipSelectorFlowDone = (shipToAdd) => {
     setShipSelectorIsOpen(false);
 
     if (!shipToAdd)
@@ -219,7 +218,7 @@ function App() {
           disabled={!selectedFaction || !selectedGameMode || !selectedAdmiral}>
           Add Ship
       </Button>
-        <ShipSelector open={shipSelectorIsOpen} availableShips={availableShips} selectionDone={handleAddShip}></ShipSelector>
+        <ShipSelector open={shipSelectorIsOpen} availableShips={availableShips} onClose={handleShipSelectorFlowDone}></ShipSelector>
       </Grid>
 
       <Divider />

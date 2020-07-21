@@ -4,14 +4,18 @@ import { Dialog, DialogTitle, List, ListItem } from '@material-ui/core';
 
 function ShipSelector(props) {
   //const classes = useStyles();
-  const { open, selectionDone, availableShips } = props;
+  const { open, onClose, availableShips } = props;
 
-  const handleListItemClick = (value) => {
-    selectionDone(value);
+  const handleListItemClick = (ship) => {
+    onClose(ship);
+  };
+
+  const handleOnClose = () => {
+    onClose(null);
   };
 
   return (
-    <Dialog onClose={selectionDone} open={open}>
+    <Dialog onClose={handleOnClose} open={open}>
       <DialogTitle> Choose ship </DialogTitle>
       <List>
         {availableShips.map((ship) => <ListItem key={ship.name} button onClick={() => handleListItemClick(ship)}>
