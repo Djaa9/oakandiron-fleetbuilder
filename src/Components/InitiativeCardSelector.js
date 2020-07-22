@@ -57,7 +57,7 @@ function InitiativeCardSelector(props) {
                   disableRipple
                 />
   
-              <ListItemText primary={card.name + " (" + card.initiativeValue + ") [" + card.mainFaction + "]"} />
+              <ListItemText primary={card.name + " (+" + card.initiativeValue + ") [" + card.mainFaction + "]"} />
             </ListItem>
       ))}
     </List>

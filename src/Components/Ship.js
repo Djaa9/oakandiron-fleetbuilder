@@ -71,8 +71,10 @@ function Ship(props) {
     useEffect(() => {
         var newCostOfShip = ship.cost;
         newCostOfShip = selectedCommander ? selectedCommander.cost + newCostOfShip : newCostOfShip;
+
         newCostOfShip = skill1.selected ? newCostOfShip + skill1.cost : newCostOfShip;
-        newCostOfShip = skill2.selected ? newCostOfShip + skill2.cost : newCostOfShip;
+        newCostOfShip = skill2.selected ? newCostOfShip + skill2.cost - skill1.cost : newCostOfShip;
+        
         newCostOfShip = selectedUpgradeCard1 ? newCostOfShip + selectedUpgradeCard1.cost : newCostOfShip;
         newCostOfShip = selectedUpgradeCard2 ? newCostOfShip + selectedUpgradeCard2.cost : newCostOfShip;
 
@@ -223,14 +225,14 @@ function Ship(props) {
                                 <Checkbox
                                     disabled={skill1Enabled}
                                     name={skill1.name} onChange={handleSkill1Changed} />}
-                            label={skill1.name + " (+ " + skill1.cost + ")"}
+                            label={skill1.name + " (+" + skill1.cost + ")"}
                         />
                         <FormControlLabel
                             control={
                                 <Checkbox
                                     disabled={skill2Enabled}
                                     name={skill2.name} onChange={handleSkill2Changed} />}
-                            label={skill2.name + " (+ " + skill2.cost + ")"}
+                            label={skill2.name + " (+" + skill2.cost + ")"}
                         />
 
                         <Divider />
@@ -238,7 +240,7 @@ function Ship(props) {
                             <FormControlLabel
                                 control={
                                     <Checkbox name={upgrade.name} onChange={(event) => handleUpgradeSelectionChanged(event, upgrade)} />}
-                                label={upgrade.name + " (+ " + upgrade.cost + ")"}
+                                label={upgrade.name + " (+" + upgrade.cost + ")"}
                             />
                         )}
                         

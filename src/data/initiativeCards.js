@@ -194,7 +194,7 @@
     {
       name: "Repel Boarders",
       initiativeValue: 1,
-      mainFaction: "French",
+      mainFaction: "Spanish",
       factions: ["Spanish", "Pirate"]
     },
     {
