@@ -69,7 +69,6 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 ### TODO
 
-- Ability to clear commanders and upgrade cards
 - Put initiative card selection in dialog
 
 - Handle initiative card modifiers for admirals (see todo in data/admirals)

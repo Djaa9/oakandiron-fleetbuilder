@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import '../App.css';
 import { makeStyles } from '@material-ui/core/styles';
-import { MenuItem, Checkbox, FormGroup, FormControlLabel, Card, Divider, Button, InputLabel, Grid, responsiveFontSizes } from '@material-ui/core';
+import { MenuItem, Checkbox, FormGroup, FormControlLabel, Card, Divider, Button, InputLabel, Grid, IconButton } from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
+import CloseIcon from '@material-ui/icons/Close';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Commanders from '../data/commanders.js';
@@ -91,7 +93,7 @@ function Ship(props) {
         setAvailableUpgradeCards(availableUpgradeCards);
 
         if (isFlagship) {
-            setSelectedCommander(false);
+            setSelectedCommander("");
             setCommanderSelectionDisabled(true);
         }
         else {
@@ -148,6 +150,18 @@ function Ship(props) {
         setSelectedUpgradeCard2(event.target.value);
     };
 
+    const handleClearUpgradeCard1 = () => {
+        setSelectedUpgradeCard1("");
+    }
+
+    const handleClearUpgradeCard2 = () => {
+        setSelectedUpgradeCard2("");
+    }
+
+    const handleClearCommander = () => {
+        setSelectedCommander("");
+    }
+
     return (
         <Card className={classes.card}>
             <Grid
@@ -160,9 +174,10 @@ function Ship(props) {
                     <FormControlLabel
                         control={
                             <Checkbox name="flagship" onChange={handleFlagshipChange} />}
-                        label="Flagship"
-                    />
-                    <Button onClick={() => handleRemoveClicked(ship)}>Remove</Button>
+                        label="Flagship" />
+                    <IconButton onClick={() => handleRemoveClicked(ship)}>
+                        <DeleteIcon fontSize="small" />
+                    </IconButton>
                 </Grid>
 
                 <FormControl>
@@ -192,6 +207,11 @@ function Ship(props) {
                         )}
 
                         <Divider />
+                        <Grid
+                            container
+                            direction="row"
+                            justify="flex-start"
+                            alignItems="center">
                         <FormControl className={classes.formControl}>
                             <InputLabel>Commander</InputLabel>
                             <Select
@@ -209,22 +229,40 @@ function Ship(props) {
                                 ))}
                             </Select>
                         </FormControl>
+                        <IconButton onClick={handleClearCommander}>
+                                <CloseIcon fontSize="small" />
+                            </IconButton>
+                        </Grid>
                         <Divider />
-                        <FormControl className={classes.formControl}>
-                            <InputLabel>Upgrade card 1</InputLabel>
-                            <Select
-                                displayEmpty
-                                isClearable={true}
-                                className={classes.selectEmpty}
-                                value={selectedUpgradeCard1}
-                                onChange={handleUpgradeCard1Change}>
-                                {availableUpgradeCards.map((card) => (
-                                    <MenuItem key={card.name} value={card}>
-                                        {card.cost > 0 ? card.name + " (+" + card.cost + ")" : card.name + " (" + card.cost + ")"}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
+                        <Grid
+                            container
+                            direction="row"
+                            justify="flex-start"
+                            alignItems="center">
+                            <FormControl className={classes.formControl}>
+                                <InputLabel>Upgrade card 1</InputLabel>
+                                <Select
+                                    displayEmpty
+                                    isClearable={true}
+                                    className={classes.selectEmpty}
+                                    value={selectedUpgradeCard1}
+                                    onChange={handleUpgradeCard1Change}>
+                                    {availableUpgradeCards.map((card) => (
+                                        <MenuItem key={card.name} value={card}>
+                                            {card.cost > 0 ? card.name + " (+" + card.cost + ")" : card.name + " (" + card.cost + ")"}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                            <IconButton onClick={handleClearUpgradeCard1}>
+                                <CloseIcon fontSize="small" />
+                            </IconButton>
+                        </Grid>
+                        <Grid
+                            container
+                            direction="row"
+                            justify="flex-start"
+                            alignItems="center">
                         <FormControl className={classes.formControl}>
                             <InputLabel>Upgrade card 2</InputLabel>
                             <Select
@@ -240,6 +278,10 @@ function Ship(props) {
                                 ))}
                             </Select>
                         </FormControl>
+                        <IconButton onClick={handleClearUpgradeCard2}>
+                                <CloseIcon fontSize="small" />
+                            </IconButton>
+                        </Grid>
                     </FormGroup>
                 </FormControl>
             </Grid>
