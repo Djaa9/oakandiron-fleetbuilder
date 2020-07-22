@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import { makeStyles } from '@material-ui/core/styles';
-import { Typography, Box, List, ListItem, ListItemText, MenuItem, Checkbox, FormGroup, FormLabel, FormControlLabel, Card, Divider, Button, InputLabel, Grid, Toolbar } from '@material-ui/core';
+import { Typography, List, ListItem, ListItemText, MenuItem, Divider, Button, InputLabel, Grid, Toolbar } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Admirals from './data/admirals';
@@ -13,7 +13,6 @@ import ShipSelector from './Components/ShipSelector';
 import InitiativecardSelector from './Components/InitiativeCardSelector';
 import Ship from './Components/Ship.js';
 import { AppBar } from '@material-ui/core';
-import { ToolBar } from '@material-ui/core';
 
 function App() {
 

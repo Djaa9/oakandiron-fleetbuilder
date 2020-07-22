@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import '../App.css';
 import { makeStyles } from '@material-ui/core/styles';
-import { Typography, Slider, MenuItem, Checkbox, FormGroup, FormControlLabel, Card, Divider, Button, InputLabel, Grid, IconButton } from '@material-ui/core';
+import { MenuItem, Checkbox, FormGroup, FormControlLabel, Card, Divider, InputLabel, Grid, IconButton } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CloseIcon from '@material-ui/icons/Close';
 import FormControl from '@material-ui/core/FormControl';
