@@ -200,25 +200,25 @@
     {
       name: "Heavy Musket Volley",
       initiativeValue: 2,
-      mainFaction: "French",
+      mainFaction: "Spanish",
       factions: ["Spanish", "Pirate"]
     },
     {
       name: "Aggression",
       initiativeValue: 3,
-      mainFaction: "French",
+      mainFaction: "Spanish",
       factions: ["Spanish", "Pirate"]
     },
     {
       name: "Resilient",
       initiativeValue: 4,
-      mainFaction: "French",
+      mainFaction: "Spanish",
       factions: ["Spanish", "Pirate"]
     },
     {
       name: "Bravado",
       initiativeValue: 5,
-      mainFaction: "French",
+      mainFaction: "Spanish",
       factions: ["Spanish", "Pirate"]
     },
     {
