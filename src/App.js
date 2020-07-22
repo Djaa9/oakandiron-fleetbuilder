@@ -213,7 +213,7 @@ function App() {
 
         <Button
           className={classes.addShipButton}
-          variant="contained"
+          variant="containedPrimary"
           onClick={handleOpenShipSelector}
           disabled={!selectedFaction || !selectedGameMode || !selectedAdmiral}>
           Add Ship
