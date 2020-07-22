@@ -1,9 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Dialog, DialogTitle, List, ListItem } from '@material-ui/core';
+import { Dialog, DialogTitle, List, ListItem, makeStyles } from '@material-ui/core';
 
 function ShipSelector(props) {
-  //const classes = useStyles();
+  
+  const useStyles = makeStyles((theme) => ({
+    shipList: {
+      padding: theme.spacing(2)
+  }
+  }));
+
+  const classes = useStyles();
   const { open, onClose, availableShips } = props;
 
   const handleListItemClick = (ship) => {
@@ -17,9 +24,9 @@ function ShipSelector(props) {
   return (
     <Dialog onClose={handleOnClose} open={open}>
       <DialogTitle> Choose ship </DialogTitle>
-      <List>
+      <List className={classes.shipList}>
         {availableShips.map((ship) => <ListItem key={ship.name} button onClick={() => handleListItemClick(ship)}>
-          {ship.name}
+          {ship.name + " (+" + ship.cost + ")"}
         </ListItem>
         )}
       </List>

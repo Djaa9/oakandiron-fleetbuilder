@@ -23,6 +23,9 @@ function Ship(props) {
         },
         selectEmpty: {
             marginTop: theme.spacing(2)
+        },
+        removeButtons: {
+            paddingLeft: "0px"
         }
     }));
 
@@ -210,7 +213,7 @@ function Ship(props) {
                                     ))}
                                 </Select>
                             </FormControl>
-                            <IconButton onClick={handleClearCommander}>
+                            <IconButton className={classes.removeButtons} onClick={handleClearCommander}>
                                 <CloseIcon fontSize="small" />
                             </IconButton>
                         </Grid>
