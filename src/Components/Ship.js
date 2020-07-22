@@ -74,7 +74,10 @@ function Ship(props) {
         var newCostOfShip = ship.cost;
         newCostOfShip = selectedCommander ? selectedCommander.cost + newCostOfShip : newCostOfShip;
         newCostOfShip = selectedSkillLevel.cost ? newCostOfShip + selectedSkillLevel.cost : newCostOfShip;
+        newCostOfShip = selectedUpgradeCard1.cost ? newCostOfShip + selectedUpgradeCard1.cost : newCostOfShip;
+        newCostOfShip = selectedUpgradeCard2.cost ? newCostOfShip + selectedUpgradeCard2.cost : newCostOfShip;
 
+        console.log("upgradecard to calculate", upgrades);
         upgrades.filter(upgrade => upgrade.selected).forEach(upgrade => {
             newCostOfShip = newCostOfShip + upgrade.cost;
         });;
@@ -208,8 +211,6 @@ function Ship(props) {
                                 <CloseIcon fontSize="small" />
                             </IconButton>
                         </Grid>
-
-                        <Divider />
 
                                 <Grid
                                     container
