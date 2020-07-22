@@ -201,7 +201,7 @@
       name: "Henry Jennings",
       keywords: [],
       factions: ["Pirate"],
-      cost: 3
+      cost: 1
     },
     {
       name: "Jean Hamlin",
@@ -213,13 +213,13 @@
       name: "Edward \"Blackbeard\" Teach",
       keywords: [],
       factions: ["Pirate"],
-      cost: 2
+      cost: 1
     },
     {
       name: "Bartholomew \"Black Bart\" Roberts",
       keywords: ["Rogues", "Interprid", "Inspiring"], // Implement auto add of Interprid initiative card
       factions: ["Pirate"],
-      cost: 3
+      cost: 2
     }   
   ];
 
