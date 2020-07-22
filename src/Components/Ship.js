@@ -172,10 +172,10 @@ function Ship(props) {
                 alignItems="flex-start">
 
                 <Grid
-                container
-                direction="row"
-                justify="space between"
-                alignItems="center">
+                    container
+                    direction="row"
+                    justify="space between"
+                    alignItems="center">
                     <h3>
                         {ship.name + " (+" + ship.cost + ")"}
                     </h3>
@@ -183,42 +183,13 @@ function Ship(props) {
                         <DeleteIcon fontSize="small" />
                     </IconButton>
                 </Grid>
-
-                <FormControlLabel
+                <FormControl>
+                    <FormGroup>
+                    <FormControlLabel
                     control={
                         <Checkbox name="flagship" onChange={handleFlagshipChange} />}
                     label="Flagship" />
-
-                <Divider />
-
-                <FormControl>
-                    <FormGroup>
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    disabled={skill1Enabled}
-                                    name={skill1.name} onChange={handleSkill1Changed} />}
-                            label={skill1.name + " (+ " + skill1.cost + ")"}
-                        />
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    disabled={skill2Enabled}
-                                    name={skill2.name} onChange={handleSkill2Changed} />}
-                            label={skill2.name + " (+ " + skill2.cost + ")"}
-                        />
-
-                        <Divider />
-                        {ship.upgrades.map(upgrade =>
-                            <FormControlLabel
-                                control={
-                                    <Checkbox name={upgrade.name} onChange={(event) => handleUpgradeSelectionChanged(event, upgrade)} />}
-                                label={upgrade.name + " (+ " + upgrade.cost + ")"}
-                            />
-                        )}
-
-                        <Divider />
-                        <Grid
+                    <Grid
                             container
                             direction="row"
                             justify="flex-start"
@@ -244,6 +215,31 @@ function Ship(props) {
                                 <CloseIcon fontSize="small" />
                             </IconButton>
                         </Grid>
+                <Divider />
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    disabled={skill1Enabled}
+                                    name={skill1.name} onChange={handleSkill1Changed} />}
+                            label={skill1.name + " (+ " + skill1.cost + ")"}
+                        />
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    disabled={skill2Enabled}
+                                    name={skill2.name} onChange={handleSkill2Changed} />}
+                            label={skill2.name + " (+ " + skill2.cost + ")"}
+                        />
+
+                        <Divider />
+                        {ship.upgrades.map(upgrade =>
+                            <FormControlLabel
+                                control={
+                                    <Checkbox name={upgrade.name} onChange={(event) => handleUpgradeSelectionChanged(event, upgrade)} />}
+                                label={upgrade.name + " (+ " + upgrade.cost + ")"}
+                            />
+                        )}
+                        
                         <Divider />
                         <Grid
                             container
