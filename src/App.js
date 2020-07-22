@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import { makeStyles } from '@material-ui/core/styles';
-import { MenuItem, Checkbox, FormGroup, FormLabel, FormControlLabel, Card, Divider, Button, InputLabel, Grid } from '@material-ui/core';
+import { List, ListItem, ListItemText, MenuItem, Checkbox, FormGroup, FormLabel, FormControlLabel, Card, Divider, Button, InputLabel, Grid } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Admirals from './data/admirals';
@@ -51,6 +51,7 @@ function App() {
   const [availableShips, setAvailableShips] = useState([]);
   const [shipSelectorIsOpen, setShipSelectorIsOpen] = useState(false);
   const [initiativeCardSelectorIsOpen, setInitiativeCardSelectorIsOpen] = useState(false);
+  const [selectedInitiativeCards, setSelectedInitiativeCards] = useState([]);
   const [cost, setCost] = useState(0);
   const [shipIdCounter, setShipIdCounter] = useState(0);
 
@@ -106,8 +107,10 @@ function App() {
     setSelectedShips(newSelectionOfShips);
   };
 
-const handleInitiativeCardSelectorFlowDone = () => {
+const handleInitiativeCardSelectorFlowDone = (initiativecards) => {    
+  console.log(initiativecards);
     setInitiativeCardSelectorIsOpen(false);
+    setSelectedInitiativeCards(initiativecards);
 };
 
   const handleShipSelectorFlowDone = (shipToAdd) => {
@@ -217,8 +220,6 @@ const handleInitiativeCardSelectorFlowDone = () => {
           )
         )}
 
-        <Divider />
-
         <Button
           className={classes.addShipButton}
           variant="containedPrimary"
@@ -228,8 +229,22 @@ const handleInitiativeCardSelectorFlowDone = () => {
       </Button>
         <ShipSelector open={shipSelectorIsOpen} availableShips={availableShips} onClose={handleShipSelectorFlowDone}></ShipSelector>
       
+          </Grid>
+
       <Divider className={classes.divider}/>
 
+      <Grid
+        container
+        direction="column"
+        justify="center"
+        alignItems="flex-start">
+          <List>
+        {selectedInitiativeCards.map(card => (
+          <ListItem>
+          <ListItemText primary={card.name + " (" + card.initiativeValue + ") [" + card.mainFaction + "]"}></ListItemText>
+          </ListItem>
+        ))}
+        </List>
       <Button
           className={classes.addShipButton}
           variant="containedPrimary"

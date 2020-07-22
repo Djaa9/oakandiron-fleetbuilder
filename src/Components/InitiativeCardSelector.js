@@ -10,10 +10,9 @@ function InitiativeCardSelector(props) {
   const { open, onClose, faction, admiral } = props;
 
   const [availableInitiativeCards, setAvailableInitiativeCards] = useState([]);
-  const [checked, setChecked] = React.useState([0]);
+  const [checked, setChecked] = React.useState([]);
 
   useEffect(() => {
-        /*Update available initiative cards*/
         var initiativeCardsForFaction = initiativeCards.filter(card => card.factions.includes(faction.name));
         setAvailableInitiativeCards(initiativeCardsForFaction);
   }, [faction, admiral]);
@@ -32,15 +31,15 @@ function InitiativeCardSelector(props) {
   };
 
   const handleOnClose = () => {
-    onClose(null);
+    onClose(checked);
   };
 
   const handleOk = () => {
-    onClose(null);
+    onClose(checked);
   };
 
   const handleCancel = () => {
-    onClose(null);
+    onClose(checked);
   };
   return (
     <Dialog onClose={handleOnClose} open={open}>
@@ -68,7 +67,7 @@ function InitiativeCardSelector(props) {
           Cancel
         </Button>
         <Button onClick={handleOk} color="primary">
-          Ok
+          Choose
         </Button>
       </DialogActions>
     </Dialog>
