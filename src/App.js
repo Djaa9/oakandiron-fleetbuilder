@@ -221,7 +221,7 @@ function App() {
             onChange={handleAdmiralChange}>
             {availableAdmirals.map(admiral => (
               <MenuItem key={admiral.name} value={admiral}>
-                {admiral.name}
+                {admiral.name + " (+" + admiral.cost + ")"}
               </MenuItem>
             ))}
           </Select>
