@@ -27,12 +27,20 @@ function App() {
     selectEmpty: {
       marginTop: theme.spacing(2)
     },
-    addShipButton: {
-      margin: theme.spacing(2)
-    },
-    shipsContainer: {
-      backgroundColor: grey[300],
+    sectionContainer: {
+      backgroundColor: grey[200],
       padding: theme.spacing(2)
+    },
+    sectionHeader: {
+      margin: theme.spacing(2),
+      marginBottom: 0
+    },
+    sectionSubHeader: {
+      margin: theme.spacing(2),
+      marginTop: 0
+    },
+    addButton: {
+      margin: theme.spacing(2)
     },
     costLabel: {
       margin: theme.spacing(1)
@@ -45,6 +53,9 @@ function App() {
     },
     title: {
       flexGrow: 1
+    },
+    topForm: {
+      margin: theme.spacing(2)
     }
   }));
 
@@ -174,11 +185,9 @@ function App() {
 
       </AppBar>
 
-      <div className={classes.sticky}>
-
-
+      <Grid className={classes.topForm} container >
         <FormControl className={classes.formControl}>
-          <InputLabel>Choose game Mode</InputLabel>
+          <InputLabel>Choose Game Mode</InputLabel>
           <Select
             displayEmpty
             className={classes.selectEmpty}
@@ -225,52 +234,68 @@ function App() {
             ))}
           </Select>
         </FormControl>
-      </div>
+      </Grid>
+
       <Divider />
 
-        <Grid
-          container
-          spacing={2}
-          className={classes.shipsContainer}>
-          {selectedShips.map(ship => (
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <Ship ship={ship} faction={selectedFaction} removeShip={handleRemoveShip} costUpdated={handleShipCostUpdated} />
-            </Grid>
-          )
-          )}
-          <Grid container>
-            <Button
-              className={classes.addShipButton}
-              variant="containedPrimary"
-              onClick={handleOpenShipSelector}
-              disabled={!selectedFaction || !selectedGameMode || !selectedAdmiral}>
-              Add Ship
-      </Button>
-          </Grid>
-          <ShipSelector open={shipSelectorIsOpen} availableShips={availableShips} onClose={handleShipSelectorFlowDone}></ShipSelector>
 
-        </Grid>
-        <Grid
-          container
-          direction="column"
-          justify="center"
-          alignItems="flex-start">
-          <List>
-            {selectedInitiativeCards.map(card => (
-              <ListItem>
-                <ListItemText primary={card.name + " (" + card.initiativeValue + ") [" + card.mainFaction + "]"}></ListItemText>
-              </ListItem>
-            ))}
-          </List>
+      {/* initiative cards*/}
+      <Grid
+        className={classes.sectionContainer}
+        container
+        spacing={2}
+        direction="column"
+        alignItems="flex-start">
+        <Typography className={classes.sectionHeader} variant="h5">
+          List of Ships        
+            </Typography>
+            <Typography className={classes.sectionSubHeader} variant="h7">
+          {selectedGameMode ? (" ( min: " + selectedGameMode.minShips + " max: " + selectedGameMode.maxShips + ")") : (null)}          
+            </Typography>
+        {selectedShips.map(ship => (
+          <Grid item xs={12} sm={6} md={4} lg={3}>
+            <Ship ship={ship} faction={selectedFaction} removeShip={handleRemoveShip} costUpdated={handleShipCostUpdated} />
+          </Grid>
+        )
+        )}
           <Button
-            className={classes.addShipButton}
+            className={classes.addButton}
             variant="containedPrimary"
-            onClick={handleOpenInitiativeCardSelector}
+            onClick={handleOpenShipSelector}
             disabled={!selectedFaction || !selectedGameMode || !selectedAdmiral}>
-            Choose Initiative Cards
+            Add Ship
       </Button>
-          <InitiativecardSelector open={initiativeCardSelectorIsOpen} faction={selectedFaction} admiral={selectedAdmiral} onClose={handleInitiativeCardSelectorFlowDone}></InitiativecardSelector>
-        </Grid>
+        <ShipSelector open={shipSelectorIsOpen} availableShips={availableShips} onClose={handleShipSelectorFlowDone}></ShipSelector>
+
+      </Grid>
+
+          <Divider />
+      {/* initiative cards*/}
+      <Grid
+        className={classes.sectionContainer}
+        container
+        spacing={2}
+        direction="column"
+        alignItems="flex-start">
+        <Typography className={classes.sectionHeader} variant="h5">
+          Initiative Cards
+          </Typography>
+        <List>
+          {selectedInitiativeCards.map(card => (
+            <ListItem>
+              <ListItemText primary={card.name + " (" + card.initiativeValue + ") [" + card.mainFaction + "]"} />
+            </ListItem>
+          ))}
+        </List>
+        <Button
+          className={classes.addButton}
+          variant="containedPrimary"
+          onClick={handleOpenInitiativeCardSelector}
+          disabled={!selectedFaction || !selectedGameMode || !selectedAdmiral}>
+          Choose Initiative Cards
+      </Button>
+        <InitiativecardSelector open={initiativeCardSelectorIsOpen} faction={selectedFaction} admiral={selectedAdmiral} onClose={handleInitiativeCardSelectorFlowDone}></InitiativecardSelector>
+      </Grid>
     </div>
   );
 }
