@@ -69,10 +69,7 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 ### TODO
 
-- Put initiative card selection in dialog
-
 - Handle initiative card modifiers for admirals (see todo in data/admirals)
-- Floation top selections / scroll container for ships and initiative cards
 - Make sure only one flag ship can be chosen (Move selection)
 - Make sure upgrade cards can only be chosen once for a ship
 - Styling (Make pretty)
