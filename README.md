@@ -71,7 +71,11 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 - Clear initiative Cards when changing faction
 - Handle initiative card modifiers for admirals (see todo in data/admirals)
-- Make sure only one flag ship can be chosen (Move selection)
 - Make sure upgrade cards can only be chosen once for a ship
+- Make sure only one flag ship can be chosen (Move selection)
 - Styling (Make pretty)
+- Save to storage
 - Show pictures of cards
+
+2.0
+- login and save in db on backend

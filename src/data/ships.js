@@ -139,16 +139,19 @@ const allShips = [
   {
     name: "Revenge",
     class: "Pirate",
+    cost: 10,
     upgrades: []
   },
   {
     name: "Queen Anne's Revenge",
     class: "Pirate",
+    cost: 16,
     upgrades: []
   }
 ];
 
 const Ships = {
+  all: allShips,
   allowed: function (gameMode, faction, admiral) {
     if (!gameMode)
       throw new Error("Game Mode not selected (gameMode = " + gameMode + "). Allowed Ships could not be determined");

@@ -18,7 +18,6 @@ function Ship(props) {
             minWidth: 200,
         },
         card: {
-            margin: theme.spacing(2),
             padding: theme.spacing(2),
             minWidth: 200,
         },
