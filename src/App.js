@@ -4,10 +4,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Typography, List, ListItem, ListItemText, MenuItem, Divider, Button, InputLabel, Grid, Toolbar } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import Admirals from './data/admirals';
-import { factions } from './data/factions';
-import { gameModes } from './data/gameModes';
-import Ships from './data/ships.js';
+import Admirals from './Data/admirals';
+import { factions } from './Data/factions';
+import { gameModes } from './Data/gameModes';
+import Ships from './Providers/shipProvider.js';
 import { grey } from '@material-ui/core/colors';
 import ShipSelector from './Components/ShipSelector';
 import InitiativecardSelector from './Components/InitiativeCardSelector';
@@ -66,7 +66,6 @@ function App() {
   const [selectedAdmiral, setSelectedAdmiral] = useState("");
   const [availableAdmirals, setAvailableAdmirals] = useState([]);
   const [selectedShips, setSelectedShips] = useState([]);
-  const [availableShips, setAvailableShips] = useState([]);
   const [shipSelectorIsOpen, setShipSelectorIsOpen] = useState(false);
   const [initiativeCardSelectorIsOpen, setInitiativeCardSelectorIsOpen] = useState(false);
   const [selectedInitiativeCards, setSelectedInitiativeCards] = useState([]);
@@ -75,17 +74,10 @@ function App() {
 
 
   useEffect(() => {
-    console.log(selectedFaction);
     /*Update available admirals*/
     if (selectedFaction) {
       var admiralsInFaction = Admirals.allowed(selectedFaction);
       setAvailableAdmirals(admiralsInFaction);
-    };
-
-    /*Update available ships*/
-    if (selectedGameMode && selectedFaction && selectedAdmiral) {
-      var shipsForFaction = Ships.allowed(selectedGameMode, selectedFaction, selectedAdmiral);
-      setAvailableShips(shipsForFaction);
     };
 
   }, [selectedFaction, selectedAdmiral, selectedGameMode]);
@@ -217,7 +209,7 @@ function App() {
             onChange={handleFactionChange}
             value={selectedFaction}>
             {factions.map((faction) => (
-              <MenuItem key={faction.name} value={faction}>
+              <MenuItem key={faction.definition} value={faction}>
                 {faction.name}
               </MenuItem>
             ))}
@@ -271,7 +263,12 @@ function App() {
             disabled={!selectedFaction || !selectedGameMode || !selectedAdmiral}>
             Add Ship
       </Button>
-        <ShipSelector open={shipSelectorIsOpen} availableShips={availableShips} onClose={handleShipSelectorFlowDone}></ShipSelector>
+        <ShipSelector 
+          open={shipSelectorIsOpen} 
+          faction={selectedFaction} 
+          admiral={selectedAdmiral} 
+          gameMode={selectedGameMode}
+          onClose={handleShipSelectorFlowDone}></ShipSelector>
 
       </Grid>
 

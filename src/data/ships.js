@@ -1,4 +1,4 @@
-const allShips = [
+export const ships = [
   {
     name: "Sloop",
     class: "Unrated",
@@ -149,79 +149,3 @@ const allShips = [
     upgrades: []
   }
 ];
-
-const Ships = {
-  all: allShips,
-  allowed: function (gameMode, faction, admiral) {
-    if (!gameMode)
-      throw new Error("Game Mode not selected (gameMode = " + gameMode + "). Allowed Ships could not be determined");
-
-    if (!admiral)
-      throw new Error("Admiral not selected (admiral = " + admiral + "). Allowed Ships could not be determined");
-
-    if (!faction)
-      throw new Error("Faction not selected (faction = " + faction + "). Allowed Ships could not be determined");
-
-    var allowedShips = allShips;
-
-    // Handle Game Mode
-    if (gameMode === "Patrol")
-      allowedShips.filter(ship => ship.class !== "Ship of the Line");
-
-    // Handle Admiral
-    if (admiral.keywords.includes("Rogues"))
-      allowedShips.filter(ship => ship.class !== "Ship of the Line");
-
-    // Handle Faction
-    if (faction.name === "English" || faction.name === "Dutch") {
-      return allowedShips.filter(ship => ship.class !== "Pirate");
-    }
-    else if (faction.name === "French") {
-      var frenchShips = allowedShips.filter(ship => ship.class !== "Pirate");
-
-      frenchShips.forEach(ship => {
-        ship.upgrades.forEach(upgrade => {
-          if (upgrade.name === "Swift" || upgrade.name === "Weatherly") {
-            if (upgrade.cost > 0) {
-              upgrade.cost = (upgrade.cost - 1);
-            }
-          }
-          if (upgrade.name === "Additional Guns") {
-            if (upgrade.cost > 1)
-              upgrade.cost = (upgrade.cost - 1);
-          }
-        })
-      });
-
-      return frenchShips;
-    }
-    else if (faction.name === "Spanish") {
-      var spanishShips = allowedShips.filter(ship => ship.class !== "Pirate");
-
-      spanishShips.forEach(ship => {
-        ship.upgrades.forEach(upgrade => {
-          if (upgrade.name === "Stout")
-            upgrade.cost = Math.floor(upgrade.cost / 2);
-        })
-      });
-
-      return spanishShips;
-    }
-    else if (faction.name === "Pirate") {
-      var pirateShips = allowedShips.filter(ship => ship.class !== "Ship of the Line");
-
-      pirateShips.forEach(ship => {
-        ship.upgrades.forEach(upgrade => {
-          if (upgrade.name === "Additional Crew")
-            upgrade.cost = Math.floor(upgrade.cost / 2);
-        })
-      });
-
-      return pirateShips;
-    }
-    else
-      return [];
-  }
-};
-
-export default Ships;

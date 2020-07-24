@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { initiativeCards } from '../data/initiativeCards';
+import { initiativeCards } from '../Data/initiativeCards';
 import { Dialog, DialogTitle, List, ListItem, DialogContent, DialogActions, Button } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from '@material-ui/core/ListItemText';

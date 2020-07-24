@@ -1,17 +1,24 @@
+import { factionTypes } from "./factionTypes";
+
 export const factions = [
     {
-      name: 'Dutch'
+      name: 'Dutch',
+      type: factionTypes.DUTCH
     },
     {
-      name: 'English'
+      name: 'English',
+      type: factionTypes.ENGLISH
     },
     {
-      name: 'French'
+      name: 'French',
+      type: factionTypes.FRENCH
     },
     {
-      name: 'Spanish'
+      name: 'Spanish',
+      type: factionTypes.SPANISH
     },
     {
-      name: 'Pirate'
+      name: 'Pirate',
+      type: factionTypes.PIRATE
     }
   ];

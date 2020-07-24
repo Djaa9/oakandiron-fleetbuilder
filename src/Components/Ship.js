@@ -7,8 +7,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import CloseIcon from '@material-ui/icons/Close';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import Commanders from '../data/commanders.js';
-import UpgradeCards from '../data/upgradeCards';
+import Commanders from '../Data/commanders.js';
+import UpgradeCards from '../Data/upgradeCards';
 
 function Ship(props) {
 

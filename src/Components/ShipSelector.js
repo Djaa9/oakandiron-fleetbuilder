@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Dialog, DialogTitle, List, ListItem, makeStyles } from '@material-ui/core';
+import { factionTypes } from '../Data/factionTypes';
+import shipProvider from '../Providers/shipProvider';
 
 function ShipSelector(props) {
   
@@ -11,7 +13,15 @@ function ShipSelector(props) {
   }));
 
   const classes = useStyles();
-  const { open, onClose, availableShips } = props;
+
+  const { open, onClose, faction, admiral, gameMode } = props;
+
+  const [availableShips, setAvailableShips] = useState([]);
+
+useEffect(()=> {
+  if(gameMode && faction && admiral)
+    setAvailableShips(shipProvider.allowed(gameMode, faction, admiral));
+}, [admiral, faction, gameMode])
 
   const handleListItemClick = (ship) => {
     onClose(ship);
@@ -37,7 +47,9 @@ function ShipSelector(props) {
 ShipSelector.propTypes = {
   open: PropTypes.bool.isRequired,
   selectionDone: PropTypes.func.isRequired,
-  availableShips: PropTypes.array
+  faction: PropTypes.object.isRequired,
+  admiral: PropTypes.object.isRequired,
+  gameMode: PropTypes.object.isRequired
 };
 
 export default ShipSelector;
