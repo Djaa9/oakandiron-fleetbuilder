@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { initiativeCards } from '../Data/initiativeCards';
+import initiaTiveCardsProvider from '../Providers/initiativeCardsProvider.js';
 import { Dialog, DialogTitle, List, ListItem, DialogContent, DialogActions, Button } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -13,8 +13,10 @@ function InitiativeCardSelector(props) {
   const [checked, setChecked] = React.useState([]);
 
   useEffect(() => {
-        var initiativeCardsForFaction = initiativeCards.filter(card => card.factions.includes(faction.name));
-        setAvailableInitiativeCards(initiativeCardsForFaction);
+        console.log("update ic selection", admiral, faction);
+        var allowedInitiativeCards = initiaTiveCardsProvider.allowed(faction);
+        console.log(allowedInitiativeCards);
+        setAvailableInitiativeCards(allowedInitiativeCards);
   }, [faction, admiral]);
 
   const handleListItemClick = (value) => () => {
@@ -57,7 +59,7 @@ function InitiativeCardSelector(props) {
                   disableRipple
                 />
   
-              <ListItemText primary={card.name + " (+" + card.initiativeValue + ") [" + card.mainFaction + "]"} />
+              <ListItemText primary={card.name + " (+" + card.initiativeValue + ") [" + card.faction + "]"} />
             </ListItem>
       ))}
     </List>

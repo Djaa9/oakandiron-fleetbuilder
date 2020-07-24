@@ -7,7 +7,6 @@ import Select from '@material-ui/core/Select';
 import Admirals from './Data/admirals';
 import { factions } from './Data/factions';
 import { gameModes } from './Data/gameModes';
-import Ships from './Providers/shipProvider.js';
 import { grey } from '@material-ui/core/colors';
 import ShipSelector from './Components/ShipSelector';
 import InitiativecardSelector from './Components/InitiativeCardSelector';
@@ -94,7 +93,6 @@ function App() {
   useEffect(() => {
     // Calculate cost
     if (selectedGameMode && selectedFaction && selectedGameMode) {
-
       var newCost = 0;
       newCost = newCost + selectedAdmiral.cost;
 
@@ -286,7 +284,7 @@ function App() {
         <List>
           {selectedInitiativeCards.map(card => (
             <ListItem>
-              <ListItemText primary={card.name + " (" + card.initiativeValue + ") [" + card.mainFaction + "]"} />
+              <ListItemText primary={card.name + " (" + card.initiativeValue + ") [" + card.faction + "]"} />
             </ListItem>
           ))}
         </List>
