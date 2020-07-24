@@ -76,9 +76,6 @@ function App() {
 
   useEffect(() => {
     console.log(selectedFaction);
-    //TODO Confirmation dialog
-    setSelectedShips([]);
-
     /*Update available admirals*/
     if (selectedFaction) {
       var admiralsInFaction = Admirals.allowed(selectedFaction);
@@ -92,6 +89,15 @@ function App() {
     };
 
   }, [selectedFaction, selectedAdmiral, selectedGameMode]);
+
+  useEffect(() => {
+      setSelectedShips([]);
+      setSelectedInitiativeCards([]);
+  }, [selectedFaction]);
+
+  useEffect(() => {
+      setSelectedInitiativeCards([]);
+  }, [selectedAdmiral]);
 
   useEffect(() => {
     // Calculate cost
