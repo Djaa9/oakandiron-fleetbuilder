@@ -235,7 +235,7 @@ function App() {
       <Divider />
 
 
-      {/* initiative cards*/}
+      {/* ships*/}
       <Grid
         className={classes.sectionContainer}
         container
@@ -248,12 +248,14 @@ function App() {
             <Typography className={classes.sectionSubHeader} variant="h7">
           {selectedGameMode ? (" ( min: " + selectedGameMode.minShips + " max: " + selectedGameMode.maxShips + ")") : (null)}          
             </Typography>
+            <Grid container spacing={2}>
         {selectedShips.map(ship => (
           <Grid item xs={12} sm={6} md={4} lg={3}>
             <Ship ship={ship} faction={selectedFaction} removeShip={handleRemoveShip} costUpdated={handleShipCostUpdated} />
           </Grid>
         )
         )}
+        </Grid>
           <Button
             className={classes.addButton}
             variant="containedPrimary"
