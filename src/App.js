@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Typography, List, ListItem, ListItemText, MenuItem, Divider, Button, InputLabel, Grid, Toolbar } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import Admirals from './Data/admirals';
+import Admirals from "./Providers/admiralsProvider";
 import { factions } from './Data/factions';
 import { gameModes } from './Data/gameModes';
 import { grey } from '@material-ui/core/colors';
@@ -73,6 +73,9 @@ function App() {
 
 
   useEffect(() => {
+    setSelectedShips([]);
+    setSelectedInitiativeCards([]);
+
     /*Update available admirals*/
     if (selectedFaction) {
       var admiralsInFaction = Admirals.allowed(selectedFaction);
@@ -80,15 +83,6 @@ function App() {
     };
 
   }, [selectedFaction, selectedAdmiral, selectedGameMode]);
-
-  useEffect(() => {
-      setSelectedShips([]);
-      setSelectedInitiativeCards([]);
-  }, [selectedFaction]);
-
-  useEffect(() => {
-      setSelectedInitiativeCards([]);
-  }, [selectedAdmiral]);
 
   useEffect(() => {
     // Calculate cost
@@ -250,7 +244,7 @@ function App() {
             </Typography>
             <Grid container spacing={2}>
         {selectedShips.map(ship => (
-          <Grid item xs={12} sm={6} md={4} lg={3}>
+          <Grid item xs={12} sm={6} md={4} lg={3} xl ={2}>
             <Ship ship={ship} faction={selectedFaction} removeShip={handleRemoveShip} costUpdated={handleShipCostUpdated} />
           </Grid>
         )

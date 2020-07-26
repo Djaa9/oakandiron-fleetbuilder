@@ -1,4 +1,4 @@
- const allAdmirals = [
+ export const allAdmirals = [
     {
       name: "Untested Admiral",
       keywords: [],
@@ -17,114 +17,6 @@
       factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
       cost: 4
     },
-    /*{
-      name: "Untested Bold Admiral",
-      keywords: [],
-      factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
-      cost: 0
-    },
-    {
-      name: "Experienced Bold Admiral",
-      keywords: [],
-      factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
-      cost: 1
-    },
-    {
-      name: "Seasoned Bold Admiral",
-      keywords: [],
-      factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
-      cost: 2
-    },
-    {
-      name: "Untested Lucky Admiral",
-      keywords: [],
-      factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
-      cost: 0
-    },
-    {
-      name: "Experienced Lucky Admiral",
-      keywords: [],
-      factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
-      cost: 0
-    },
-    {
-      name: "Seasoned Lucky Admiral",
-      keywords: [],
-      factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
-      cost: 0
-    },
-    {
-      name: "Untested Strict Admiral",
-      keywords: [],
-      factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
-      cost: 0
-    },
-    {
-      name: "Experienced Strict Admiral",
-      keywords: [],
-      factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
-      cost: 0
-    },
-    {
-      name: "Seasoned Strict Admiral",
-      keywords: [],
-      factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
-      cost: 0
-    },
-    {
-      name: "Untested Persistent Admiral",
-      keywords: [],
-      factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
-      cost: 0
-    },
-    {
-      name: "Experienced Persistent Admiral",
-      keywords: [],
-      factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
-      cost: 0
-    },
-    {
-      name: "Seasoned Persistent Admiral",
-      keywords: [],
-      factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
-      cost: 0
-    },
-    {
-      name: "Untested Brillant Admiral",
-      keywords: [],
-      factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
-      cost: 0
-    },
-    {
-      name: "Experienced Brilliant Admiral",
-      keywords: [],
-      factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
-      cost: 0
-    },
-    {
-      name: "Seasoned Brilliant Admiral",
-      keywords: [],
-      factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
-      cost: 0
-    },
-    {
-      name: "Untested Inspiring Admiral",
-      keywords: [],
-      factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
-      cost: 0
-    },
-    {
-      name: "Experienced Inspiring Admiral",
-      keywords: [],
-      factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
-      cost: 0
-    },
-    {
-      name: "Seasoned Inspiring Admiral",
-      keywords: [],
-      factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
-      cost: 0
-    },*/
     {
       name: "Abraham Crijinssen",
       keywords: ["Rogues", "Raider", "Brave"],
@@ -222,14 +114,3 @@
       cost: 6
     }   
   ];
-
-  const Admirals = {
-    allowed: function(faction) {
-        if(!faction)
-            throw new Error("Faction not selected (faction = " + faction + "). Allowed Ships could not be determined");
-
-            return allAdmirals.filter(admiral => admiral.factions.includes(faction.name));
-    }
-  };
-
-  export default Admirals;

@@ -8,7 +8,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Commanders from '../Data/commanders.js';
-import UpgradeCards from '../Data/upgradeCards';
+import UpgradeCards from "../Providers/upgradeCardsProvider";
 
 function Ship(props) {
 
@@ -38,7 +38,8 @@ function Ship(props) {
     ]);
 
     const [availableCommanders, setAvailableCommanders] = useState([]);
-    const [availableUpgradeCards, setAvailableUpgradeCards] = useState([]);
+    const [availableUpgrade1Cards, setAvailableUpgrade1Cards] = useState([]);
+    const [availableUpgrade2Cards, setAvailableUpgrade2Cards] = useState([]);
     const [costIncludingUpgrades, setCostIncludingUpgrades] = useState(ship.cost)
     const [selectedSkillLevel, setSelectedSkillLevel] = useState("");
     const [upgrades, setUpgrades] = useState(ship.upgrades);
@@ -65,7 +66,8 @@ function Ship(props) {
 
         /*Get available upgrade cards*/
         var availableUpgradeCards = UpgradeCards.allowed(faction, ship, isFlagship);
-        setAvailableUpgradeCards(availableUpgradeCards);
+        setAvailableUpgrade1Cards(availableUpgradeCards);
+        setAvailableUpgrade2Cards(availableUpgradeCards);
 
     }, []);
 
@@ -77,7 +79,6 @@ function Ship(props) {
         newCostOfShip = selectedUpgradeCard1.cost ? newCostOfShip + selectedUpgradeCard1.cost : newCostOfShip;
         newCostOfShip = selectedUpgradeCard2.cost ? newCostOfShip + selectedUpgradeCard2.cost : newCostOfShip;
 
-        console.log("upgradecard to calculate", upgrades);
         upgrades.filter(upgrade => upgrade.selected).forEach(upgrade => {
             newCostOfShip = newCostOfShip + upgrade.cost;
         });;
@@ -95,7 +96,8 @@ function Ship(props) {
     // Handle change in flagship state
     useEffect(() => {
         var availableUpgradeCards = UpgradeCards.allowed(faction, ship, isFlagship);
-        setAvailableUpgradeCards(availableUpgradeCards);
+        setAvailableUpgrade1Cards(availableUpgradeCards);
+        setAvailableUpgrade2Cards(availableUpgradeCards);
 
         if (isFlagship) {
             setSelectedCommander("");
@@ -136,6 +138,12 @@ function Ship(props) {
     };
 
     const handleUpgradeCard1Change = (event) => {
+        // Remove from Upgrade 2 selection
+        var allowedUpgrade2 = UpgradeCards.allowed(faction, ship, isFlagship);
+        allowedUpgrade2.map(card => {
+            if(card.name !== event.target.value)
+                return card;
+        });
         setSelectedUpgradeCard1(event.target.value);
     };
 
@@ -263,7 +271,7 @@ function Ship(props) {
                                             className={classes.selectEmpty}
                                             value={selectedUpgradeCard1}
                                             onChange={handleUpgradeCard1Change}>
-                                            {availableUpgradeCards.map((card) => (
+                                            {availableUpgrade1Cards.map((card) => (
                                                 <MenuItem key={card.name} value={card}>
                                                     {card.cost > 0 ? card.name + " (+" + card.cost + ")" : card.name + " (" + card.cost + ")"}
                                                 </MenuItem>
@@ -287,7 +295,7 @@ function Ship(props) {
                                             className={classes.selectEmpty}
                                             value={selectedUpgradeCard2}
                                             onChange={handleUpgradeCard2Change}>
-                                            {availableUpgradeCards.map((card) => (
+                                            {availableUpgrade2Cards.map((card) => (
                                                 <MenuItem key={card.name} value={card}>
                                                     {card.cost > 0 ? card.name + " (+" + card.cost + ")" : card.name + " (" + card.cost + ")"}
                                                 </MenuItem>
