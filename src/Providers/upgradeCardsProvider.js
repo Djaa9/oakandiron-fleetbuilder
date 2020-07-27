@@ -1,4 +1,5 @@
 import { allUpgradeCards } from "../Data/upgradeCards";
+
 const upgradeCardsProvider = {
     allowed: function (faction, ship, flagship) {
         if (!ship)
@@ -12,15 +13,14 @@ const upgradeCardsProvider = {
 
         // Handle faction
         var allowedUpgradeCards = allUpgradeCards.filter(card => card.factions.includes(faction.name));
-        console.log(allowedUpgradeCards);
+
         // Handle class
         allowedUpgradeCards = allowedUpgradeCards.filter(card => !card.notAllowedForClasses.includes(ship.class));
-        console.log(allowedUpgradeCards);
+
         // Handle Flagship
         if (flagship === true)
             allowedUpgradeCards = allowedUpgradeCards.filter(card => !card.notAllowedForFlagship);
 
-        console.log(allowedUpgradeCards);
         return allowedUpgradeCards;
     }
 };

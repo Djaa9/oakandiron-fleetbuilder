@@ -13,9 +13,7 @@ function InitiativeCardSelector(props) {
   const [checked, setChecked] = React.useState([]);
 
   useEffect(() => {
-        console.log("update ic selection", admiral, faction);
         var allowedInitiativeCards = initiaTiveCardsProvider.allowed(faction);
-        console.log(allowedInitiativeCards);
         setAvailableInitiativeCards(allowedInitiativeCards);
   }, [faction, admiral]);
 

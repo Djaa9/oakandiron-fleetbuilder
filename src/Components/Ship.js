@@ -33,8 +33,8 @@ function Ship(props) {
     const { ship, faction, costUpdated, removeShip } = props;
 
     const [availableSkillLevels] = useState([
-        { name: "Skill 1", cost: 2},
-        { name: "Skill 2", cost: 4}
+        { name: "Skill 1", cost: 2 },
+        { name: "Skill 2", cost: 4 }
     ]);
 
     const [availableCommanders, setAvailableCommanders] = useState([]);
@@ -48,6 +48,8 @@ function Ship(props) {
     const [commanderSelectionDisabled, setCommanderSelectionDisabled] = useState(false);
     const [selectedUpgradeCard1, setSelectedUpgradeCard1] = useState("");
     const [selectedUpgradeCard2, setSelectedUpgradeCard2] = useState("");
+    const [upgradeCard1SelectorEnabled, setUpgradeCard1SelectorEnabled] = useState(true);
+    const [upgradeCard2SelectorEnabled, setUpgradeCard2SelectorEnabled] = useState(true);
 
     // CONSTRUCTOR
     useEffect(() => {
@@ -138,16 +140,38 @@ function Ship(props) {
     };
 
     const handleUpgradeCard1Change = (event) => {
+        if (event.target.value.onlyAllowedSolo === true){
+            setUpgradeCard2SelectorEnabled(false);
+            setSelectedUpgradeCard2("");
+        }
+        else
+            setUpgradeCard2SelectorEnabled(true);
+
         // Remove from Upgrade 2 selection
         var allowedUpgrade2 = UpgradeCards.allowed(faction, ship, isFlagship);
         allowedUpgrade2.map(card => {
-            if(card.name !== event.target.value)
+            if (card.name !== event.target.value)
                 return card;
         });
+        
         setSelectedUpgradeCard1(event.target.value);
     };
 
     const handleUpgradeCard2Change = (event) => {
+        if (event.target.value.name === "onlyAllowedSolo") {
+            setUpgradeCard1SelectorEnabled(false);            
+            setSelectedUpgradeCard2("");
+        }
+        else
+            setUpgradeCard1SelectorEnabled(true);
+
+        // Remove from Upgrade 2 selection
+        var allowedUpgrade2 = UpgradeCards.allowed(faction, ship, isFlagship);
+        allowedUpgrade2.map(card => {
+            if (card.name !== event.target.value)
+                return card;
+        });        
+
         setSelectedUpgradeCard2(event.target.value);
     };
 
@@ -220,101 +244,103 @@ function Ship(props) {
                             </IconButton>
                         </Grid>
 
-                                <Grid
-                                    container
-                                    direction="row"
-                                    justify="flex-start"
-                                    alignItems="center">
-                                    <FormControl className={classes.formControl}>
-                                        <InputLabel>Skill</InputLabel>
-                                        <Select
-                                            displayEmpty
-                                            isClearable={true}
-                                            className={classes.selectEmpty}
-                                            label="Select Skills"
-                                            value={selectedSkillLevel}
-                                            onChange={handleSkillLevelChanged}>
-                                            {availableSkillLevels.map((skillLevel) => (
-                                                <MenuItem key={skillLevel.name} value={skillLevel}>
-                                                    {skillLevel.name + " (+" + skillLevel.cost + ")"}
-                                                </MenuItem>
-                                            ))}
-                                        </Select>
-                                    </FormControl>
-                                    <IconButton className={classes.removeButtons} onClick={handleClearSkillLevel}>
-                                        <CloseIcon fontSize="small" />
-                                    </IconButton>
-                                </Grid>
+                        <Grid
+                            container
+                            direction="row"
+                            justify="flex-start"
+                            alignItems="center">
+                            <FormControl className={classes.formControl}>
+                                <InputLabel>Skill</InputLabel>
+                                <Select
+                                    displayEmpty
+                                    isClearable={true}
+                                    className={classes.selectEmpty}
+                                    label="Select Skills"
+                                    value={selectedSkillLevel}
+                                    onChange={handleSkillLevelChanged}>
+                                    {availableSkillLevels.map((skillLevel) => (
+                                        <MenuItem key={skillLevel.name} value={skillLevel}>
+                                            {skillLevel.name + " (+" + skillLevel.cost + ")"}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                            <IconButton className={classes.removeButtons} onClick={handleClearSkillLevel}>
+                                <CloseIcon fontSize="small" />
+                            </IconButton>
+                        </Grid>
 
-                                <Divider />
+                        <Divider />
 
-                                {ship.upgrades.map(upgrade =>
-                                    <FormControlLabel
-                                        control={
-                                            <Checkbox name={upgrade.name} onChange={(event) => handleUpgradeSelectionChanged(event, upgrade)} />}
-                                        label={upgrade.name + " (+" + upgrade.cost + ")"}
-                                    />
-                                )}
+                        {ship.upgrades.map(upgrade =>
+                            <FormControlLabel
+                                control={
+                                    <Checkbox name={upgrade.name} onChange={(event) => handleUpgradeSelectionChanged(event, upgrade)} />}
+                                label={upgrade.name + " (+" + upgrade.cost + ")"}
+                            />
+                        )}
 
-                                <Divider />
+                        <Divider />
 
-                                <Grid
-                                    container
-                                    direction="row"
-                                    justify="flex-start"
-                                    alignItems="center">
-                                    <FormControl className={classes.formControl}>
-                                        <InputLabel>Upgrade card 1</InputLabel>
-                                        <Select
-                                            displayEmpty
-                                            isClearable={true}
-                                            className={classes.selectEmpty}
-                                            value={selectedUpgradeCard1}
-                                            onChange={handleUpgradeCard1Change}>
-                                            {availableUpgrade1Cards.map((card) => (
-                                                <MenuItem key={card.name} value={card}>
-                                                    {card.cost > 0 ? card.name + " (+" + card.cost + ")" : card.name + " (" + card.cost + ")"}
-                                                </MenuItem>
-                                            ))}
-                                        </Select>
-                                    </FormControl>
-                                    <IconButton onClick={handleClearUpgradeCard1}>
-                                        <CloseIcon fontSize="small" />
-                                    </IconButton>
-                                </Grid>
-                                <Grid
-                                    container
-                                    direction="row"
-                                    justify="flex-start"
-                                    alignItems="center">
-                                    <FormControl className={classes.formControl}>
-                                        <InputLabel>Upgrade card 2</InputLabel>
-                                        <Select
-                                            displayEmpty
-                                            isClearable={true}
-                                            className={classes.selectEmpty}
-                                            value={selectedUpgradeCard2}
-                                            onChange={handleUpgradeCard2Change}>
-                                            {availableUpgrade2Cards.map((card) => (
-                                                <MenuItem key={card.name} value={card}>
-                                                    {card.cost > 0 ? card.name + " (+" + card.cost + ")" : card.name + " (" + card.cost + ")"}
-                                                </MenuItem>
-                                            ))}
-                                        </Select>
-                                    </FormControl>
-                                    <IconButton onClick={handleClearUpgradeCard2}>
-                                        <CloseIcon fontSize="small" />
-                                    </IconButton>
-                                </Grid>
-                            </FormGroup>
-                        </FormControl>
+                        <Grid
+                            container
+                            direction="row"
+                            justify="flex-start"
+                            alignItems="center">
+                            <FormControl className={classes.formControl}>
+                                <InputLabel>Upgrade card 1</InputLabel>
+                                <Select
+                                    displayEmpty
+                                    isClearable={true}
+                                    disabled={!upgradeCard1SelectorEnabled}
+                                    className={classes.selectEmpty}
+                                    value={selectedUpgradeCard1}
+                                    onChange={handleUpgradeCard1Change}>
+                                    {availableUpgrade1Cards.map((card) => (
+                                        <MenuItem key={card.name} value={card}>
+                                            {card.cost > 0 ? card.name + " (+" + card.cost + ")" : card.name + " (" + card.cost + ")"}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                            <IconButton onClick={handleClearUpgradeCard1}>
+                                <CloseIcon fontSize="small" />
+                            </IconButton>
+                        </Grid>
+                        <Grid
+                            container
+                            direction="row"
+                            justify="flex-start"
+                            alignItems="center">
+                            <FormControl className={classes.formControl}>
+                                <InputLabel>Upgrade card 2</InputLabel>
+                                <Select
+                                    displayEmpty
+                                    isClearable={true}
+                                    disabled={!upgradeCard2SelectorEnabled}
+                                    className={classes.selectEmpty}
+                                    value={selectedUpgradeCard2}
+                                    onChange={handleUpgradeCard2Change}>
+                                    {availableUpgrade2Cards.map((card) => (
+                                        <MenuItem key={card.name} value={card}>
+                                            {card.cost > 0 ? card.name + " (+" + card.cost + ")" : card.name + " (" + card.cost + ")"}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                            <IconButton onClick={handleClearUpgradeCard2}>
+                                <CloseIcon fontSize="small" />
+                            </IconButton>
+                        </Grid>
+                    </FormGroup>
+                </FormControl>
             </Grid>
         </Card>
     );
 };
 
 Ship.propTypes = {
-                    ship: PropTypes.object.isRequired,
+    ship: PropTypes.object.isRequired,
     faction: PropTypes.object.isRequired,
     costUpdated: PropTypes.func,
     removeShip: PropTypes.func

@@ -5,7 +5,8 @@ export const allUpgradeCards = [
     factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
     keywords: [],
     notAllowedForClasses: [],
-    notAllowedForFlagship: false    
+    notAllowedForFlagship: false,
+    onlyAllowedSolo: false    
 },
 {
     name:"Low Morale",
@@ -13,7 +14,8 @@ export const allUpgradeCards = [
     factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
     keywords: [],
     notAllowedForClasses: [],
-    notAllowedForFlagship: false
+    notAllowedForFlagship: false,
+    onlyAllowedSolo: false
 },
 {
     name:"Poorly Armed",
@@ -21,7 +23,8 @@ export const allUpgradeCards = [
     keywords: [],
     factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
     notAllowedForClasses: [],
-    notAllowedForFlagship: false
+    notAllowedForFlagship: false,
+    onlyAllowedSolo: false
 },
 {
     name:"Foul",
@@ -29,7 +32,8 @@ export const allUpgradeCards = [
     keywords: [],
     factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
     notAllowedForClasses: [],
-    notAllowedForFlagship: false
+    notAllowedForFlagship: false,
+    onlyAllowedSolo: false
 },
 {
     name:"Supply Ship",
@@ -37,7 +41,8 @@ export const allUpgradeCards = [
     keywords: ["Double Rations", "Valuable"],
     factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
     notAllowedForClasses: ["Ship of the Line"],
-    notAllowedForFlagship: true
+    notAllowedForFlagship: true,
+    onlyAllowedSolo: false
 },
 {
     name:"Merchants",
@@ -45,7 +50,8 @@ export const allUpgradeCards = [
     keywords: ["Undermanned", "Closed Quarters"],
     factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
     notAllowedForClasses: ["Ship of the Line"],
-    notAllowedForFlagship: false
+    notAllowedForFlagship: false,
+    onlyAllowedSolo: false
 },
 {
     name:"Untested Crew",
@@ -53,7 +59,8 @@ export const allUpgradeCards = [
     keywords: [],
     factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
     notAllowedForClasses: [],
-    notAllowedForFlagship: false
+    notAllowedForFlagship: false,
+    onlyAllowedSolo: false
 },
 {
     name:"Fire Ship",
@@ -61,7 +68,8 @@ export const allUpgradeCards = [
     keywords: [],
     factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
     notAllowedForClasses: ["Ship of the Line"],
-    notAllowedForFlagship: false
+    notAllowedForFlagship: false,
+    onlyAllowedSolo: true
 },
 {
     name:"Boarding Party",
@@ -69,7 +77,8 @@ export const allUpgradeCards = [
     keywords: [],
     factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
     notAllowedForClasses: [],
-    notAllowedForFlagship: false
+    notAllowedForFlagship: false,
+    onlyAllowedSolo: false
 },
 {
     name:"Corsairs",
@@ -77,7 +86,8 @@ export const allUpgradeCards = [
     keywords: ["Fierce", "Boarders"],
     factions: ["French", "Pirate"],
     notAllowedForClasses: ["Ship of the Line"],
-    notAllowedForFlagship: false
+    notAllowedForFlagship: false,
+    onlyAllowedSolo: false
 },
 {
     name:"Efficent Loader",
@@ -85,7 +95,8 @@ export const allUpgradeCards = [
     keywords: [],
     factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
     notAllowedForClasses: [],
-    notAllowedForFlagship: false
+    notAllowedForFlagship: false,
+    onlyAllowedSolo: false
 },
 {
     name:"Expert Sailing Master",
@@ -93,7 +104,8 @@ export const allUpgradeCards = [
     keywords: [],
     factions: ["Dutch", "Pirate"],
     notAllowedForClasses: ["Ship of the Line"],
-    notAllowedForFlagship: false
+    notAllowedForFlagship: false,
+    onlyAllowedSolo: false
 },
 {
     name:"Kapers",
@@ -101,7 +113,8 @@ export const allUpgradeCards = [
     keywords: ["Daring"],
     factions: ["Dutch", "Pirate"],
     notAllowedForClasses: ["Ship of the Line"],
-    notAllowedForFlagship: false
+    notAllowedForFlagship: false,
+    onlyAllowedSolo: false
 },
 {
     name:"Skilled Carpenter",
@@ -109,7 +122,8 @@ export const allUpgradeCards = [
     keywords: [],
     factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
     notAllowedForClasses: [],
-    notAllowedForFlagship: false
+    notAllowedForFlagship: false,
+    onlyAllowedSolo: false
 },
 {
     name:"Skilled Surgeon",
@@ -117,7 +131,8 @@ export const allUpgradeCards = [
     keywords: [],
     factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
     notAllowedForClasses: [],
-    notAllowedForFlagship: false
+    notAllowedForFlagship: false,
+    onlyAllowedSolo: false
 },
 {
     name:"Support Ship",
@@ -125,7 +140,8 @@ export const allUpgradeCards = [
     keywords: [],
     factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
     notAllowedForClasses: ["Ship of the Line"],
-    notAllowedForFlagship: true
+    notAllowedForFlagship: true,
+    onlyAllowedSolo: false
 },
 {
     name:"Swashbucklers",
@@ -133,7 +149,8 @@ export const allUpgradeCards = [
     keywords: [],
     factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
     notAllowedForClasses: [],
-    notAllowedForFlagship: false
+    notAllowedForFlagship: false,
+    onlyAllowedSolo: false
 },
 {
     name:"Expert Topmen",
@@ -141,7 +158,8 @@ export const allUpgradeCards = [
     keywords: [],
     factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
     notAllowedForClasses: [],
-    notAllowedForFlagship: false
+    notAllowedForFlagship: false,
+    onlyAllowedSolo: false
 },
 {
     name:"Dismantling Shot",
@@ -149,7 +167,8 @@ export const allUpgradeCards = [
     keywords: [],
     factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
     notAllowedForClasses: [],
-    notAllowedForFlagship: false
+    notAllowedForFlagship: false,
+    onlyAllowedSolo: false
 },
 {
     name:"Buccaneers",
@@ -157,7 +176,8 @@ export const allUpgradeCards = [
     keywords: ["Marksmen"],
     factions: ["English", "French", "Pirate"],
     notAllowedForClasses: ["Ship of the Line"],
-    notAllowedForFlagship: false
+    notAllowedForFlagship: false,
+    onlyAllowedSolo: false
 },
 {
     name:"Dispatch Ship",
@@ -165,7 +185,8 @@ export const allUpgradeCards = [
     keywords: [],
     factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
     notAllowedForClasses: ["Ship of the Line"],
-    notAllowedForFlagship: false
+    notAllowedForFlagship: true,
+    onlyAllowedSolo: false
 },
 {
     name:"Vice Flag",
@@ -173,7 +194,8 @@ export const allUpgradeCards = [
     keywords: [],
     factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
     notAllowedForClasses: [],
-    notAllowedForFlagship: false
+    notAllowedForFlagship: false,
+    onlyAllowedSolo: false
 },
 {
     name:"Aggressive Crew",
@@ -181,7 +203,8 @@ export const allUpgradeCards = [
     keywords: [],
     factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
     notAllowedForClasses: [],
-    notAllowedForFlagship: false
+    notAllowedForFlagship: false,
+    onlyAllowedSolo: false
 },
 {
     name:"Troop Transport",
@@ -189,7 +212,8 @@ export const allUpgradeCards = [
     keywords: [],
     factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
     notAllowedForClasses: ["Ship of the Line"],
-    notAllowedForFlagship: false
+    notAllowedForFlagship: false,
+    onlyAllowedSolo: false
 },
 {
     name:"Marines",
@@ -197,7 +221,8 @@ export const allUpgradeCards = [
     keywords: [],
     factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
     notAllowedForClasses: ["Ship of the Line"],
-    notAllowedForFlagship: false
+    notAllowedForFlagship: false,
+    onlyAllowedSolo: false
 },
 {
     name:"Boarding Defenses",
@@ -205,7 +230,8 @@ export const allUpgradeCards = [
     keywords: [],
     factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
     notAllowedForClasses: [],
-    notAllowedForFlagship: false
+    notAllowedForFlagship: false,
+    onlyAllowedSolo: false
 },
 {
     name:"Expert Gunners",
@@ -213,7 +239,8 @@ export const allUpgradeCards = [
     keywords: [],
     factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
     notAllowedForClasses: [],
-    notAllowedForFlagship: false
+    notAllowedForFlagship: false,
+    onlyAllowedSolo: false
 },
 {
     name:"Veteran Crew",
@@ -221,6 +248,7 @@ export const allUpgradeCards = [
     keywords: [],
     factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
     notAllowedForClasses: ["Ship of the Line"],
-    notAllowedForFlagship: false
+    notAllowedForFlagship: false,
+    soloUpgrade: false
 }
 ];

@@ -116,7 +116,6 @@ function App() {
   };
 
   const handleInitiativeCardSelectorFlowDone = (initiativecards) => {
-    console.log(initiativecards);
     setInitiativeCardSelectorIsOpen(false);
     setSelectedInitiativeCards(initiativecards);
   };

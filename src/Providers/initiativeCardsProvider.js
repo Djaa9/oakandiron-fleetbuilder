@@ -7,10 +7,8 @@ const initiaTiveCardsProvider = {
         if (!factions)
         throw new Error("missing parameter when calling initiaTiveCardsProvider.allowed. Allowed InitiaTive Cards could not be determined");
 
-        console.log("faction to switch on", faction)
         switch (faction.type) {
             case factionTypes.ENGLISH: {
-                console.log("english");
                 return initiativeCards.generic.concat(initiativeCards.english);
             }
             case factionTypes.DUTCH: {
@@ -30,7 +28,6 @@ const initiaTiveCardsProvider = {
                                               .concat(initiativeCards.pirate);
             }
             default: {
-                console.log("default");
                 return [];
             }
         }
