@@ -18,8 +18,9 @@ function ShipSelector(props) {
   const [availableShips, setAvailableShips] = useState([]);
 
 useEffect(()=> {
-  if(gameMode && faction && admiral)
+  if(gameMode && faction && admiral){
     setAvailableShips(shipProvider.allowed(gameMode, faction, admiral));
+  }
 }, [admiral, faction, gameMode])
 
   const handleListItemClick = (ship) => {
