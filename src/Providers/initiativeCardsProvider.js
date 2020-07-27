@@ -5,7 +5,7 @@ import { factionTypes } from '../Data/factionTypes.js'
 const initiaTiveCardsProvider = {
     allowed: function(faction) {
         if (!factions)
-        throw new Error("missing parameter when calling initiaTiveCardsProvider.allowed. Allowed InitiaTive Cards could not be determined");
+            throw new Error("missing parameter when calling initiaTiveCardsProvider.allowed. Allowed InitiaTive Cards could not be determined");
 
         switch (faction.type) {
             case factionTypes.ENGLISH: {

@@ -5,9 +5,8 @@ const shipProvider = {
   all: ships,
   allowed: function (gameMode, faction, admiral) {
     if (!gameMode || !faction || !admiral)
-      throw new Error("missing parameter when calling shipProvider.allowed. Allowed Ships could not be determined");
+      return;
 
-      console.log(gameMode);
     var allowedShips = ships;
 
     // Handle Game Mode

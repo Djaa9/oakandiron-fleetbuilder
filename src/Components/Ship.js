@@ -111,19 +111,6 @@ function Ship(props) {
 
     }, [isFlagship]);
 
-    // EVENT LISTENERS
-    const handleRemoveClicked = (ship) => {
-        removeShip(ship);
-    };
-
-    const handleCommanderChange = (event) => {
-        setSelectedCommander(event.target.value);
-    };
-
-    const handleFlagshipChange = (event) => {
-        setIsFlagship(event.target.checked);
-    };
-
     const handleSkillLevelChanged = (event) => {
         setSelectedSkillLevel(event.target.value);
     };
@@ -175,22 +162,6 @@ function Ship(props) {
         setSelectedUpgradeCard2(event.target.value);
     };
 
-    const handleClearUpgradeCard1 = () => {
-        setSelectedUpgradeCard1("");
-    }
-
-    const handleClearUpgradeCard2 = () => {
-        setSelectedUpgradeCard2("");
-    }
-
-    const handleClearCommander = () => {
-        setSelectedCommander("");
-    }
-
-    const handleClearSkillLevel = () => {
-        setSelectedSkillLevel("");
-    }
-
     return (
         <Card className={classes.card}>
             <Grid
@@ -207,7 +178,7 @@ function Ship(props) {
                     <h3>
                         {ship.name + " (+" + ship.cost + ")"}
                     </h3>
-                    <IconButton onClick={() => handleRemoveClicked(ship)}>
+                    <IconButton onClick={() => removeShip(ship)}>
                         <DeleteIcon fontSize="small" />
                     </IconButton>
                 </Grid>
@@ -215,7 +186,7 @@ function Ship(props) {
                     <FormGroup>
                         <FormControlLabel
                             control={
-                                <Checkbox name="flagship" onChange={handleFlagshipChange} />}
+                                <Checkbox name="flagship" onChange={(event) => setIsFlagship(event.target.checked)} />}
                             label="Flagship" />
                         <Grid
                             container
@@ -226,12 +197,11 @@ function Ship(props) {
                                 <InputLabel>Commander</InputLabel>
                                 <Select
                                     displayEmpty
-                                    isClearable={true}
                                     disabled={commanderSelectionDisabled}
                                     className={classes.selectEmpty}
                                     label="Select Commander"
                                     value={selectedCommander}
-                                    onChange={handleCommanderChange}>
+                                    onChange={(event) => setSelectedCommander(event.target.value)}>
                                     {availableCommanders.map((commander) => (
                                         <MenuItem key={commander.name} value={commander}>
                                             {commander.name + " (+" + commander.cost + ")"}
@@ -239,7 +209,7 @@ function Ship(props) {
                                     ))}
                                 </Select>
                             </FormControl>
-                            <IconButton className={classes.removeButtons} onClick={handleClearCommander}>
+                            <IconButton className={classes.removeButtons} onClick={() => setSelectedCommander("")}>
                                 <CloseIcon fontSize="small" />
                             </IconButton>
                         </Grid>
@@ -253,7 +223,6 @@ function Ship(props) {
                                 <InputLabel>Skill</InputLabel>
                                 <Select
                                     displayEmpty
-                                    isClearable={true}
                                     className={classes.selectEmpty}
                                     label="Select Skills"
                                     value={selectedSkillLevel}
@@ -265,7 +234,7 @@ function Ship(props) {
                                     ))}
                                 </Select>
                             </FormControl>
-                            <IconButton className={classes.removeButtons} onClick={handleClearSkillLevel}>
+                            <IconButton className={classes.removeButtons} onClick={() => setSelectedSkillLevel("")}>
                                 <CloseIcon fontSize="small" />
                             </IconButton>
                         </Grid>
@@ -291,7 +260,6 @@ function Ship(props) {
                                 <InputLabel>Upgrade card 1</InputLabel>
                                 <Select
                                     displayEmpty
-                                    isClearable={true}
                                     disabled={!upgradeCard1SelectorEnabled}
                                     className={classes.selectEmpty}
                                     value={selectedUpgradeCard1}
@@ -303,7 +271,7 @@ function Ship(props) {
                                     ))}
                                 </Select>
                             </FormControl>
-                            <IconButton onClick={handleClearUpgradeCard1}>
+                            <IconButton onClick={() => setSelectedUpgradeCard1("")}>
                                 <CloseIcon fontSize="small" />
                             </IconButton>
                         </Grid>
@@ -316,7 +284,6 @@ function Ship(props) {
                                 <InputLabel>Upgrade card 2</InputLabel>
                                 <Select
                                     displayEmpty
-                                    isClearable={true}
                                     disabled={!upgradeCard2SelectorEnabled}
                                     className={classes.selectEmpty}
                                     value={selectedUpgradeCard2}
@@ -328,7 +295,7 @@ function Ship(props) {
                                     ))}
                                 </Select>
                             </FormControl>
-                            <IconButton onClick={handleClearUpgradeCard2}>
+                            <IconButton onClick={() => setSelectedUpgradeCard2("")}>
                                 <CloseIcon fontSize="small" />
                             </IconButton>
                         </Grid>

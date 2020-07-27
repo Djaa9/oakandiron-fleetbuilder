@@ -200,7 +200,7 @@ function App() {
             onChange={handleFactionChange}
             value={selectedFaction}>
             {factions.map((faction) => (
-              <MenuItem key={faction.definition} value={faction}>
+              <MenuItem key={faction.type} value={faction}>
                 {faction.name}
               </MenuItem>
             ))}
@@ -238,7 +238,7 @@ function App() {
         <Typography className={classes.sectionHeader} variant="h5">
           List of Ships        
             </Typography>
-            <Typography className={classes.sectionSubHeader} variant="h7">
+            <Typography className={classes.sectionSubHeader} variant="h6">
           {selectedGameMode ? (" ( min: " + selectedGameMode.minShips + " max: " + selectedGameMode.maxShips + ")") : (null)}          
             </Typography>
             <Grid container spacing={2}>
@@ -251,17 +251,21 @@ function App() {
         </Grid>
           <Button
             className={classes.addButton}
-            variant="containedPrimary"
+            variant="contained"
+            color="primary"
             onClick={handleOpenShipSelector}
             disabled={!selectedFaction || !selectedGameMode || !selectedAdmiral}>
             Add Ship
       </Button>
-        <ShipSelector 
+
+        { selectedGameMode && selectedFaction && selectedAdmiral && 
+        <ShipSelector  
           open={shipSelectorIsOpen} 
           faction={selectedFaction} 
           admiral={selectedAdmiral} 
           gameMode={selectedGameMode}
-          onClose={handleShipSelectorFlowDone}></ShipSelector>
+          onClose={handleShipSelectorFlowDone} />
+          }
 
       </Grid>
 
@@ -285,12 +289,21 @@ function App() {
         </List>
         <Button
           className={classes.addButton}
-          variant="containedPrimary"
+          variant="contained"
+          color="primary"
           onClick={handleOpenInitiativeCardSelector}
           disabled={!selectedFaction || !selectedGameMode || !selectedAdmiral}>
           Choose Initiative Cards
       </Button>
-        <InitiativecardSelector open={initiativeCardSelectorIsOpen} faction={selectedFaction} admiral={selectedAdmiral} onClose={handleInitiativeCardSelectorFlowDone}></InitiativecardSelector>
+
+      { selectedGameMode && selectedFaction && selectedAdmiral && 
+        <InitiativecardSelector 
+          open={initiativeCardSelectorIsOpen} 
+          faction={selectedFaction} 
+          admiral={selectedAdmiral} 
+          onClose={handleInitiativeCardSelectorFlowDone} />
+      }
+
       </Grid>
     </div>
   );

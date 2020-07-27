@@ -13,8 +13,9 @@ function InitiativeCardSelector(props) {
   const [checked, setChecked] = React.useState([]);
 
   useEffect(() => {
-        var allowedInitiativeCards = initiaTiveCardsProvider.allowed(faction);
-        setAvailableInitiativeCards(allowedInitiativeCards);
+    if(faction && admiral) {
+        setAvailableInitiativeCards(initiaTiveCardsProvider.allowed(faction));
+    }
   }, [faction, admiral]);
 
   const handleListItemClick = (value) => () => {
@@ -76,7 +77,6 @@ function InitiativeCardSelector(props) {
 
 InitiativeCardSelector.propTypes = {
   open: PropTypes.bool.isRequired,
-  selectionDone: PropTypes.func.isRequired,
   faction: PropTypes.object.isRequired,
   admiral: PropTypes.object.isRequired
 };

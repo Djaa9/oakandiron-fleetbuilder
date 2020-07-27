@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Dialog, DialogTitle, List, ListItem, makeStyles } from '@material-ui/core';
-import { factionTypes } from '../Data/factionTypes';
 import shipProvider from '../Providers/shipProvider';
+import { Dialog, DialogTitle, List, ListItem, makeStyles } from '@material-ui/core';
 
 function ShipSelector(props) {
   
@@ -46,7 +45,6 @@ useEffect(()=> {
 
 ShipSelector.propTypes = {
   open: PropTypes.bool.isRequired,
-  selectionDone: PropTypes.func.isRequired,
   faction: PropTypes.object.isRequired,
   admiral: PropTypes.object.isRequired,
   gameMode: PropTypes.object.isRequired
