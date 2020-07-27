@@ -173,7 +173,7 @@ function Ship(props) {
                 <Grid
                     container
                     direction="row"
-                    justify="space between"
+                    justify="flex-start"
                     alignItems="center">
                     <h3>
                         {ship.name + " (+" + ship.cost + ")"}
