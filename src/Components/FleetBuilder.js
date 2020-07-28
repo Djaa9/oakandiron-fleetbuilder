@@ -77,25 +77,33 @@ function FleetBuilder(props) {
   const [shipIdCounter, setShipIdCounter] = useState(0);
 
   useEffect(() => {
-    //fleetProvider.saveToUrl([{gameMode: selectedGameMode}, {faction: selectedFaction}, {admiral: selectedAdmiral}, {ships: selectedShips}, {initiativeCards: selectedInitiativeCards}], history);
+    fleetProvider.saveToUrl([{gameMode: selectedGameMode}, {faction: selectedFaction}, {admiral: selectedAdmiral}, {ships: selectedShips}, {initiativeCards: selectedInitiativeCards}], history);
   },[selectedGameMode, selectedFaction, selectedAdmiral, JSON.stringify(selectedShips), selectedInitiativeCards]);
 
   useEffect(() => {
-    if(fleetToImport)
+    if(fleetToImport){
+
       var importedFleet = fleetProvider.importFromUrl(fleetToImport);
       
-      importedFleet.forEach((fleetProp) => {
-        console.log(fleetProp);
-        
-          if(fleetProp.gameMode)
-              setSelectedGameMode(fleetProp.gameMode);
+      console.log(importedFleet);
 
-            if(fleetProp.faction)
-              setSelectedFaction(fleetProp.faction);
-            
-            if(fleetProp.admiral)
-              setSelectedAdmiral(fleetProp.admiral);
-            
+      var importedFaction;
+      importedFleet.forEach((fleetProp) => {
+        
+          if(fleetProp.gameMode){
+            var ImportedGameMode = gameModes.find(mode => mode.name === fleetProp.gameMode.name);               
+              setSelectedGameMode(ImportedGameMode);
+              return;
+          }
+            if(fleetProp.faction){
+              var ImportedFaction = factions.find(faction => faction.name === fleetProp.faction.name);  
+              setSelectedFaction(ImportedFaction);
+              importedFaction = ImportedFaction;
+            }
+            if(fleetProp.admiral){            
+              var ImportedAdmiral = Admirals.allowed(importedFaction).find(admiral => admiral.name === fleetProp.admiral.name);
+              setSelectedAdmiral(ImportedAdmiral);
+            }
             if(fleetProp.ships)
               setSelectedShips(fleetProp.ships);
 
@@ -103,9 +111,8 @@ function FleetBuilder(props) {
               setSelectedInitiativeCards(fleetProp.initiativeCards);
         }
       );
-
-    // set all states from returned object
-  },[fleetToImport]);
+    };
+  },[]);
 
   useEffect(() => {
     /*Update available admirals*/
