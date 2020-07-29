@@ -96,9 +96,10 @@ function FleetBuilder(props) {
           var ImportedAdmiral = Admirals.allowed(importedFaction).find(admiral => admiral.name === fleetProp.admiral.name);
           setSelectedAdmiral(ImportedAdmiral);
         }
-        if (fleetProp.ships)
+        if (fleetProp.ships){
+          console.log("if(fleetProp.ships)", fleetProp);
           setSelectedShips(fleetProp.ships);
-
+        }
         if (fleetProp.initiativeCards)
           setSelectedInitiativeCards(fleetProp.initiativeCards);
       }
@@ -108,6 +109,8 @@ function FleetBuilder(props) {
   }, [fleet])
 
   useEffect(() => {
+    console.log("FleetBuilder - somthings changed", onFleetChanged, selectedShips);
+    
     if (onFleetChanged)
       onFleetChanged([{ gameMode: selectedGameMode }, { faction: selectedFaction }, { admiral: selectedAdmiral }, { ships: selectedShips }, { initiativeCards: selectedInitiativeCards }]);
   }, [selectedGameMode, selectedFaction, selectedAdmiral, JSON.stringify(selectedShips), selectedInitiativeCards]);
@@ -152,12 +155,12 @@ function FleetBuilder(props) {
     setSelectedShips(newSelectionOfShips);
   };
 
-  const handleShipCostUpdated = (shipId, newCost) => {
-    var updatedListOfSelectedShips = selectedShips.map(ship => {
-      if (ship.id == shipId)
-        ship.costIncludingUpgrades = newCost;
+  const handleShipChanged = (updatedShip) => {
+    console.log("handleShipChanged", updatedShip);
 
-      return ship;
+    var updatedListOfSelectedShips = selectedShips.map(ship => {
+      if (ship.id === updatedShip.id)
+          return updatedShip;
     });
 
     setSelectedShips(updatedListOfSelectedShips);
@@ -252,10 +255,10 @@ function FleetBuilder(props) {
           {selectedShips.map(ship => (
             <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
               <Ship
-                ship={ship}
+                ship={ship}                
                 faction={selectedFaction}
-                removeShip={(shipToRemove) => setSelectedShips(selectedShips.filter(ship => ship.id !== shipToRemove.id))}
-                costUpdated={handleShipCostUpdated} />
+                onShipChanged={handleShipChanged}
+                removeShip={(shipToRemove) => setSelectedShips(selectedShips.filter(ship => ship.id !== shipToRemove.id))}/>
             </Grid>
           )
           )}

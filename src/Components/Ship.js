@@ -30,7 +30,7 @@ function Ship(props) {
     }));
 
     const classes = useStyles();
-    const { ship, faction, costUpdated, removeShip } = props;
+    const { ship, faction, onShipChanged, removeShip } = props;
 
     const [availableSkillLevels] = useState([
         { name: "Skill 1", cost: 2 },
@@ -40,9 +40,8 @@ function Ship(props) {
     const [availableCommanders, setAvailableCommanders] = useState([]);
     const [availableUpgrade1Cards, setAvailableUpgrade1Cards] = useState([]);
     const [availableUpgrade2Cards, setAvailableUpgrade2Cards] = useState([]);
-    const [costIncludingUpgrades, setCostIncludingUpgrades] = useState(ship.cost)
     const [selectedSkillLevel, setSelectedSkillLevel] = useState("");
-    const [upgrades, setUpgrades] = useState(ship.upgrades);
+    const [upgrades, setUpgrades] = useState(() => ship ? ship.upgrades : []);
     const [selectedCommander, setSelectedCommander] = useState("");
     const [isFlagship, setIsFlagship] = useState(false);
     const [commanderSelectionDisabled, setCommanderSelectionDisabled] = useState(false);
@@ -52,7 +51,7 @@ function Ship(props) {
     const [upgradeCard2SelectorEnabled, setUpgradeCard2SelectorEnabled] = useState(true);
 
     // CONSTRUCTOR
-    useEffect(() => {
+    useEffect(() => {       
         /*Update available Commanders*/
         if (faction) {
             var commandersForFaction = Commanders.allowed(faction);
@@ -70,7 +69,6 @@ function Ship(props) {
         var availableUpgradeCards = UpgradeCards.allowed(faction, ship, isFlagship);
         setAvailableUpgrade1Cards(availableUpgradeCards);
         setAvailableUpgrade2Cards(availableUpgradeCards);
-
     }, []);
 
     // Calculate new cost of ship when selections change
@@ -85,15 +83,16 @@ function Ship(props) {
             newCostOfShip = newCostOfShip + upgrade.cost;
         });;
 
-        setCostIncludingUpgrades(newCostOfShip);
-
+        ship.isFlagship = isFlagship;
+        ship.commander = selectedCommander;
+        ship.skillLevel = selectedSkillLevel;
+        ship.upgrades = upgrades;
+        ship.upgradeCard1 = selectedUpgradeCard1;
+        ship.upgradeCard2 = selectedUpgradeCard2;
+        ship.costIncludingUpgrades = newCostOfShip;
+        
+        onShipChanged(ship);
     }, [selectedCommander, upgrades, selectedSkillLevel, selectedUpgradeCard1, selectedUpgradeCard2])
-
-    // Alert listeners of cost change
-    useEffect(() => {
-        ship.costIncludingUpgrades = costIncludingUpgrades;
-        costUpdated(ship.id, costIncludingUpgrades);
-    }, [costIncludingUpgrades]);
 
     // Handle change in flagship state
     useEffect(() => {
@@ -308,8 +307,8 @@ function Ship(props) {
 
 Ship.propTypes = {
     ship: PropTypes.object.isRequired,
+    onShipChanged: PropTypes.func,
     faction: PropTypes.object.isRequired,
-    costUpdated: PropTypes.func,
     removeShip: PropTypes.func
 };
 

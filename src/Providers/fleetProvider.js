@@ -6,54 +6,60 @@ import UpgradeCards from "../Providers/upgradeCardsProvider";
 import { ships } from '../Data/ships';
 
 const fleetProvider = {
-    saveToUrl: function (fleet, history){
+  saveToUrl: function (fleet, history) {
 
-        var dataForUrl = [];
+    var dataForUrl = [];
 
-        fleet.forEach((fleetProp) => {
-        
-            if(fleetProp.gameMode){
-                dataForUrl.push({gameMode: fleetProp.gameMode.name});
-            }
-              if(fleetProp.faction){
-                dataForUrl.push({faction: fleetProp.faction.name});
-              }
-              if(fleetProp.admiral){            
-                dataForUrl.push({admiral: fleetProp.admiral.name});
-              }
-              if(fleetProp.ships){
-                console.log("ships", fleetProp.ships);
-                //ships.forEach(ship => {
-                  //  dataForUrl.ships.push({name: ship.name,
-                   //                        isFlagShip: ship.isFlagShip,
-                     //                      commander: ship.commander,
-                       //                    skill: ship.skill,
-                         //                  UpgradeCards})
-                    
-                //});
-              }
+    fleet.forEach((fleetProp) => {
 
-                
-  
-              if(fleetProp.initiativeCards)
-                dataForUrl.push({initiativeCards: fleetProp.initiativeCards});
+      if (fleetProp.gameMode) {
+        dataForUrl.push({ gameMode: fleetProp.gameMode.name });
+      }
+      if (fleetProp.faction) {
+        dataForUrl.push({ faction: fleetProp.faction.name });
+      }
+      if (fleetProp.admiral) {
+        dataForUrl.push({ admiral: fleetProp.admiral.name });
+      }
+      if (fleetProp.ships) {
+        dataForUrl.push({ ships: dataForUrl.ships = fleetProp.ships.map(ship => {
+          return {
+            name: ship.name,
+            isFlagShip: ship.isFlagShip,
+            commander: ship.commander.name,
+            skillLevel: ship.skillLevel.name,
+            upgradeCards: [ship.upgradeCard1.name, ship.upgradeCard2.name].filter(card => card),
+            upgrades: ship.upgrades.map(upgrade => {if(upgrade.selected) return upgrade.name }).filter(upgrade => upgrade)
           }
-        );
+        }
+        )
+       });
 
-          console.log(dataForUrl);
+        console.log("ships", fleetProp.ships);
+        
 
-        var newRoute = "/fleetBuilder/" + JSON.stringify(dataForUrl);
+      };
 
-        if(newRoute !== history.location.pathname)
-            history.replace(newRoute);
-    },
-    importFromUrl: function (compressedFleet){
-      console.log("importFromUrl", compressedFleet)
 
-        // TODO UNWRAP FLEET OBJECTS
-
-        return JSON.parse(compressedFleet.match.params.fleet);
+      if (fleetProp.initiativeCards)
+        dataForUrl.push({ initiativeCards: fleetProp.initiativeCards });
     }
+    );
+
+    console.log("dataForUrl", dataForUrl);
+
+    var newRoute = "/fleetBuilder/" + JSON.stringify(dataForUrl);
+
+    if (newRoute !== history.location.pathname)
+      history.replace(newRoute);
+  },
+  importFromUrl: function (compressedFleet) {
+    console.log("importFromUrl", compressedFleet)
+
+    // TODO UNWRAP FLEET OBJECTS
+
+    return JSON.parse(compressedFleet.match.params.fleet);
+  }
 };
 
 export default fleetProvider;

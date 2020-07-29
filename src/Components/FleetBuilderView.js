@@ -6,39 +6,38 @@ import { useHistory } from "react-router-dom";
 
 function FleetBuilderView(props) {
 
-let history = useHistory();
-const [fleet, setFleet ] = useState(""); 
-const { urlParams } = props;
+    let history = useHistory();
+    const [fleet, setFleet] = useState("");
+    const { urlParams } = props;
 
-console.log("FleetBuilderView", urlParams)
+    console.log("FleetBuilderView", urlParams)
 
-useEffect(() => {
+    useEffect(() => {
 
-    if(urlParams){       
+        if (urlParams) {            
+            var importedFleet = fleetProvider.importFromUrl(urlParams);
 
-        var importedFleet = fleetProvider.importFromUrl(urlParams);
-        
-        setFleet(importedFleet);
-        console.log(importedFleet);
-      };
-},[]);
+            setFleet(importedFleet);
+            console.log(importedFleet);
+        };
+    }, []);
 
-const handleFleetChanged = (newFleet) => {
-    console.log("handleFleetChanged", newFleet)
-  fleetProvider.saveToUrl(newFleet, history);
-}; 
+    const handleFleetChanged = (newFleet) => {
+        console.log("handleFleetChanged", newFleet)
+        fleetProvider.saveToUrl(newFleet, history);
+    };
 
-if(fleet){
-    return (<FleetBuilder fleet={fleet} onFleetChanged={handleFleetChanged} />)
-}
-else {
-    return (<FleetBuilder onFleetChanged={handleFleetChanged}/>);
-}
+    if (fleet) {
+        return (<FleetBuilder fleet={fleet} onFleetChanged={handleFleetChanged} />)
+    }
+    else {
+        return (<FleetBuilder onFleetChanged={handleFleetChanged} />);
+    }
 
 };
 
 FleetBuilderView.propTypes = {
-    urlParams: Proptypes.object    
-  };
+    urlParams: Proptypes.object
+};
 
 export default FleetBuilderView;
