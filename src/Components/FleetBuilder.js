@@ -74,10 +74,7 @@ function FleetBuilder(props) {
 
   /*Handles default fleet*/
   useEffect(() => {
-    console.log("props changed in FleetBuilder:", fleet)
-
     if (fleet) {
-
       var importedFaction;
 
       fleet.forEach((fleetProp) => {
@@ -88,16 +85,13 @@ function FleetBuilder(props) {
           return;
         }
         if (fleetProp.faction) {
-          var ImportedFaction = factions.find(faction => faction.name === fleetProp.faction.name);
+          const ImportedFaction = factions.find(faction => faction.name === fleetProp.faction.name);
           setSelectedFaction(ImportedFaction);
-          importedFaction = ImportedFaction;
         }
         if (fleetProp.admiral) {
-          var ImportedAdmiral = Admirals.allowed(importedFaction).find(admiral => admiral.name === fleetProp.admiral.name);
-          setSelectedAdmiral(ImportedAdmiral);
+          setSelectedAdmiral(Admirals.allowed(importedFaction).find(admiral => admiral.name === fleetProp.admiral.name));
         }
         if (fleetProp.ships){
-          console.log("if(fleetProp.ships)", fleetProp);
           setSelectedShips(fleetProp.ships);
         }
         if (fleetProp.initiativeCards)
@@ -109,8 +103,7 @@ function FleetBuilder(props) {
   }, [fleet])
 
   useEffect(() => {
-    console.log("FleetBuilder - somthings changed", onFleetChanged, selectedShips);
-    
+
     if (onFleetChanged)
       onFleetChanged([{ gameMode: selectedGameMode }, { faction: selectedFaction }, { admiral: selectedAdmiral }, { ships: selectedShips }, { initiativeCards: selectedInitiativeCards }]);
   }, [selectedGameMode, selectedFaction, selectedAdmiral, JSON.stringify(selectedShips), selectedInitiativeCards]);

@@ -1,28 +1,28 @@
 import { gameModes } from '../Data/gameModes';
-import { factionTypes } from '../Data/factionTypes';
-import Admirals from "../Providers/admiralsProvider";
-import Commanders from '../Data/commanders.js';
+import { factions } from '../Data/factions';
+import { allAdmirals } from "../Data/admirals";
+import Commanders from '../Data/commanders';
 import UpgradeCards from "../Providers/upgradeCardsProvider";
 import { ships } from '../Data/ships';
 
 const fleetProvider = {
-  toShortestForm: function (fleet) {
+  toUrlParams: function (fleetProps) {
 
-    var dataForUrl = [];
+    var shortForm = [];
 
-    fleet.forEach((fleetProp) => {
+    fleetProps.forEach((fleetProp) => {
 
       if (fleetProp.gameMode) {
-        dataForUrl.push({ gameMode: fleetProp.gameMode.name });
+        shortForm.push({ gameMode: fleetProp.gameMode.name });
       }
       if (fleetProp.faction) {
-        dataForUrl.push({ faction: fleetProp.faction.name });
+        shortForm.push({ faction: fleetProp.faction.name });
       }
       if (fleetProp.admiral) {
-        dataForUrl.push({ admiral: fleetProp.admiral.name });
+        shortForm.push({ admiral: fleetProp.admiral.name });
       }
       if (fleetProp.ships) {
-        dataForUrl.push({ ships: dataForUrl.ships = fleetProp.ships.map(ship => {
+        shortForm.push({ ships: fleetProp.ships.map(ship => {
           return {
             name: ship.name,
             isFlagShip: ship.isFlagShip,
@@ -36,21 +36,54 @@ const fleetProvider = {
        });
       };
       if (fleetProp.initiativeCards)
-        dataForUrl.push({ initiativeCards: fleetProp.initiativeCards.map(card => card.name) });
+      shortForm.push({ initiativeCards: fleetProp.initiativeCards.map(card => card.name) });
     }
     );
 
-    console.log("dataForUrl", dataForUrl);
-
-    return dataForUrl;
+    console.log("dataForUrl", shortForm); // TODO remove
+    
+    return encodeURI(JSON.stringify(shortForm));
 
   },
-  importFromUrl: function (compressedFleet) {
-    console.log("importFromUrl", compressedFleet)
+  fromUrlParams: function (urlParams) {
+    console.log("fromShortestForm urlParams", urlParams)
 
     // TODO UNWRAP FLEET OBJECTS
+    var fleetProps = JSON.parse(decodeURI(urlParams.match.params.fleet));
+    console.log("fromShortestForm decoded props", fleetProps);
 
-    return JSON.parse(compressedFleet.match.params.fleet);
+    var fleet = [];
+
+    fleetProps.forEach((fleetProp) => {
+    if (fleetProp.gameMode) {      
+      fleet.push({ gameMode: gameModes.find(mode => mode.name === fleetProp.gameMode) });
+    }
+    if (fleetProp.faction) {
+      fleet.push({ faction: factions.find(faction => faction.name === fleetProp.faction) });
+    }
+    if (fleetProp.admiral) {
+      fleet.push({ admiral: allAdmirals.find(admiral => admiral.name === fleetProp.admiral) });
+    }
+    if (fleetProp.ships) {
+      fleet.push({ ships: fleetProp.ships.map(ship => {
+        return {
+          name: ships.find(shipFromData => shipFromData === ship.name),
+          isFlagShip: ship.isFlagShip,
+          commander: ship.commander.name,
+          skillLevel: ship.skillLevel.name,
+          upgradeCards: [ship.upgradeCard1.name, ship.upgradeCard2.name].filter(card => card),
+          upgrades: ship.upgrades.map(upgrade => {if(upgrade.selected) return upgrade.name }).filter(upgrade => upgrade)
+        }
+      }
+      )
+     });
+    }
+  }
+  );
+
+  
+    console.log("fleet from provider", fleet);
+    return fleet;
   }
 };
 

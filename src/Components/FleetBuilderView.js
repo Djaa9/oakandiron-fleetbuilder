@@ -13,14 +13,14 @@ function FleetBuilderView(props) {
     useEffect(() => {
 
         if (urlParams) {
-            var importedFleet = fleetProvider.importFromUrl(urlParams);
-            console.log(importedFleet); // TODO remove
-            setFleet(importedFleet);            
+            const fleetToImport = fleetProvider.fromUrlParams(urlParams);
+            console.log(fleetToImport); // TODO remove
+            setFleet(fleetToImport);            
         };
     }, []);
 
     const handleFleetChanged = (newFleet) => {
-        history.replace(JSON.stringify(fleetProvider.toShortestForm(newFleet)));
+        history.replace(fleetProvider.toUrlParams(newFleet));
     };
 
     if (fleet) {
