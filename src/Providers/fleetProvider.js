@@ -48,6 +48,10 @@ const fleetProvider = {
             history.replace(newRoute);
     },
     importFromUrl: function (compressedFleet){
+      console.log("importFromUrl", compressedFleet)
+
+        // TODO UNWRAP FLEET OBJECTS
+
         return JSON.parse(compressedFleet.match.params.fleet);
     }
 };

@@ -10,14 +10,10 @@ import Admirals from "../Providers/admiralsProvider";
 import { grey } from '@material-ui/core/colors';
 import ShipSelector from './ShipSelector';
 import InitiativecardSelector from './InitiativeCardSelector';
-import fleetProvider from '../Providers/fleetProvider.js';
 import Ship from './Ship.js';
 import { AppBar } from '@material-ui/core';
-import { useHistory } from "react-router-dom";
 
 function FleetBuilder(props) {
-
-  let history = useHistory();
 
   const useStyles = makeStyles((theme) => ({
     root: {
@@ -63,7 +59,7 @@ function FleetBuilder(props) {
   }));
 
   const classes = useStyles();
-  const { fleetToImport } = props;
+  const { fleet, onFleetChanged } = props;
 
   const [selectedFaction, setSelectedFaction] = useState("");
   const [selectedGameMode, setSelectedGameMode] = useState("");
@@ -76,47 +72,49 @@ function FleetBuilder(props) {
   const [cost, setCost] = useState(0);
   const [shipIdCounter, setShipIdCounter] = useState(0);
 
+  /*Handles default fleet*/
   useEffect(() => {
-    fleetProvider.saveToUrl([{gameMode: selectedGameMode}, {faction: selectedFaction}, {admiral: selectedAdmiral}, {ships: selectedShips}, {initiativeCards: selectedInitiativeCards}], history);
-  },[selectedGameMode, selectedFaction, selectedAdmiral, JSON.stringify(selectedShips), selectedInitiativeCards]);
+    console.log("props changed in FleetBuilder:", fleet)
 
-  useEffect(() => {
-    if(fleetToImport){
-
-      var importedFleet = fleetProvider.importFromUrl(fleetToImport);
-      
-      console.log(importedFleet);
+    if (fleet) {
 
       var importedFaction;
-      importedFleet.forEach((fleetProp) => {
-        
-          if(fleetProp.gameMode){
-            var ImportedGameMode = gameModes.find(mode => mode.name === fleetProp.gameMode.name);               
-              setSelectedGameMode(ImportedGameMode);
-              return;
-          }
-            if(fleetProp.faction){
-              var ImportedFaction = factions.find(faction => faction.name === fleetProp.faction.name);  
-              setSelectedFaction(ImportedFaction);
-              importedFaction = ImportedFaction;
-            }
-            if(fleetProp.admiral){            
-              var ImportedAdmiral = Admirals.allowed(importedFaction).find(admiral => admiral.name === fleetProp.admiral.name);
-              setSelectedAdmiral(ImportedAdmiral);
-            }
-            if(fleetProp.ships)
-              setSelectedShips(fleetProp.ships);
 
-            if(fleetProp.initiativeCards)
-              setSelectedInitiativeCards(fleetProp.initiativeCards);
+      fleet.forEach((fleetProp) => {
+
+        if (fleetProp.gameMode) {
+          var ImportedGameMode = gameModes.find(mode => mode.name === fleetProp.gameMode.name);
+          setSelectedGameMode(ImportedGameMode);
+          return;
         }
+        if (fleetProp.faction) {
+          var ImportedFaction = factions.find(faction => faction.name === fleetProp.faction.name);
+          setSelectedFaction(ImportedFaction);
+          importedFaction = ImportedFaction;
+        }
+        if (fleetProp.admiral) {
+          var ImportedAdmiral = Admirals.allowed(importedFaction).find(admiral => admiral.name === fleetProp.admiral.name);
+          setSelectedAdmiral(ImportedAdmiral);
+        }
+        if (fleetProp.ships)
+          setSelectedShips(fleetProp.ships);
+
+        if (fleetProp.initiativeCards)
+          setSelectedInitiativeCards(fleetProp.initiativeCards);
+      }
+
       );
-    };
-  },[]);
+    }
+  }, [fleet])
+
+  useEffect(() => {
+    if (onFleetChanged)
+      onFleetChanged([{ gameMode: selectedGameMode }, { faction: selectedFaction }, { admiral: selectedAdmiral }, { ships: selectedShips }, { initiativeCards: selectedInitiativeCards }]);
+  }, [selectedGameMode, selectedFaction, selectedAdmiral, JSON.stringify(selectedShips), selectedInitiativeCards]);
 
   useEffect(() => {
     /*Update available admirals*/
-    if (selectedFaction) 
+    if (selectedFaction)
       setAvailableAdmiral(Admirals.allowed(selectedFaction));
   }, [selectedFaction]);
 
@@ -253,10 +251,10 @@ function FleetBuilder(props) {
         <Grid container spacing={2}>
           {selectedShips.map(ship => (
             <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
-              <Ship 
-                ship={ship} 
-                faction={selectedFaction} 
-                removeShip={(shipToRemove) => setSelectedShips(selectedShips.filter(ship => ship.id !== shipToRemove.id))} 
+              <Ship
+                ship={ship}
+                faction={selectedFaction}
+                removeShip={(shipToRemove) => setSelectedShips(selectedShips.filter(ship => ship.id !== shipToRemove.id))}
                 costUpdated={handleShipCostUpdated} />
             </Grid>
           )
@@ -321,7 +319,8 @@ function FleetBuilder(props) {
 };
 
 FleetBuilder.propTypes = {
-  fleetToImport: Proptypes.object
+  fleet: Proptypes.array,
+  onFleetChanged: Proptypes.func
 };
 
 export default FleetBuilder;
