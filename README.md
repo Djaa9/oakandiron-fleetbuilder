@@ -85,5 +85,8 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 2.0
 - Share list (unique url)
+    - Complete mapper from url to fleet
+    - Find out what is wrong with mapper "/fleetbuilder"
+    - Parse fleet to Fleetbuilder and update state
 - Print friendly version
 - login and save in db on backend
