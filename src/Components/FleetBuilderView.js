@@ -10,21 +10,17 @@ function FleetBuilderView(props) {
     const [fleet, setFleet] = useState("");
     const { urlParams } = props;
 
-    console.log("FleetBuilderView", urlParams)
-
     useEffect(() => {
 
-        if (urlParams) {            
+        if (urlParams) {
             var importedFleet = fleetProvider.importFromUrl(urlParams);
-
-            setFleet(importedFleet);
-            console.log(importedFleet);
+            console.log(importedFleet); // TODO remove
+            setFleet(importedFleet);            
         };
     }, []);
 
     const handleFleetChanged = (newFleet) => {
-        console.log("handleFleetChanged", newFleet)
-        fleetProvider.saveToUrl(newFleet, history);
+        history.replace(JSON.stringify(fleetProvider.toShortestForm(newFleet)));
     };
 
     if (fleet) {
@@ -33,7 +29,6 @@ function FleetBuilderView(props) {
     else {
         return (<FleetBuilder onFleetChanged={handleFleetChanged} />);
     }
-
 };
 
 FleetBuilderView.propTypes = {

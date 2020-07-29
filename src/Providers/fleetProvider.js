@@ -6,7 +6,7 @@ import UpgradeCards from "../Providers/upgradeCardsProvider";
 import { ships } from '../Data/ships';
 
 const fleetProvider = {
-  saveToUrl: function (fleet, history) {
+  toShortestForm: function (fleet) {
 
     var dataForUrl = [];
 
@@ -34,24 +34,16 @@ const fleetProvider = {
         }
         )
        });
-
-        console.log("ships", fleetProp.ships);
-        
-
       };
-
-
       if (fleetProp.initiativeCards)
-        dataForUrl.push({ initiativeCards: fleetProp.initiativeCards });
+        dataForUrl.push({ initiativeCards: fleetProp.initiativeCards.map(card => card.name) });
     }
     );
 
     console.log("dataForUrl", dataForUrl);
 
-    var newRoute = "/fleetBuilder/" + JSON.stringify(dataForUrl);
+    return dataForUrl;
 
-    if (newRoute !== history.location.pathname)
-      history.replace(newRoute);
   },
   importFromUrl: function (compressedFleet) {
     console.log("importFromUrl", compressedFleet)
