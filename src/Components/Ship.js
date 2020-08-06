@@ -18,7 +18,8 @@ function Ship(props) {
             minWidth: 200,
         },
         card: {
-            padding: theme.spacing(2),
+            padding: theme.spacing(3),
+            paddingTop: 0,
             minWidth: 200,
         },
         selectEmpty: {
@@ -26,6 +27,9 @@ function Ship(props) {
         },
         removeButtons: {
             paddingLeft: "0px"
+        },
+        divider: {
+            marginTop: theme.spacing(2)
         }
     }));
 
@@ -238,8 +242,8 @@ function Ship(props) {
                             </IconButton>
                         </Grid>
 
-                        <Divider />
-
+                        {ship.upgrades && ship.upgrades.length > 0 && <Divider className={classes.divider} />}
+                        
                         {ship.upgrades.map(upgrade =>
                             <FormControlLabel
                                 control={
@@ -250,7 +254,7 @@ function Ship(props) {
                             />
                         )}
 
-                        <Divider />
+                        <Divider className={classes.divider} />
 
                         <Grid
                             container

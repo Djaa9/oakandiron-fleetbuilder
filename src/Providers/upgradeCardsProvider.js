@@ -21,7 +21,8 @@ const upgradeCardsProvider = {
         if (isFlagship)
             allowedUpgradeCards = allowedUpgradeCards.filter(card => !card.notAllowedForFlagship);
 
-        return allowedUpgradeCards.sort((a, b) => a.name.localeCompare(b.name));
+         return allowedUpgradeCards.sort((a, b) => a.cost < b.cost ? -1 : 1)
+                                   .sort((a, b) => a.cost - b.cost || a.name.localeCompare(b.name)); // Sort same cost alphabetically
     }
 };
 export default upgradeCardsProvider;

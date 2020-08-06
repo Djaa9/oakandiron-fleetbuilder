@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { grey } from '@material-ui/core/colors';
+
+document.body.style.backgroundColor = grey[200];
 
 ReactDOM.render(
   <React.StrictMode>

@@ -100,6 +100,7 @@ function FleetBuilder(props) {
   }, [selectedFaction]);
 
   useEffect(() => {
+    console.log("fleet cost changed", selectedShips)
     // Calculate cost
     if (selectedGameMode && selectedFaction && selectedGameMode) {
       var newCost = 0;
@@ -234,7 +235,7 @@ function FleetBuilder(props) {
                 key={selectedShip.id}
                 ship={selectedShip}                
                 faction={selectedFaction}
-                onShipChanged={(e) => {}}
+                onShipChanged={handleShipChanged}
                 removeShip={(shipToRemove) => {
                   let newlist = selectedShips.filter(ship => ship.id !== shipToRemove.id);
                   setSelectedShips(newlist);
