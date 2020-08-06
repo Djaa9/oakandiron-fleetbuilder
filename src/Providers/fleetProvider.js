@@ -8,6 +8,8 @@ import { ships } from '../Data/ships';
 const fleetProvider = {
   toUrlParams: function (fleetProps) {
 
+    console.log("fleetProp for url", fleetProps);
+
     var shortForm = [];
 
     fleetProps.forEach((fleetProp) => {
@@ -25,7 +27,7 @@ const fleetProvider = {
         shortForm.push({ ships: fleetProp.ships.map(ship => {
           return {
             name: ship.name,
-            isFlagShip: ship.isFlagShip,
+            isFlagship: ship.isFlagship,
             commander: ship.commander.name,
             skillLevel: ship.skillLevel.name,
             upgradeCards: [ship.upgradeCard1.name, ship.upgradeCard2.name].filter(card => card),
@@ -68,7 +70,7 @@ const fleetProvider = {
       fleet.push({ ships: fleetProp.ships.map(ship => {
         return {
           name: ships.find(shipFromData => shipFromData === ship.name),
-          isFlagShip: ship.isFlagShip,
+          isFlagship: ship.isFlagship,
           commander: ship.commander.name,
           skillLevel: ship.skillLevel.name,
           upgradeCards: [ship.upgradeCard1.name, ship.upgradeCard2.name].filter(card => card),
