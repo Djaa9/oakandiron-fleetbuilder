@@ -69,10 +69,10 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 ### TODO
 
-- Validate number of ships
-- Validate legal initiative card selection
-- Make sure only one flag ship can be chosen (Move selection)
 - Handle initiative card modifiers for admirals (see todo in data/admirals)
+- Validate legal initiative card selection
+
+- Make sure only one flag ship can be chosen (Move selection)
 - Clear initiative Cards when changing faction
 - Add multiple ships at a time
 - Copy ship
