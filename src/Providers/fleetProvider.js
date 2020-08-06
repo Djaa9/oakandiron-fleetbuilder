@@ -2,13 +2,11 @@ import { gameModes } from '../Data/gameModes';
 import { factions } from '../Data/factions';
 import { allAdmirals } from "../Data/admirals";
 import Commanders from '../Data/commanders';
-import UpgradeCards from "../Providers/upgradeCardsProvider";
+//import UpgradeCards from "../Providers/upgradeCardsProvider";
 import shipProvider from '../Providers/shipProvider';
 
 const fleetProvider = {
   toUrlParams: function (fleet) {
-
-    console.log("fleetProp for url", fleet);
 
     var shortForm = {};
 
@@ -22,23 +20,17 @@ const fleetProvider = {
             commander: ship.commander.name,
             skillLevel: ship.skillLevel.name,
             upgradeCards: [ship.upgradeCard1.name, ship.upgradeCard2.name].filter(card => card),
-            upgrades: ship.upgrades.map(upgrade => {if(upgrade.selected) return upgrade.name }).filter(upgrade => upgrade)
+            upgrades: ship.upgrades.map(upgrade => {return upgrade.selected ? upgrade.name : null}).filter(upgrade => upgrade)
           }
         }
         ) : [];
       shortForm.initiativeCards = fleet.initiativeCards ? fleet.initiativeCards.map(card => card.name) : null;
-
-    console.log("dataForUrl", shortForm); // TODO remove
     
     return encodeURI(JSON.stringify(shortForm));
 
   },
   fromUrlParams: function (urlParams) {
-    console.log("fromShortestForm urlParams", urlParams)
-
     var fleetProps = JSON.parse(decodeURI(urlParams.match.params.fleet));
-    console.log("fromShortestForm decoded props", fleetProps); //TODO remove
-
     var fleet = [];
 
     fleetProps.forEach((fleetProp) => {
@@ -67,7 +59,6 @@ const fleetProvider = {
   }
   );
   
-    console.log("fleet from provider", fleet); // TODO remove
     return fleet;
   }
 };

@@ -7,7 +7,8 @@ const shipProvider = {
     if (!gameMode || !faction || !admiral)
       return;
 
-    var allowedShips = ships.sort((a, b) => a.cost < b.cost ? -1 : 1);
+    var allowedShips = ships.sort((a, b) => a.cost < b.cost ? -1 : 1)
+                            .sort((a, b) => a.cost - b.cost || a.name.localeCompare(b.name)); // Sort same cost alphabetically
 
     // Handle Game Mode
     if (gameMode.name === "Patrol")

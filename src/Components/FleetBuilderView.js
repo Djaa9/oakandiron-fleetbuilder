@@ -11,13 +11,11 @@ function FleetBuilderView(props) {
     const { urlParams } = props;
 
     useEffect(() => {
-
         if (urlParams) {
             const fleetToImport = fleetProvider.fromUrlParams(urlParams);
-            console.log(fleetToImport); // TODO remove
             setFleet(fleetToImport);            
         };
-    }, []);
+    }, [urlParams]);
 
     const handleFleetChanged = (newFleet) => {
         history.replace(fleetProvider.toUrlParams(newFleet));

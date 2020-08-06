@@ -17,7 +17,7 @@ function FleetBuilder(props) {
 
   const useStyles = makeStyles((theme) => ({
     root: {
-      flexGrow: 1,
+      flexGrow: 1
     },
     formControl: {
       margin: theme.spacing(1),
@@ -75,8 +75,6 @@ function FleetBuilder(props) {
   /*Handles default fleet*/
   useEffect(() => {
     if (fleet) {
-      console.log("fleet changed in fleetbuilder", fleet);
-
       setSelectedGameMode(fleet.gameMode ? fleet.gameMode : "");
       setSelectedFaction(fleet.faction ? fleet.faction : "");
       setSelectedAdmiral(fleet.admiral ? fleet.admiral : "");
@@ -121,7 +119,6 @@ function FleetBuilder(props) {
   };
 
   const handleShipSelectorFlowDone = (shipToAdd) => {
-    console.log("ship to add", shipToAdd);
     setShipSelectorIsOpen(false);
 
     if (!shipToAdd)   // Ship not selected
@@ -135,21 +132,14 @@ function FleetBuilder(props) {
     const newList = selectedShips;
     newList.push(copyOfShipToAdd);
     setSelectedShips(newList);
-
-    console.log("new list of selected ships", selectedShips);
   };
 
   const handleShipChanged = (updatedShip) => {
-    console.log("handleShipChanged", updatedShip);
-
-    // TODO This function should be removed
-
-//    var updatedListOfSelectedShips = selectedShips.map(ship => {
-//      if (ship.id === updatedShip.id)
-//          return updatedShip;
-//    });
-//
-    //setSelectedShips(updatedListOfSelectedShips);
+    var updatedListOfSelectedShips = selectedShips.map(ship => {
+      return ship.id === updatedShip.id ? updatedShip : ship;
+    });
+  
+    setSelectedShips(updatedListOfSelectedShips);
   };
 
   return (
@@ -239,12 +229,16 @@ function FleetBuilder(props) {
         </Typography>
         <Grid container spacing={2}>
           {selectedShips.map(selectedShip => (
-            <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
+            <Grid key={selectedShip.id} item xs={12} sm={6} md={4} lg={3} xl={2}>
               <Ship
+                key={selectedShip.id}
                 ship={selectedShip}                
                 faction={selectedFaction}
-                onShipChanged={handleShipChanged}
-                removeShip={(shipToRemove) => setSelectedShips(selectedShips.filter(ship => ship.id !== shipToRemove.id))}/>
+                onShipChanged={(e) => {}}
+                removeShip={(shipToRemove) => {
+                  let newlist = selectedShips.filter(ship => ship.id !== shipToRemove.id);
+                  setSelectedShips(newlist);
+                }}/>
             </Grid>
           )
           )}

@@ -243,7 +243,9 @@ function Ship(props) {
                         {ship.upgrades.map(upgrade =>
                             <FormControlLabel
                                 control={
-                                    <Checkbox name={upgrade.name} onChange={(event) => handleUpgradeSelectionChanged(event, upgrade)} />}
+                                    <Checkbox key={upgrade.name} 
+                                              name={upgrade.name} 
+                                              onChange={(event) => handleUpgradeSelectionChanged(event, upgrade)} />}
                                 label={upgrade.name + " (+" + upgrade.cost + ")"}
                             />
                         )}
