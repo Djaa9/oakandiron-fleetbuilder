@@ -92,7 +92,7 @@ function Ship(props) {
         ship.costIncludingUpgrades = newCostOfShip;
         
         onShipChanged(ship);
-    }, [selectedCommander, upgrades, selectedSkillLevel, selectedUpgradeCard1, selectedUpgradeCard2])
+    }, [isFlagship, selectedCommander, upgrades, selectedSkillLevel, selectedUpgradeCard1, selectedUpgradeCard2])
 
     // Handle change in flagship state
     useEffect(() => {

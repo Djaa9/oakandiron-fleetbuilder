@@ -75,37 +75,24 @@ function FleetBuilder(props) {
   /*Handles default fleet*/
   useEffect(() => {
     if (fleet) {
-      var importedFaction;
+      console.log("fleet changed in fleetbuilder", fleet);
 
-      fleet.forEach((fleetProp) => {
-
-        if (fleetProp.gameMode) {
-          var ImportedGameMode = gameModes.find(mode => mode.name === fleetProp.gameMode.name);
-          setSelectedGameMode(ImportedGameMode);
-          return;
-        }
-        if (fleetProp.faction) {
-          const ImportedFaction = factions.find(faction => faction.name === fleetProp.faction.name);
-          setSelectedFaction(ImportedFaction);
-        }
-        if (fleetProp.admiral) {
-          setSelectedAdmiral(Admirals.allowed(importedFaction).find(admiral => admiral.name === fleetProp.admiral.name));
-        }
-        if (fleetProp.ships){
-          setSelectedShips(fleetProp.ships);
-        }
-        if (fleetProp.initiativeCards)
-          setSelectedInitiativeCards(fleetProp.initiativeCards);
-      }
-
-      );
+      setSelectedGameMode(fleet.gameMode ? fleet.gameMode : "");
+      setSelectedFaction(fleet.faction ? fleet.faction : "");
+      setSelectedAdmiral(fleet.admiral ? fleet.admiral : "");
+      setSelectedShips(fleet.ships ? fleet.ships : []);
+      setSelectedInitiativeCards(fleet.initiativeCards ? fleet.initiativeCards : []);
     }
   }, [fleet])
 
   useEffect(() => {
 
     if (onFleetChanged)
-      onFleetChanged([{ gameMode: selectedGameMode }, { faction: selectedFaction }, { admiral: selectedAdmiral }, { ships: selectedShips }, { initiativeCards: selectedInitiativeCards }]);
+      onFleetChanged({ gameMode: selectedGameMode, 
+                       faction: selectedFaction, 
+                       admiral: selectedAdmiral, 
+                       ships: selectedShips, 
+                       initiativeCards: selectedInitiativeCards});
   }, [selectedGameMode, selectedFaction, selectedAdmiral, JSON.stringify(selectedShips), selectedInitiativeCards]);
 
   useEffect(() => {

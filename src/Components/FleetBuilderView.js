@@ -23,6 +23,9 @@ function FleetBuilderView(props) {
         history.replace(fleetProvider.toUrlParams(newFleet));
     };
 
+    if(!urlParams)
+        return (<FleetBuilder />);
+
     if (fleet) {
         return (<FleetBuilder fleet={fleet} onFleetChanged={handleFleetChanged} />)
     }

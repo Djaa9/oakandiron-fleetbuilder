@@ -49,6 +49,9 @@ const Commanders = {
             throw new Error("Faction not selected (faction = " + faction + "). Allowed Ships could not be determined");
 
             return allCommanders.filter(commander => commander.factions.includes(faction.name));
+    },
+        all: function(){
+            return allCommanders;
     }
 };
 

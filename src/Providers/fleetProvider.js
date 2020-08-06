@@ -3,28 +3,19 @@ import { factions } from '../Data/factions';
 import { allAdmirals } from "../Data/admirals";
 import Commanders from '../Data/commanders';
 import UpgradeCards from "../Providers/upgradeCardsProvider";
-import { ships } from '../Data/ships';
+import shipProvider from '../Providers/shipProvider';
 
 const fleetProvider = {
-  toUrlParams: function (fleetProps) {
+  toUrlParams: function (fleet) {
 
-    console.log("fleetProp for url", fleetProps);
+    console.log("fleetProp for url", fleet);
 
-    var shortForm = [];
+    var shortForm = {};
 
-    fleetProps.forEach((fleetProp) => {
-
-      if (fleetProp.gameMode) {
-        shortForm.push({ gameMode: fleetProp.gameMode.name });
-      }
-      if (fleetProp.faction) {
-        shortForm.push({ faction: fleetProp.faction.name });
-      }
-      if (fleetProp.admiral) {
-        shortForm.push({ admiral: fleetProp.admiral.name });
-      }
-      if (fleetProp.ships) {
-        shortForm.push({ ships: fleetProp.ships.map(ship => {
+        shortForm.gameMode = fleet.gameMode ? fleet.gameMode.name : null;
+        shortForm.faction = fleet.faction ? fleet.faction.name : null;
+        shortForm.admiral = fleet.admiral ? fleet.admiral.name : null;
+        shortForm.ships = fleet.ships ? fleet.ships.map(ship => {
           return {
             name: ship.name,
             isFlagship: ship.isFlagship,
@@ -34,13 +25,8 @@ const fleetProvider = {
             upgrades: ship.upgrades.map(upgrade => {if(upgrade.selected) return upgrade.name }).filter(upgrade => upgrade)
           }
         }
-        )
-       });
-      };
-      if (fleetProp.initiativeCards)
-      shortForm.push({ initiativeCards: fleetProp.initiativeCards.map(card => card.name) });
-    }
-    );
+        ) : [];
+      shortForm.initiativeCards = fleet.initiativeCards ? fleet.initiativeCards.map(card => card.name) : null;
 
     console.log("dataForUrl", shortForm); // TODO remove
     
@@ -50,41 +36,38 @@ const fleetProvider = {
   fromUrlParams: function (urlParams) {
     console.log("fromShortestForm urlParams", urlParams)
 
-    // TODO UNWRAP FLEET OBJECTS
     var fleetProps = JSON.parse(decodeURI(urlParams.match.params.fleet));
-    console.log("fromShortestForm decoded props", fleetProps);
+    console.log("fromShortestForm decoded props", fleetProps); //TODO remove
 
     var fleet = [];
 
     fleetProps.forEach((fleetProp) => {
     if (fleetProp.gameMode) {      
-      fleet.push({ gameMode: gameModes.find(mode => mode.name === fleetProp.gameMode) });
+      fleet.gameMode = gameModes.find(mode => mode.name === fleetProp.gameMode);
     }
     if (fleetProp.faction) {
-      fleet.push({ faction: factions.find(faction => faction.name === fleetProp.faction) });
+      fleet.faction = factions.find(faction => faction.name === fleetProp.faction);
     }
     if (fleetProp.admiral) {
-      fleet.push({ admiral: allAdmirals.find(admiral => admiral.name === fleetProp.admiral) });
+      fleet.admiral = allAdmirals.find(admiral => admiral.name === fleetProp.admiral);
     }
     if (fleetProp.ships) {
-      fleet.push({ ships: fleetProp.ships.map(ship => {
+      fleet.ships = fleetProp.ships.map(shipFromUrl => {
         return {
-          name: ships.find(shipFromData => shipFromData === ship.name),
-          isFlagship: ship.isFlagship,
-          commander: ship.commander.name,
-          skillLevel: ship.skillLevel.name,
-          upgradeCards: [ship.upgradeCard1.name, ship.upgradeCard2.name].filter(card => card),
-          upgrades: ship.upgrades.map(upgrade => {if(upgrade.selected) return upgrade.name }).filter(upgrade => upgrade)
+          name: shipProvider.all().find(ship => ship.name === shipFromUrl),
+          isFlagship: shipFromUrl.isFlagship,
+          commander: shipFromUrl.commander ? Commanders.all().find(commander => commander.name === shipFromUrl.commander.name) : null,
+          skillLevel: shipFromUrl.skillLevel,
+          upgradeCards: [],
+          upgrades: []
         }
       }
-      )
-     });
+      );
     }
   }
   );
-
   
-    console.log("fleet from provider", fleet);
+    console.log("fleet from provider", fleet); // TODO remove
     return fleet;
   }
 };

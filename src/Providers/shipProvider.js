@@ -2,7 +2,7 @@ import { factionTypes } from "../Data/factionTypes";
 import { ships } from "../Data/ships";
 
 const shipProvider = {
-  all: ships,
+  all: () => { return ships },
   allowed: function (gameMode, faction, admiral) {
     if (!gameMode || !faction || !admiral)
       return;
