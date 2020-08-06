@@ -73,6 +73,7 @@ function FleetBuilder(props) {
   const [shipIdCounter, setShipIdCounter] = useState(0);
   const [showTooFewShipsMessage, setShowTooFewShipsMessage] = useState(false);
   const [showTooManyShipsMessage, setShowTooManyShipsMessage] = useState(false);
+  const [showTooManyPointsMessage, setShowTooManyPointsMessage] = useState(false);
 
   /*Handles default fleet*/
   useEffect(() => {
@@ -120,8 +121,11 @@ function FleetBuilder(props) {
     if (selectedGameMode) {
       setShowTooFewShipsMessage(selectedShips.length < selectedGameMode.minShips);
 
-      if (setSelectedShips.length > selectedGameMode.maxShips)
-        setShowTooManyShipsMessage(true);
+    if (setSelectedShips.length > selectedGameMode.maxShips)
+      setShowTooManyShipsMessage(true);
+
+    if (cost > selectedGameMode.maxPoints)
+      setShowTooManyPointsMessage(true);
     }
   }, [JSON.stringify(selectedShips), selectedAdmiral]);
 
@@ -292,21 +296,33 @@ function FleetBuilder(props) {
       </Grid>
       <Snackbar open={showTooFewShipsMessage}
         autoHideDuration={4000}
-        message={"A list in " + selectedGameMode.name + " must have at least " + selectedGameMode.minShips + " ships"}
+        onClose={() => setShowTooManyShipsMessage(false)}
+        message={"A fleet in " + selectedGameMode.name + " must have at least " + selectedGameMode.minShips + " ships"}
         action={(
           <Button color="secondary"
             size="small" onClick={() => setShowTooFewShipsMessage(false)}>
             hide
           </Button>
         )}>
-
       </Snackbar>
       <Snackbar open={showTooManyShipsMessage}
         autoHideDuration={4000}
-        message={"A list in " + selectedGameMode.name + " cannot include more than " + selectedGameMode.minShips + " ships"}
+        onClose={() => setShowTooManyShipsMessage(false)}
+        message={"A fleet in " + selectedGameMode.name + " cannot include more than " + selectedGameMode.minShips + " ships"}
         action={(
           <Button color="secondary"
             size="small" onClick={() => setShowTooManyShipsMessage(false)}>
+            hide
+          </Button>
+        )}>
+      </Snackbar>
+      <Snackbar open={showTooManyPointsMessage}
+        autoHideDuration={4000}
+        onClose={() => setShowTooManyPointsMessage(false)}
+        message={"Your fleet is at " + cost + " points.  A fleet in " + selectedGameMode.name + " cannot cost more than " + selectedGameMode.maxPoints + " points"}
+        action={(
+          <Button color="secondary"
+            size="small" onClick={() => setShowTooManyPointsMessage(false)}>
             hide
           </Button>
         )}>
