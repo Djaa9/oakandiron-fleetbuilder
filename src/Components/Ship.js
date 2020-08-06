@@ -35,7 +35,7 @@ function Ship(props) {
     const [availableSkillLevels] = useState([
         { name: "Skill 1", cost: 2 },
         { name: "Skill 2", cost: 4 }
-    ]);
+    ]); // TODO Move skills to ship definitions
 
     const [availableCommanders, setAvailableCommanders] = useState([]);
     const [availableUpgrade1Cards, setAvailableUpgrade1Cards] = useState([]);

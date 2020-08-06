@@ -121,29 +121,35 @@ function FleetBuilder(props) {
   };
 
   const handleShipSelectorFlowDone = (shipToAdd) => {
+    console.log("ship to add", shipToAdd);
     setShipSelectorIsOpen(false);
 
-    if (!shipToAdd)
+    if (!shipToAdd)   // Ship not selected
       return;
 
-    shipToAdd.id = shipIdCounter;
-    shipToAdd.id++;
-    setShipIdCounter(shipToAdd.id);
+    const copyOfShipToAdd = Object.assign({}, shipToAdd);
+    copyOfShipToAdd.id = shipIdCounter;    
 
-    var newSelectionOfShips = selectedShips;
-    newSelectionOfShips.push(shipToAdd);
-    setSelectedShips(newSelectionOfShips);
+    setShipIdCounter(shipIdCounter + 1);
+
+    const newList = selectedShips;
+    newList.push(copyOfShipToAdd);
+    setSelectedShips(newList);
+
+    console.log("new list of selected ships", selectedShips);
   };
 
   const handleShipChanged = (updatedShip) => {
     console.log("handleShipChanged", updatedShip);
 
-    var updatedListOfSelectedShips = selectedShips.map(ship => {
-      if (ship.id === updatedShip.id)
-          return updatedShip;
-    });
+    // TODO This function should be removed
 
-    setSelectedShips(updatedListOfSelectedShips);
+//    var updatedListOfSelectedShips = selectedShips.map(ship => {
+//      if (ship.id === updatedShip.id)
+//          return updatedShip;
+//    });
+//
+    //setSelectedShips(updatedListOfSelectedShips);
   };
 
   return (
@@ -232,10 +238,10 @@ function FleetBuilder(props) {
           {selectedGameMode ? (" ( min: " + selectedGameMode.minShips + " max: " + selectedGameMode.maxShips + ")") : (null)}
         </Typography>
         <Grid container spacing={2}>
-          {selectedShips.map(ship => (
+          {selectedShips.map(selectedShip => (
             <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
               <Ship
-                ship={ship}                
+                ship={selectedShip}                
                 faction={selectedFaction}
                 onShipChanged={handleShipChanged}
                 removeShip={(shipToRemove) => setSelectedShips(selectedShips.filter(ship => ship.id !== shipToRemove.id))}/>

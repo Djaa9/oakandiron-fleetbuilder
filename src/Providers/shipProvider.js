@@ -40,7 +40,7 @@ const shipProvider = {
 
       return frenchShips;
     }
-    else if (faction.type === factionTypes.SPANSIH) {
+    else if (faction.type === factionTypes.SPANISH) {
       var spanishShips = allowedShips.filter(ship => ship.class !== "Pirate");
 
       spanishShips.forEach(ship => {
