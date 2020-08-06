@@ -69,15 +69,17 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 ### TODO
 
-- Clear initiative Cards when changing faction
-- Handle initiative card modifiers for admirals (see todo in data/admirals)
 - Validate number of ships
 - Validate legal initiative card selection
 - Make sure only one flag ship can be chosen (Move selection)
+- Handle initiative card modifiers for admirals (see todo in data/admirals)
+- Clear initiative Cards when changing faction
 
+- Give list a name
+- Cost in floating sub header
 - Save to file
 - Export as text
-- Save to storage
+? Save to storage
 - Show pictures of cards
 
 2.0
