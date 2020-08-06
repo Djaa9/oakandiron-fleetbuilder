@@ -15,10 +15,10 @@ function Ship(props) {
     const useStyles = makeStyles((theme) => ({
         formControl: {
             margin: theme.spacing(1),
-            minWidth: 200,
+            minWidth: "200px"
         },
         card: {
-            padding: theme.spacing(3),
+            padding: theme.spacing(2),
             paddingTop: 0,
             minWidth: 200,
         },
@@ -26,7 +26,9 @@ function Ship(props) {
             marginTop: theme.spacing(2)
         },
         removeButtons: {
-            paddingLeft: "0px"
+            paddingLeft: 0,
+            paddingBottom: 0,
+            paddingRight: 0
         },
         divider: {
             marginTop: theme.spacing(2)
@@ -171,7 +173,7 @@ function Ship(props) {
                 container
                 direction="column"
                 justify="center"
-                alignItems="flex-start">
+                alignItems="stretch">
 
                 <Grid
                     container
@@ -181,7 +183,7 @@ function Ship(props) {
                     <h3>
                         {ship.name + " (+" + ship.cost + ")"}
                     </h3>
-                    <IconButton onClick={() => removeShip(ship)}>
+                    <IconButton className={classes.removeShipIcon} onClick={() => removeShip(ship)}>
                         <DeleteIcon fontSize="small" />
                     </IconButton>
                 </Grid>
@@ -199,9 +201,7 @@ function Ship(props) {
                             <FormControl className={classes.formControl}>
                                 <InputLabel>Commander</InputLabel>
                                 <Select
-                                    displayEmpty
                                     disabled={commanderSelectionDisabled}
-                                    className={classes.selectEmpty}
                                     label="Select Commander"
                                     value={selectedCommander}
                                     onChange={(event) => setSelectedCommander(event.target.value)}>
@@ -276,7 +276,7 @@ function Ship(props) {
                                     ))}
                                 </Select>
                             </FormControl>
-                            <IconButton onClick={() => setSelectedUpgradeCard1("")}>
+                            <IconButton className={classes.removeButtons} onClick={() => setSelectedUpgradeCard1("")}>
                                 <CloseIcon fontSize="small" />
                             </IconButton>
                         </Grid>
@@ -300,7 +300,7 @@ function Ship(props) {
                                     ))}
                                 </Select>
                             </FormControl>
-                            <IconButton onClick={() => setSelectedUpgradeCard2("")}>
+                            <IconButton className={classes.removeButtons} onClick={() => setSelectedUpgradeCard2("")}>
                                 <CloseIcon fontSize="small" />
                             </IconButton>
                         </Grid>
