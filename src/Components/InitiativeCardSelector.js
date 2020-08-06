@@ -24,7 +24,6 @@ function InitiativeCardSelector(props) {
   },[availableInitiativeCards])
 
   const handleListItemClick = (value) => {
-    console.log("handleListItemClick", value);
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
 

@@ -105,7 +105,6 @@ function FleetBuilder(props) {
   }, [selectedFaction]);
 
   useEffect(() => {
-    console.log("fleet cost changed", selectedShips)
     // Calculate cost
     if (selectedGameMode && selectedFaction && selectedGameMode) {
       var newCost = 0;
@@ -127,6 +126,10 @@ function FleetBuilder(props) {
     if (cost > selectedGameMode.maxPoints)
       setShowTooManyPointsMessage(true);
     }
+
+    if (cost <= selectedGameMode.maxPoints){
+      setShowTooManyPointsMessage(false);
+    }
   }, [JSON.stringify(selectedShips), selectedAdmiral]);
 
   const handleInitiativeCardSelectorFlowDone = (initiativecards) => {
@@ -137,7 +140,7 @@ function FleetBuilder(props) {
   const handleShipSelectorFlowDone = (shipToAdd) => {
     setShipSelectorIsOpen(false);
 
-    if (!shipToAdd)   // Ship not selected
+    if (!shipToAdd)
       return;
 
     const copyOfShipToAdd = Object.assign({}, shipToAdd);

@@ -7,7 +7,6 @@ const initiativeCardsProvider = {
         if (!factions || !admiral)
             throw new Error("missing parameter when calling initiaTiveCardsProvider.allowed. Allowed InitiaTive Cards could not be determined");
 
-        console.log("allowed ic req", faction, admiral);
         var initiativeCardsToReturn = initiativeCards.generic;
 
         if (faction.type === factionTypes.ENGLISH) {
@@ -38,7 +37,6 @@ const initiativeCardsProvider = {
             initiativeCardsToReturn = initiativeCardsToReturn.concat(initiativeCards.pirate);
         
         if(admiral.keywords.find(keyword => keyword === "Doughty")){
-            console.log("is Doughty ");
             var autoIncludedCard = initiativeCards.special.find(card => card.name === "Doughty");
             autoIncludedCard.selected = true;
             initiativeCardsToReturn.push(autoIncludedCard);
@@ -49,8 +47,6 @@ const initiativeCardsProvider = {
             autoIncludedCard.selected = true;
             initiativeCardsToReturn.push(autoIncludedCard);
         }
-
-        console.log("returned ic", initiativeCardsToReturn);
 
         return initiativeCardsToReturn.sort((a, b) => a.faction.localeCompare(b.faction)) // Sort by faction
                                       .sort((a, b) => a.faction.type - b.faction.type || a.cost < b.cost ? -1 : 1); // if same faction sort by cost
