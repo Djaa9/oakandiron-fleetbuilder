@@ -37,13 +37,13 @@
     },
     {
       name: "Henry Morgan",
-      keywords: ["Rogues", "Clever", "Buccaneer Tactics"], // Implement BT can include a Pirate initiative card
+      keywords: ["Rogues", "Clever", "Buccaneer Tactics"],
       factions: ["English"],
       cost: 5
     },
     {
       name: "John Benbow",
-      keywords: ["Dogged", "Inspiring", "Doughty"], //Todo implement auto include of doughty initiative card
+      keywords: ["Dogged", "Inspiring", "Doughty"], 
       factions: ["English"],
       cost: 10
     },
@@ -109,7 +109,7 @@
     },
     {
       name: "Bartholomew \"Black Bart\" Roberts",
-      keywords: ["Rogues", "Interprid", "Inspiring"], // Implement auto add of Interprid initiative card
+      keywords: ["Rogues", "Interprid", "Inspiring"],
       factions: ["Pirate"],
       cost: 6
     }   

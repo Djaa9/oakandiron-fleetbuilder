@@ -88,11 +88,13 @@ function FleetBuilder(props) {
   useEffect(() => {
 
     if (onFleetChanged)
-      onFleetChanged({ gameMode: selectedGameMode, 
-                       faction: selectedFaction, 
-                       admiral: selectedAdmiral, 
-                       ships: selectedShips, 
-                       initiativeCards: selectedInitiativeCards});
+      onFleetChanged({
+        gameMode: selectedGameMode,
+        faction: selectedFaction,
+        admiral: selectedAdmiral,
+        ships: selectedShips,
+        initiativeCards: selectedInitiativeCards
+      });
   }, [selectedGameMode, selectedFaction, selectedAdmiral, JSON.stringify(selectedShips), selectedInitiativeCards]);
 
   useEffect(() => {
@@ -115,13 +117,12 @@ function FleetBuilder(props) {
       setCost(newCost);
     };
 
-    if(selectedGameMode)
-      {
-          setShowTooFewShipsMessage(selectedShips.length < selectedGameMode.minShips);
+    if (selectedGameMode) {
+      setShowTooFewShipsMessage(selectedShips.length < selectedGameMode.minShips);
 
-        if(setSelectedShips.length > selectedGameMode.maxShips)
-          setShowTooManyShipsMessage(true);
-      }
+      if (setSelectedShips.length > selectedGameMode.maxShips)
+        setShowTooManyShipsMessage(true);
+    }
   }, [JSON.stringify(selectedShips), selectedAdmiral]);
 
   const handleInitiativeCardSelectorFlowDone = (initiativecards) => {
@@ -136,7 +137,7 @@ function FleetBuilder(props) {
       return;
 
     const copyOfShipToAdd = Object.assign({}, shipToAdd);
-    copyOfShipToAdd.id = shipIdCounter;    
+    copyOfShipToAdd.id = shipIdCounter;
 
     setShipIdCounter(shipIdCounter + 1);
 
@@ -149,7 +150,7 @@ function FleetBuilder(props) {
     var updatedListOfSelectedShips = selectedShips.map(ship => {
       return ship.id === updatedShip.id ? updatedShip : ship;
     });
-  
+
     setSelectedShips(updatedListOfSelectedShips);
   };
 
@@ -229,28 +230,28 @@ function FleetBuilder(props) {
         container
         direction="column"
         alignItems="flex-start">
-          <Grid container direction="row" alignItems="center">
-            <Typography className={classes.sectionHeader} variant="h6">
-              Ships
-            </Typography>        
-            <Typography className={classes.sectionSubHeader} variant="body2">
-              {selectedGameMode ? (" ( min: " + selectedGameMode.minShips + " max: " + selectedGameMode.maxShips + ")") : (null)}
+        <Grid container direction="row" alignItems="center">
+          <Typography className={classes.sectionHeader} variant="h6">
+            Ships
             </Typography>
+          <Typography className={classes.sectionSubHeader} variant="body2">
+            {selectedGameMode ? (" ( min: " + selectedGameMode.minShips + " max: " + selectedGameMode.maxShips + ")") : (null)}
+          </Typography>
         </Grid>
-        <Grid container 
-              className={classes.shipContainer} 
-              spacing={2}>
+        <Grid container
+          className={classes.shipContainer}
+          spacing={2}>
           {selectedShips.map(selectedShip => (
             <Grid key={selectedShip.id} item xs={12} sm={6} md={4} lg={3} xl={2}>
               <Ship
                 key={selectedShip.id}
-                ship={selectedShip}                
+                ship={selectedShip}
                 faction={selectedFaction}
                 onShipChanged={handleShipChanged}
                 removeShip={(shipToRemove) => {
                   let newlist = selectedShips.filter(ship => ship.id !== shipToRemove.id);
                   setSelectedShips(newlist);
-                }}/>
+                }} />
             </Grid>
           )
           )}
@@ -263,15 +264,6 @@ function FleetBuilder(props) {
           disabled={!selectedFaction || !selectedGameMode || !selectedAdmiral}>
           Add Ship
         </Button>
-
-        {selectedGameMode && selectedFaction && selectedAdmiral &&
-          <ShipSelector
-            open={shipSelectorIsOpen}
-            faction={selectedFaction}
-            admiral={selectedAdmiral}
-            gameMode={selectedGameMode}
-            onClose={handleShipSelectorFlowDone} />}
-
       </Grid>
 
       <Grid
@@ -297,36 +289,43 @@ function FleetBuilder(props) {
           disabled={!selectedFaction || !selectedGameMode || !selectedAdmiral}>
           Choose Initiative Cards
         </Button>
-
-        {selectedGameMode && selectedFaction && selectedAdmiral &&
-          <InitiativecardSelector
-            open={initiativeCardSelectorIsOpen}
-            faction={selectedFaction}
-            admiral={selectedAdmiral}
-            onClose={handleInitiativeCardSelectorFlowDone} />}
-
       </Grid>
       <Snackbar open={showTooFewShipsMessage}
-                autoHideDuration={4000}
-                message={"A list in " + selectedGameMode.name + " must have at least " + selectedGameMode.minShips + " ships"}
-                action={(
-                  <Button color="secondary" 
-                  size="small" onClick={() => setShowTooFewShipsMessage(false)}>
-                    hide
-                  </Button>
-                )}>
-         
+        autoHideDuration={4000}
+        message={"A list in " + selectedGameMode.name + " must have at least " + selectedGameMode.minShips + " ships"}
+        action={(
+          <Button color="secondary"
+            size="small" onClick={() => setShowTooFewShipsMessage(false)}>
+            hide
+          </Button>
+        )}>
+
       </Snackbar>
       <Snackbar open={showTooManyShipsMessage}
-                autoHideDuration={4000}
-                message={"A list in " + selectedGameMode.name + " cannot include more than " + selectedGameMode.minShips +" ships"}
-                action={(
-                  <Button color="secondary" 
-                  size="small" onClick={() => setShowTooManyShipsMessage(false)}>
-                    hide
-                  </Button>
-                )}>         
+        autoHideDuration={4000}
+        message={"A list in " + selectedGameMode.name + " cannot include more than " + selectedGameMode.minShips + " ships"}
+        action={(
+          <Button color="secondary"
+            size="small" onClick={() => setShowTooManyShipsMessage(false)}>
+            hide
+          </Button>
+        )}>
       </Snackbar>
+
+      {selectedGameMode && selectedFaction && selectedAdmiral &&
+        <InitiativecardSelector
+          open={initiativeCardSelectorIsOpen}
+          faction={selectedFaction}
+          admiral={selectedAdmiral}
+          onClose={handleInitiativeCardSelectorFlowDone} />}
+
+      {selectedGameMode && selectedFaction && selectedAdmiral &&
+        <ShipSelector
+          open={shipSelectorIsOpen}
+          faction={selectedFaction}
+          admiral={selectedAdmiral}
+          gameMode={selectedGameMode}
+          onClose={handleShipSelectorFlowDone} />}
     </div>
   );
 };

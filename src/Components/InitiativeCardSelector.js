@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import initiaTiveCardsProvider from '../Providers/initiativeCardsProvider.js';
+import initiativeCardsProvider from '../Providers/initiativeCardsProvider.js';
 import { Dialog, DialogTitle, List, ListItem, DialogContent, DialogActions, Button } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -13,12 +13,18 @@ function InitiativeCardSelector(props) {
   const [checked, setChecked] = React.useState([]);
 
   useEffect(() => {
-    if(faction && admiral) {
-        setAvailableInitiativeCards(initiaTiveCardsProvider.allowed(faction));
+    if (faction && admiral) {
+      setAvailableInitiativeCards(initiativeCardsProvider.allowed(faction, admiral));
     }
   }, [faction, admiral]);
 
-  const handleListItemClick = (value) => () => {
+  useEffect(() => {
+    availableInitiativeCards.filter(card => card.selected).forEach((card) => handleListItemClick(card));
+
+  },[availableInitiativeCards])
+
+  const handleListItemClick = (value) => {
+    console.log("handleListItemClick", value);
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
 
@@ -44,26 +50,23 @@ function InitiativeCardSelector(props) {
   };
   return (
     <Dialog onClose={handleOnClose} open={open}>
-      <DialogTitle> Choose initiative Cards </DialogTitle>  
+      <DialogTitle> Choose initiative Cards </DialogTitle>
       <DialogContent>
-      <List>
-      {availableInitiativeCards.map((card)=> (
-
-                  <ListItem key={card.name} dense button onClick={handleListItemClick(card)}>
-  
-                <Checkbox
-                  edge="start"
-                  checked={checked.indexOf(card) !== -1}
-                  tabIndex={-1}
-                  disableRipple
-                />
-  
+        <List>
+          {availableInitiativeCards.map((card) => (
+            <ListItem key={card.name} dense button onClick={() => handleListItemClick(card)}>
+              <Checkbox
+                edge="start"
+                checked={checked.indexOf(card) !== -1}
+                tabIndex={-1}
+                disableRipple
+              />
               <ListItemText primary={card.name + " (+" + card.initiativeValue + ") [" + card.faction + "]"} />
             </ListItem>
-      ))}
-    </List>
-    </DialogContent>
-    <DialogActions>
+          ))}
+        </List>
+      </DialogContent>
+      <DialogActions>
         <Button autoFocus onClick={handleCancel} color="primary">
           Cancel
         </Button>

@@ -2,38 +2,60 @@ import { initiativeCards } from '../Data/initiativeCards.js';
 import { factions } from '../Data/factions.js';
 import { factionTypes } from '../Data/factionTypes.js'
 
-const initiaTiveCardsProvider = {
-    allowed: function(faction) {
-        if (!factions)
+const initiativeCardsProvider = {
+    allowed: function (faction, admiral) {
+        if (!factions || !admiral)
             throw new Error("missing parameter when calling initiaTiveCardsProvider.allowed. Allowed InitiaTive Cards could not be determined");
 
-            
-            var initiativeCardsToReturn = initiativeCards.generic.sort((a, b) => a.name.localeCompare(b.name));
-        switch (faction.type) {
-            case factionTypes.ENGLISH: {
-                return initiativeCardsToReturn.concat(initiativeCards.english.sort((a, b) => a.name.localeCompare(b.name)));
-            }
-            case factionTypes.DUTCH: {
-                return initiativeCardsToReturn.concat(initiativeCards.dutch.sort((a, b) => a.name.localeCompare(b.name)));
-            }
-            case factionTypes.SPANISH: {
-                return initiativeCardsToReturn.concat(initiativeCards.spanish.sort((a, b) => a.name.localeCompare(b.name)));
-            }
-            case factionTypes.FRENCH: {
-                return initiativeCardsToReturn.concat(initiativeCards.french.sort((a, b) => a.name.localeCompare(b.name)));
-            }
-            case factionTypes.PIRATE: {
-                return initiativeCardsToReturn.concat(initiativeCards.english.sort((a, b) => a.name.localeCompare(b.name)))
-                                                                 .concat(initiativeCards.dutch.sort((a, b) => a.name.localeCompare(b.name)))
-                                                                 .concat(initiativeCards.spanish.sort((a, b) => a.name.localeCompare(b.name)))
-                                                                 .concat(initiativeCards.french.sort((a, b) => a.name.localeCompare(b.name)))
-                                                                 .concat(initiativeCards.pirate.sort((a, b) => a.name.localeCompare(b.name)));
-            }
-            default: {
-                return [];
-            }
+        console.log("allowed ic req", faction, admiral);
+        var initiativeCardsToReturn = initiativeCards.generic;
+
+        if (faction.type === factionTypes.ENGLISH) {
+            initiativeCardsToReturn = initiativeCardsToReturn.concat(initiativeCards.english);
         }
+
+        if (faction.type === factionTypes.DUTCH) {
+            initiativeCardsToReturn = initiativeCardsToReturn.concat(initiativeCards.dutch);
+        }
+
+        if (faction.type === factionTypes.SPANISH) {
+            initiativeCardsToReturn = initiativeCardsToReturn.concat(initiativeCards.spanish);
+        }
+
+        if (faction.type === factionTypes.FRENCH) {
+            initiativeCardsToReturn = initiativeCardsToReturn.concat(initiativeCards.french);
+        }
+
+        if (faction.type === factionTypes.PIRATE) {
+            initiativeCardsToReturn = initiativeCardsToReturn.concat(initiativeCards.english)
+                .concat(initiativeCards.dutch)
+                .concat(initiativeCards.spanish)
+                .concat(initiativeCards.french)
+                .concat(initiativeCards.pirate);
+        }
+
+        if(admiral.keywords.find(keyword => keyword === "Buccaneer Tactics") && faction.type !== factionTypes.PIRATE)
+            initiativeCardsToReturn = initiativeCardsToReturn.concat(initiativeCards.pirate);
+        
+        if(admiral.keywords.find(keyword => keyword === "Doughty")){
+            console.log("is Doughty ");
+            var autoIncludedCard = initiativeCards.special.find(card => card.name === "Doughty");
+            autoIncludedCard.selected = true;
+            initiativeCardsToReturn.push(autoIncludedCard);
+        }
+        
+        if(admiral.keywords.find(keyword => keyword === "Intrepid")){
+            var autoIncludedCard = initiativeCards.special.find(card => card.name === "Intrepid");
+            autoIncludedCard.selected = true;
+            initiativeCardsToReturn.push(autoIncludedCard);
+        }
+
+        console.log("returned ic", initiativeCardsToReturn);
+
+        return initiativeCardsToReturn.sort((a, b) => a.faction.localeCompare(b.faction)) // Sort by faction
+                                      .sort((a, b) => a.faction.type - b.faction.type || a.cost < b.cost ? -1 : 1); // if same faction sort by cost
+                                      //.sort((a, b) => (a.cost - b.cost) - (a.faction.type - b.faction.type) || a.name.localeCompare(b.name)); // if same cost, sort by name
     }
 };
 
-export default initiaTiveCardsProvider;
+export default initiativeCardsProvider;

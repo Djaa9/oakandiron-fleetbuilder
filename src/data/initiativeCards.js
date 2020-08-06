@@ -19,12 +19,6 @@ export const initiativeCards = {
       cardText: "Ships in this Squadron in Formation may make a Free Broadside Attack against any ship that moves into a legal firing position during the Movement Phase. Discard this Initiative Card instead of returning it to your hand during the end phase."
     },
     {
-      name: "Intrepid",
-      initiativeValue: 1,
-      faction: "All",
-      cardText: "Each ship in this Squadron within Musket shot of their Flagship may immediately remove 1 poin of Fatigue. This card may only be included with a Squadron whose Admiral has the \"Intrepid\" special rule."
-    },
-    {
       name: "Careful Aim",
       initiativeValue: 2,
       faction: "All",
@@ -89,12 +83,6 @@ export const initiativeCards = {
       initiativeValue: 4,
       faction: "All",
       cardText: "Ships in this Squadron that make a Boarding Crew Action may make a Free Partial Fire Attack against the target ship imediately before the action."
-    },
-    {
-      name: "Doughty",
-      initiativeValue: 4,
-      faction: "All",
-      cardText: "If you earned any Strike Points in the previous turn, immediately remove 1 Fatigue from each ship in this Squadron. This Card may only be included with a Squadron whose Admiral has the \"doughty\" special rule.1"
     },
     {
       name: "Favorable Wind",
@@ -244,5 +232,19 @@ export const initiativeCards = {
       faction: "Pirate",
       cardText: "All opposing ships within Musket Shot of a ship in this Squadron must immediately roll a Skill Test with 3 fewer dice. Each ship that fails this test takes 1 point of Fatigue. Discard this Initiative Card instead of returning it to your hand during the end phase."
     }
+  ],
+  special: [
+    {
+      name: "Doughty",
+      initiativeValue: 4,
+      faction: "Admiral Keyword",
+      cardText: "If you earned any Strike Points in the previous turn, immediately remove 1 Fatigue from each ship in this Squadron. This Card may only be included with a Squadron whose Admiral has the \"doughty\" special rule.1"
+    },      
+    {
+      name: "Intrepid",
+      initiativeValue: 1,
+      faction: "Admiral Keyword",
+      cardText: "Each ship in this Squadron within Musket shot of their Flagship may immediately remove 1 poin of Fatigue. This card may only be included with a Squadron whose Admiral has the \"Intrepid\" special rule."
+    },
   ]
 };
