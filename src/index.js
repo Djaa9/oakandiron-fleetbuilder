@@ -5,10 +5,12 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { grey } from '@material-ui/core/colors';
 
+
 document.body.style.backgroundColor = grey[200];
 
 ReactDOM.render(
   <React.StrictMode>
+    <meta name='viewport' content='width=device-width' />
     <App />
   </React.StrictMode>,
   document.getElementById('root')

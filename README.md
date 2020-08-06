@@ -74,13 +74,15 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 - Make sure only one flag ship can be chosen (Move selection)
 - Handle initiative card modifiers for admirals (see todo in data/admirals)
 - Clear initiative Cards when changing faction
+- Add multiple ships at a time
+- Copy ship
 
-- Give list a name
-- Cost in floating sub header
 - Save to file
 - Export as text
 ? Save to storage
 - Show pictures of cards
+- Give list a name
+- Cost in floating sub header
 
 2.0
 - Share list (unique url)

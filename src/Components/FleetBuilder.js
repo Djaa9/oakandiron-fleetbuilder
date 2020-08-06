@@ -3,7 +3,7 @@ import Proptypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import { factions } from '../Data/factions';
 import { gameModes } from '../Data/gameModes';
-import { Typography, List, ListItem, ListItemText, MenuItem, Divider, Button, InputLabel, Grid, Toolbar } from '@material-ui/core';
+import { Typography, List, ListItem, ListItemText, MenuItem, Divider, Button, InputLabel, Grid, Toolbar, Snackbar } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Admirals from "../Providers/admiralsProvider";
@@ -12,6 +12,7 @@ import ShipSelector from './ShipSelector';
 import InitiativecardSelector from './InitiativeCardSelector';
 import Ship from './Ship.js';
 import { AppBar } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
 
 function FleetBuilder(props) {
 
@@ -27,22 +28,22 @@ function FleetBuilder(props) {
       marginTop: theme.spacing(2)
     },
     sectionContainer: {
-      backgroundColor: grey[200],
+      backgroundColor: grey[200]
+    },
+    shipContainer: {
       padding: theme.spacing(2)
     },
     sectionHeader: {
-      margin: theme.spacing(2),
-      marginBottom: 0
+      padding: theme.spacing(2),
+      paddingBottom: 0
     },
     sectionSubHeader: {
-      margin: theme.spacing(2),
-      marginTop: 0
+      padding: theme.spacing(2),
+      paddingLeft: 0,
+      paddingBottom: 0
     },
     addButton: {
       margin: theme.spacing(2)
-    },
-    costLabel: {
-      margin: theme.spacing(1)
     },
     divider: {
       color: "#000000"
@@ -54,7 +55,7 @@ function FleetBuilder(props) {
       flexGrow: 1
     },
     topForm: {
-      margin: theme.spacing(2)
+      padding: theme.spacing(1)
     }
   }));
 
@@ -71,6 +72,8 @@ function FleetBuilder(props) {
   const [selectedInitiativeCards, setSelectedInitiativeCards] = useState([]);
   const [cost, setCost] = useState(0);
   const [shipIdCounter, setShipIdCounter] = useState(0);
+  const [showTooFewShipsMessage, setShowTooFewShipsMessage] = useState(false);
+  const [showTooManyShipsMessage, setShowTooManyShipsMessage] = useState(false);
 
   /*Handles default fleet*/
   useEffect(() => {
@@ -112,6 +115,14 @@ function FleetBuilder(props) {
 
       setCost(newCost);
     };
+
+    if(selectedGameMode)
+      {
+          setShowTooFewShipsMessage(selectedShips.length < selectedGameMode.minShips);
+
+        if(setSelectedShips.length > selectedGameMode.maxShips)
+          setShowTooManyShipsMessage(true);
+      }
   }, [JSON.stringify(selectedShips), selectedAdmiral]);
 
   const handleInitiativeCardSelectorFlowDone = (initiativecards) => {
@@ -153,10 +164,10 @@ function FleetBuilder(props) {
           </Typography>
 
           {selectedGameMode ? (
-            <h3 className={classes.costLabel}>
+            <h3>
               {"Fleet Cost: " + cost + "/" + selectedGameMode.maxPoints}
             </h3>
-          ) : (<h3 className={classes.costLabel}>
+          ) : (<h3>
             {"Fleet Cost: 0/0"}
           </h3>)}
         </Toolbar>
@@ -214,21 +225,22 @@ function FleetBuilder(props) {
         </FormControl>
       </Grid>
 
-      <Divider />
-
       <Grid
         className={classes.sectionContainer}
         container
-        spacing={2}
         direction="column"
         alignItems="flex-start">
-        <Typography className={classes.sectionHeader} variant="h5">
-          List of Ships
-        </Typography>
-        <Typography className={classes.sectionSubHeader} variant="h6">
-          {selectedGameMode ? (" ( min: " + selectedGameMode.minShips + " max: " + selectedGameMode.maxShips + ")") : (null)}
-        </Typography>
-        <Grid container spacing={2}>
+          <Grid container direction="row" alignItems="center">
+            <Typography className={classes.sectionHeader} variant="h6">
+              Ships
+            </Typography>        
+            <Typography className={classes.sectionSubHeader} variant="body2">
+              {selectedGameMode ? (" ( min: " + selectedGameMode.minShips + " max: " + selectedGameMode.maxShips + ")") : (null)}
+            </Typography>
+        </Grid>
+        <Grid container 
+              className={classes.shipContainer} 
+              spacing={2}>
           {selectedShips.map(selectedShip => (
             <Grid key={selectedShip.id} item xs={12} sm={6} md={4} lg={3} xl={2}>
               <Ship
@@ -263,15 +275,12 @@ function FleetBuilder(props) {
 
       </Grid>
 
-      <Divider />
-
       <Grid
         className={classes.sectionContainer}
         container
-        spacing={2}
         direction="column"
         alignItems="flex-start">
-        <Typography className={classes.sectionHeader} variant="h5">
+        <Typography className={classes.sectionHeader} variant="h6">
           Initiative Cards
         </Typography>
         <List>
@@ -298,6 +307,27 @@ function FleetBuilder(props) {
             onClose={handleInitiativeCardSelectorFlowDone} />}
 
       </Grid>
+      <Snackbar open={showTooFewShipsMessage}
+                autoHideDuration={4000}
+                message={"A list in " + selectedGameMode.name + " must have at least " + selectedGameMode.minShips + " ships"}
+                action={(
+                  <Button color="secondary" 
+                  size="small" onClick={() => setShowTooFewShipsMessage(false)}>
+                    hide
+                  </Button>
+                )}>
+         
+      </Snackbar>
+      <Snackbar open={showTooManyShipsMessage}
+                autoHideDuration={4000}
+                message={"A list in " + selectedGameMode.name + " cannot include more than " + selectedGameMode.minShips +" ships"}
+                action={(
+                  <Button color="secondary" 
+                  size="small" onClick={() => setShowTooManyShipsMessage(false)}>
+                    hide
+                  </Button>
+                )}>         
+      </Snackbar>
     </div>
   );
 };
