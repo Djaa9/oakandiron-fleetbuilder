@@ -1,4 +1,4 @@
-export const initiativeCards = {
+export const initiativeCards = Object.freeze({
   generic: [
     {
       name: "Await New Orders",
@@ -286,4 +286,4 @@ export const initiativeCards = {
       discardedAfterUse: true
     },
   ]
-};
+});

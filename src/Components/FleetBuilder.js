@@ -87,7 +87,6 @@ function FleetBuilder(props) {
   }, [fleet])
 
   useEffect(() => {
-
     if (onFleetChanged)
       onFleetChanged({
         gameMode: selectedGameMode,
@@ -100,9 +99,21 @@ function FleetBuilder(props) {
 
   useEffect(() => {
     /*Update available admirals*/
-    if (selectedFaction)
+    if (selectedFaction){
       setAvailableAdmiral(Admirals.allowed(selectedFaction));
+      setSelectedAdmiral("");
+      setSelectedShips([]);
+      setSelectedInitiativeCards([]);
+    }
   }, [selectedFaction]);
+
+  useEffect(() => {
+    /*Update available admirals*/
+    if (selectedAdmiral){
+      setSelectedInitiativeCards([]);
+      setSelectedShips([]);
+    }
+  }, [selectedAdmiral]);
 
   useEffect(() => {
     // Calculate cost
@@ -283,8 +294,8 @@ function FleetBuilder(props) {
         </Typography>
         <List>
           {selectedInitiativeCards.map(card => (
-            <ListItem>
-              <ListItemText primary={card.name + " (" + card.initiativeValue + ") [" + card.faction + "]"} />
+            <ListItem key={card.name}>
+              <ListItemText key={card.name} primary={card.name + " (" + card.initiativeValue + ") [" + card.faction + "]"} />
             </ListItem>
           ))}
         </List>
@@ -331,12 +342,11 @@ function FleetBuilder(props) {
         )}>
       </Snackbar>
 
-      {selectedGameMode && selectedFaction && selectedAdmiral &&
         <InitiativecardSelector
           open={initiativeCardSelectorIsOpen}
           faction={selectedFaction}
           admiral={selectedAdmiral}
-          onClose={handleInitiativeCardSelectorFlowDone} />}
+          onClose={handleInitiativeCardSelectorFlowDone} />
 
       {selectedGameMode && selectedFaction && selectedAdmiral &&
         <ShipSelector

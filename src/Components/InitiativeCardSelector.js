@@ -1,36 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import initiativeCardsProvider from '../Providers/initiativeCardsProvider.js';
-import { Dialog, DialogTitle, List, ListItem, DialogContent, DialogActions, Button, Grid, Typography } from '@material-ui/core';
+import { Dialog, DialogTitle, List, ListItem, DialogContent, DialogActions, Button, Typography } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from '@material-ui/core/ListItemText';
 import Alert from '@material-ui/lab/Alert';
-import { makeStyles } from '@material-ui/core/styles';
 import { factionTypes } from '../Data/factionTypes.js';
 
 function InitiativeCardSelector(props) {
 
-  const useStyles = makeStyles((theme) => ({
-    warningAlert: {
-      marginTop: theme.spacing(2)
-    }
-  }));
-
-  const classes = useStyles();
   const { open, onClose, faction, admiral } = props;
 
   const [previouslySelectedInitiativeCards, setPreviouslySelectedInitiativeCards] = useState([]);
   const [availableInitiativeCards, setAvailableInitiativeCards] = useState([]);
-  const [maxHandSize, setMaxHandSize] = useState(0);
   const [autoIncludedCards, setAutoIncludedCards] = useState([]);
+  const [maxHandSize, setMaxHandSize] = useState(0);
 
   useEffect(() => {
+    console.log("InitiativeCardSelector adm or fac changed", admiral, faction);
+
     if (faction && admiral) {
       let allowedCards = initiativeCardsProvider.allowed(faction, admiral);
       setAutoIncludedCards(allowedCards.filter(card => card.autoInclude))  
       setAvailableInitiativeCards(allowedCards.filter(card => !card.autoInclude));
       setMaxHandSize(5 + admiral.admiralValue);
     }
+    else {
+      setAutoIncludedCards([])  
+      setAvailableInitiativeCards([]);
+    }
+
   }, [faction, admiral]);
 
   const handleListItemClick = (checkedCard) => {

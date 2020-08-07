@@ -6,8 +6,9 @@ const admiralProvider = {
     if (!faction)
       throw new Error("Faction not selected (faction = " + faction + "). Allowed Ships could not be determined");
 
-    return allAdmirals.filter(admiral => admiral.faction === faction.type || 
-                                         admiral.faction === factionTypes.NONE);
+    return allAdmirals.map(admiral => Object.assign({}, admiral))
+                                            .filter(admiral => admiral.faction === faction.type || 
+                                                               admiral.faction === factionTypes.NONE);
   }
 };
 
