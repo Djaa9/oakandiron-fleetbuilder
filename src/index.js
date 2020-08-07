@@ -8,6 +8,21 @@ import { grey } from '@material-ui/core/colors';
 
 document.body.style.backgroundColor = grey[200];
 
+document.getElementById('root').addEventListener('touchstart', function(event){
+  this.allowUp = (this.scrollTop > 0);
+  this.allowDown = (this.scrollTop < this.scrollHeight - this.clientHeight);
+  this.prevTop = null; this.prevBot = null;
+  this.lastY = event.pageY;
+});
+
+document.getElementById('root').addEventListener('touchmove', function(event){
+  var up = (event.pageY > this.lastY), down = !up;
+  this.lastY = event.pageY;
+
+  if ((up && this.allowUp) || (down && this.allowDown)) event.stopPropagation();
+  else event.preventDefault();
+});
+
 ReactDOM.render(
   <React.StrictMode>
     <meta name='viewport' content='width=device-width' />

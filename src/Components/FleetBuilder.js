@@ -193,19 +193,18 @@ function FleetBuilder(props) {
 
       <AppBar position="sticky">
         <Toolbar>
-          <Typography variant="h6" className={classes.title}>
+          <Typography variant="h7" className={classes.title}>
             Oak And Iron Fleetbuilder
           </Typography>
 
           {selectedGameMode ? (
-            <h3>
-              {"Fleet Cost: " + cost + "/" + selectedGameMode.maxPoints}
-            </h3>
-          ) : (<h3>
-            {"Fleet Cost: 0/0"}
-          </h3>)}
-        </Toolbar>
-
+            <Typography variant="h7" className={classes.points}>
+              {"Points: " + cost + "/" + selectedGameMode.maxPoints}
+              </Typography>) : (
+              <Typography variant="h7" className={classes.points} align="right">
+            {"Points: 0/0"}
+            </Typography>)}
+        </Toolbar>        
       </AppBar>
 
       <Grid className={classes.topForm} container>
