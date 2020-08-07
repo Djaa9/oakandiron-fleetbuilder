@@ -82,6 +82,7 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 - Show pictures of cards
 - Give list a name
 - Cost in floating sub header
+- Make initiative card selector a sortable table
 
 2.0
 - Share list (unique url)

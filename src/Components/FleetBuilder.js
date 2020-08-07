@@ -299,7 +299,7 @@ function FleetBuilder(props) {
       </Grid>
       <Snackbar open={showTooFewShipsMessage}
         autoHideDuration={4000}
-        onClose={() => setShowTooManyShipsMessage(false)}
+        onClose={() => setShowTooFewShipsMessage(false)}
         message={"A fleet in " + selectedGameMode.name + " must have at least " + selectedGameMode.minShips + " ships"}
         action={(
           <Button color="secondary"
