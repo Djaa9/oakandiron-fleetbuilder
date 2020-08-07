@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import initiativeCardsProvider from '../Providers/initiativeCardsProvider.js';
-import { Dialog, DialogTitle, List, ListItem, DialogContent, DialogActions, Button } from '@material-ui/core';
+import { Dialog, DialogTitle, List, ListItem, DialogContent, DialogActions, Button, Grid, Typography } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from '@material-ui/core/ListItemText';
 import Alert from '@material-ui/lab/Alert';
@@ -21,31 +21,22 @@ function InitiativeCardSelector(props) {
 
   const [previouslySelectedInitiativeCards, setPreviouslySelectedInitiativeCards] = useState([]);
   const [availableInitiativeCards, setAvailableInitiativeCards] = useState([]);
-  const [maxHandSize, setMaxHandSize] = React.useState(0);
+  const [maxHandSize, setMaxHandSize] = useState(0);
+  const [autoIncludedCards, setAutoIncludedCards] = useState([]);
 
   useEffect(() => {
     if (faction && admiral) {
-      let listWithAutoincludeHandled = initiativeCardsProvider.allowed(faction, admiral);
-  
-      listWithAutoincludeHandled.filter(card => card.autoInclude)
-        .forEach(card => {
-            card.selected = true;
-            card.disabled = true;
-        });
-  
-      setAvailableInitiativeCards(listWithAutoincludeHandled);
+      let allowedCards = initiativeCardsProvider.allowed(faction, admiral);
+      setAutoIncludedCards(allowedCards.filter(card => card.autoInclude))  
+      setAvailableInitiativeCards(allowedCards.filter(card => !card.autoInclude));
       setMaxHandSize(5 + admiral.admiralValue);
     }
   }, [faction, admiral]);
 
   const handleListItemClick = (checkedCard) => {
-
     checkedCard.selected = !checkedCard.selected;
 
     let newListOfCards = availableInitiativeCards.map(card => card.name === checkedCard.name ? checkedCard : card);
-
-    // Remove cards that are added after restricitons are enforced
-    // newListOfCards = newListOfCards.filter(card => !card.autoInclude);
 
     if (newListOfCards.filter(card => card.selected).length >= maxHandSize) // If there are more cards selected than the max handsize. 
       newListOfCards.forEach(card => { if (!card.selected) card.disabled = true }); // Then disable all non selected cards
@@ -76,8 +67,6 @@ function InitiativeCardSelector(props) {
       });
     }
 
-    // INSERT Interprid and Doughty
-
     setAvailableInitiativeCards(newListOfCards);
   };
 
@@ -86,7 +75,7 @@ function InitiativeCardSelector(props) {
   };
 
   const handleOk = () => {
-    onClose(availableInitiativeCards);
+    onClose(availableInitiativeCards.filter(card => card.selected).concat(autoIncludedCards));
   };
 
   const handleCancel = () => {
@@ -96,7 +85,13 @@ function InitiativeCardSelector(props) {
     <Dialog onClose={handleOnClose} open={open}>
       <DialogTitle> Choose initiative Cards </DialogTitle>
       <DialogContent>
-        <Alert severity="info"> {"Your hand must include " + maxHandSize + " cards (5 + ADMIRAL " + admiral.admiralValue + ")"} </Alert>
+        <Alert severity="info"> 
+              <Typography style={{whiteSpace: 'pre-line'}} variant="body2">
+              {"Your hand must include " + maxHandSize + " cards (5 + ADMIRAL " + admiral.admiralValue + ").\n"}
+              {autoIncludedCards.map(card => (<b> {card.name} </b> )) }{autoIncludedCards.length > 0 && " will be added when selection is done"} 
+              </Typography>
+        </Alert>
+
         <List>
           {availableInitiativeCards.map((card) => (
             <ListItem disabled={card.disabled} key={card.name + card.selected} dense button onClick={() => handleListItemClick(card)}>

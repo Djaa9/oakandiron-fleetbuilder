@@ -95,9 +95,9 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 - login and save in db on backend
 
 x.0
-Save list on server
-Track win loss
-Fork list
-Se top lists
-Like/dislike other lists
-Top lists
+- Save list on server
+- Track win loss
+- Fork list
+- Se top lists
+- Like/dislike other lists
+- Top lists

@@ -134,7 +134,7 @@ function FleetBuilder(props) {
 
   const handleInitiativeCardSelectorFlowDone = (initiativecards) => {
     setInitiativeCardSelectorIsOpen(false);
-    setSelectedInitiativeCards(initiativecards.filter(card => card.selected));
+    setSelectedInitiativeCards(initiativecards);
   };
 
   const handleShipSelectorFlowDone = (shipToAdd) => {
