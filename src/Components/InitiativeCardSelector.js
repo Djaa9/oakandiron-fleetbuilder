@@ -9,9 +9,8 @@ import { factionTypes } from '../Data/factionTypes.js';
 
 function InitiativeCardSelector(props) {
 
-  const { open, onClose, faction, admiral } = props;
+  const { open, onSave, onCancel, faction, admiral } = props;
 
-  const [previouslySelectedInitiativeCards, setPreviouslySelectedInitiativeCards] = useState([]);
   const [availableInitiativeCards, setAvailableInitiativeCards] = useState([]);
   const [autoIncludedCards, setAutoIncludedCards] = useState([]);
   const [maxHandSize, setMaxHandSize] = useState(0);
@@ -69,19 +68,15 @@ function InitiativeCardSelector(props) {
     setAvailableInitiativeCards(newListOfCards);
   };
 
-  const handleOnClose = () => {
-    onClose([]);
-  };
-
-  const handleOk = () => {
-    onClose(availableInitiativeCards.filter(card => card.selected).concat(autoIncludedCards));
+  const handleSave = () => {
+    onSave(availableInitiativeCards.filter(card => card.selected).concat(autoIncludedCards));
   };
 
   const handleCancel = () => {
-    onClose(availableInitiativeCards);
+    onCancel();
   };
   return (
-    <Dialog onClose={handleOnClose} open={open}>
+    <Dialog onClose={handleCancel} open={open}>
       <DialogTitle> Choose initiative Cards </DialogTitle>
       <DialogContent>
         <Alert severity="info"> 
@@ -107,10 +102,10 @@ function InitiativeCardSelector(props) {
         </List>
       </DialogContent>
       <DialogActions>
-        <Button autoFocus onClick={handleCancel} color="primary">
+        <Button onClick={handleCancel} color="primary">
           Cancel
         </Button>
-        <Button onClick={handleOk} color="primary">
+        <Button onClick={handleSave} color="secondary">
           Select
         </Button>
       </DialogActions>
@@ -121,7 +116,9 @@ function InitiativeCardSelector(props) {
 InitiativeCardSelector.propTypes = {
   open: PropTypes.bool.isRequired,
   faction: PropTypes.object.isRequired,
-  admiral: PropTypes.object.isRequired
+  admiral: PropTypes.object.isRequired,
+  onClose: PropTypes.func,
+  onCancel: PropTypes.func
 };
 
 function groupBy(arr, property) {

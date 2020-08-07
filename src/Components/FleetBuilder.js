@@ -12,6 +12,7 @@ import ShipSelector from './ShipSelector';
 import InitiativecardSelector from './InitiativeCardSelector';
 import Ship from './Ship.js';
 import { AppBar } from '@material-ui/core';
+import { initiativeCards } from '../Data/initiativeCards';
 
 function FleetBuilder(props) {
 
@@ -116,6 +117,16 @@ function FleetBuilder(props) {
   }, [selectedAdmiral]);
 
   useEffect(() => {
+    /*Update available admirals*/
+    if (selectedGameMode){
+      setSelectedFaction("");
+      setSelectedAdmiral("");
+      setSelectedShips([]);
+      setSelectedInitiativeCards([]);
+    }
+  }, [selectedGameMode]);
+
+  useEffect(() => {
     // Calculate cost
     if (selectedGameMode && selectedFaction && selectedGameMode) {
       var newCost = 0;
@@ -143,9 +154,14 @@ function FleetBuilder(props) {
     }
   }, [JSON.stringify(selectedShips), selectedAdmiral]);
 
-  const handleInitiativeCardSelectorFlowDone = (initiativecards) => {
+  const handleInitiativeCardSelectorSave = (initiativecards) => {
     setInitiativeCardSelectorIsOpen(false);
+    console.log("save?", initiativeCards);
     setSelectedInitiativeCards(initiativecards);
+  };
+
+  const handleInitiativeCardSelectorCancel = () => {
+    setInitiativeCardSelectorIsOpen(false);
   };
 
   const handleShipSelectorFlowDone = (shipToAdd) => {
@@ -346,7 +362,8 @@ function FleetBuilder(props) {
           open={initiativeCardSelectorIsOpen}
           faction={selectedFaction}
           admiral={selectedAdmiral}
-          onClose={handleInitiativeCardSelectorFlowDone} />
+          onCancel={handleInitiativeCardSelectorCancel} 
+          onSave={handleInitiativeCardSelectorSave} />
 
       {selectedGameMode && selectedFaction && selectedAdmiral &&
         <ShipSelector
