@@ -19,7 +19,7 @@ function InitiativeCardSelector(props) {
   }, [faction, admiral]);
 
   useEffect(() => {
-    availableInitiativeCards.filter(card => card.selected).forEach((card) => handleListItemClick(card));
+    availableInitiativeCards.filter(card => card.autoInclude).forEach((card) => handleListItemClick(card));
 
   },[availableInitiativeCards])
 
@@ -53,12 +53,12 @@ function InitiativeCardSelector(props) {
       <DialogContent>
         <List>
           {availableInitiativeCards.map((card) => (
-            <ListItem key={card.name} dense button onClick={() => handleListItemClick(card)}>
+            <ListItem disabled={card.autoInclude} key={card.name} dense button onClick={() => handleListItemClick(card)}>
               <Checkbox
                 edge="start"
                 checked={checked.indexOf(card) !== -1}
                 tabIndex={-1}
-                disableRipple
+                disableRipple                
               />
               <ListItemText primary={card.name + " (" + card.initiativeValue + ") [" + card.faction + "]"} />
             </ListItem>

@@ -3,5 +3,6 @@ export const factionTypes = Object.freeze({
   ENGLISH: 2,
   FRENCH: 3,
   SPANISH: 4,
-  PIRATE: 5
+  PIRATE: 5,
+  NONE: 0
 });

@@ -38,13 +38,13 @@ const initiativeCardsProvider = {
         
         if(admiral.keywords.find(keyword => keyword === "Doughty")){
             var autoIncludedCard = initiativeCards.special.find(card => card.name === "Doughty");
-            autoIncludedCard.selected = true;
+            autoIncludedCard.autoInclude = true;
             initiativeCardsToReturn.push(autoIncludedCard);
         }
         
         if(admiral.keywords.find(keyword => keyword === "Intrepid")){
             var autoIncludedCard = initiativeCards.special.find(card => card.name === "Intrepid");
-            autoIncludedCard.selected = true;
+            autoIncludedCard.autoInclude = true;
             initiativeCardsToReturn.push(autoIncludedCard);
         }
 

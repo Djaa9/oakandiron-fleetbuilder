@@ -75,6 +75,8 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 - Clear initiative Cards when changing faction
 - Add multiple ships at a time
 - Copy ship
+- If "Fire ship" is selected, remove other upgrade
+- Add pdf card packs
 
 - Save to file
 - Export as text
