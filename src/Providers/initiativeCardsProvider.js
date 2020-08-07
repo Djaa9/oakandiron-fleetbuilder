@@ -43,14 +43,13 @@ const initiativeCardsProvider = {
         }
         
         if(admiral.keywords.find(keyword => keyword === "Intrepid")){
-            var autoIncludedCard = initiativeCards.special.find(card => card.name === "Intrepid");
-            autoIncludedCard.autoInclude = true;
-            initiativeCardsToReturn.push(autoIncludedCard);
+            var autoIncludedIntrepidCard = initiativeCards.special.find(card => card.name === "Intrepid");
+            autoIncludedIntrepidCard.autoInclude = true;
+            initiativeCardsToReturn.push(autoIncludedIntrepidCard);
         }
 
-        return initiativeCardsToReturn.sort((a, b) => a.faction.localeCompare(b.faction)) // Sort by faction
-                                      .sort((a, b) => a.faction.type - b.faction.type || a.cost < b.cost ? -1 : 1); // if same faction sort by cost
-                                      //.sort((a, b) => (a.cost - b.cost) - (a.faction.type - b.faction.type) || a.name.localeCompare(b.name)); // if same cost, sort by name
+        return initiativeCardsToReturn.sort((a, b) => a.initiativeValue < b.initiativeValue ? -1 : 1); // Sort by faction
+                                      //.sort((a, b) => a.faction.type - b.faction.type ||  ); // if same faction sort by cost
     }
 };
 

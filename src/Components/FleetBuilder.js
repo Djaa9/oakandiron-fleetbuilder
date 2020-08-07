@@ -3,7 +3,7 @@ import Proptypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import { factions } from '../Data/factions';
 import { gameModes } from '../Data/gameModes';
-import { Typography, List, ListItem, ListItemText, MenuItem, Divider, Button, InputLabel, Grid, Toolbar, Snackbar } from '@material-ui/core';
+import { Typography, List, ListItem, ListItemText, MenuItem, Button, InputLabel, Grid, Toolbar, Snackbar } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Admirals from "../Providers/admiralsProvider";
@@ -134,7 +134,7 @@ function FleetBuilder(props) {
 
   const handleInitiativeCardSelectorFlowDone = (initiativecards) => {
     setInitiativeCardSelectorIsOpen(false);
-    setSelectedInitiativeCards(initiativecards);
+    setSelectedInitiativeCards(initiativecards.filter(card => card.selected));
   };
 
   const handleShipSelectorFlowDone = (shipToAdd) => {
