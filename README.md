@@ -70,6 +70,8 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 ### TODO
 
 - Validate legal initiative card selection
+    Special condition card (add after)
+    Handle cancel of selector
 
 - Make sure only one flag ship can be chosen (Move selection)
 - Clear initiative Cards and ships when changing faction (Confirmation dialog)
@@ -77,19 +79,25 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 - Copy ship
 - If "Fire ship" is selected, remove other upgrade
 
-- Add pdf card packs
+2.0
 - Save to file
 - Export as text
+- Add pdf card packs
 ? Save to storage
 - Show pictures of cards
 - Give list a name
 - Cost in floating sub header
 - Make initiative card selector a sortable table
 
-2.0
-- Share list (unique url)
-    - Complete mapper from url to fleet
-    - Find out what is wrong with mapper "/fleetbuilder"
-    - Parse fleet to Fleetbuilder and update state
+3.0
+- Share list (backend generated link)
 - Print friendly version
 - login and save in db on backend
+
+x.0
+Save list on server
+Track win loss
+Fork list
+Se top lists
+Like/dislike other lists
+Top lists
