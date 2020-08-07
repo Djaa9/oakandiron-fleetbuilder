@@ -5,15 +5,23 @@ import { Dialog, DialogTitle, List, ListItem, DialogContent, DialogActions, Butt
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from '@material-ui/core/ListItemText';
 import Alert from '@material-ui/lab/Alert';
+import { makeStyles } from '@material-ui/core/styles';
+import { factionTypes } from '../Data/factionTypes.js';
 
 function InitiativeCardSelector(props) {
+  
+  const useStyles = makeStyles((theme) => ({
+    warningAlert: {
+      marginTop: theme.spacing(2)
+    }
+  }));
 
+  const classes = useStyles();
   const { open, onClose, faction, admiral } = props;
 
   const [previouslySelectedInitiativeCards, setPreviouslySelectedInitiativeCards] = useState([]);
   const [availableInitiativeCards, setAvailableInitiativeCards] = useState([]);
   const [maxHandSize, setMaxHandSize] = React.useState(0);
-  const [tooFewNonDiscaredCardsSelected, setTooFewNonDiscaredCardsSelected] = useState(false);
 
   useEffect(() => {
     if (faction && admiral) {
@@ -29,6 +37,8 @@ function InitiativeCardSelector(props) {
 
   const handleListItemClick = (checkedCard) => {
   
+// TODO dont calculate Interprid and Doughty.... Remove before calculation and add again after
+
   checkedCard.selected = !checkedCard.selected;  
  
   let newListOfCards = availableInitiativeCards.map(card => card.name === checkedCard.name ? checkedCard : card);
@@ -41,11 +51,20 @@ function InitiativeCardSelector(props) {
 
     let listOfListOfCardsByValue = groupBy(newListOfCards, "initiativeValue");
 
+    // If there are more than 2 cards of a cost selected Then disable all non selected cards of that cost
     listOfListOfCardsByValue.forEach(list => {
-      if(list.filter(card => card.selected).length >= 2)                    // If there are more than 2 cards of a cost selected 
-        list.forEach(card => { if(!card.selected) card.disabled = true });  // Then disable all non selected cards of that cost
+      if(list.filter(card => card.selected).length >= 2)                    
+        list.forEach(card => { if(!card.selected) card.disabled = true });
+
+      // If more discardedAfterUse cards are selected there won't be room for 3 non discardedAfterUse cards
+      if(newListOfCards.filter(card => card.selected && card.discardedAfterUse).length >= (maxHandSize - 3)) 
+        newListOfCards.forEach(card => { if(card.discardedAfterUse && !card.selected) card.disabled = true} )
+      
+      // Admirals with Buccaneer Tactics can choose 1 Pirate card
+      if(admiral.keywords.find(keyword => keyword === "Buccaneer Tactics") && (newListOfCards.filter(card => card.faction === "Pirate" && card.selected).length >= 1))  //TODO changes type of faction from string to enum
+        newListOfCards.forEach(card => { if(card.faction === "Pirate" && !card.selected) card.disabled = true} )  //TODO changes type of faction from string to enum
     });
-  }
+  }  
   
   setAvailableInitiativeCards(newListOfCards);
   };
@@ -55,9 +74,6 @@ function InitiativeCardSelector(props) {
   };
 
   const handleOk = () => {
-    if(availableInitiativeCards.filter(card => card.selected && !card.discardedAfterUse).length <= 3)
-      setTooFewNonDiscaredCardsSelected(true);
-    else  
       onClose(availableInitiativeCards);
   };
 
@@ -68,11 +84,7 @@ function InitiativeCardSelector(props) {
     <Dialog onClose={handleOnClose} open={open}>
       <DialogTitle> Choose initiative Cards </DialogTitle>
       <DialogContent>
-        <Alert severity="info"> {"Your hand must include " + maxHandSize + " cards."  }</Alert>
-        
-        {!tooFewNonDiscaredCardsSelected ||
-        <Alert severity="error"> {"You must have at least 3 cards that are not discarded after being played." }</Alert>}
-        
+        <Alert severity="info"> {"Your hand must include " + maxHandSize + " cards (5 + ADMIRAL " + admiral.admiralValue + ")" } </Alert>
         <List>
           {availableInitiativeCards.map((card) => (
             <ListItem disabled={card.autoInclude || card.disabled} key={card.name + card.selected} dense button onClick={() => handleListItemClick(card)}>
