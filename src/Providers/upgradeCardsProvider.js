@@ -1,12 +1,9 @@
 import { allUpgradeCards } from "../Data/upgradeCards";
 
 const upgradeCardsProvider = {
-    allowed: function (faction, ship, isFlagship) {
+    allowed: function (faction, ship) {
         if (!ship)
             throw new Error("Ship not selected (ship = " + ship + "). Allowed Upgrade Cards could not be determined");
-
-        if (isFlagship === "undefined" || isFlagship === "" || isFlagship === null)
-            throw new Error("Flagship not selected (flagship = " + isFlagship + "). Upgrade Cards could not be determined");
 
         if (!faction)
             throw new Error("Faction not selected (faction = " + faction + "). Upgrade Cards could not be determined");
@@ -18,7 +15,7 @@ const upgradeCardsProvider = {
         allowedUpgradeCards = allowedUpgradeCards.filter(card => !card.notAllowedForClasses.includes(ship.class));
 
         // Handle Flagship
-        if (isFlagship)
+        if (ship.isFlagship)
             allowedUpgradeCards = allowedUpgradeCards.filter(card => !card.notAllowedForFlagship);
 
          return allowedUpgradeCards.sort((a, b) => a.cost < b.cost ? -1 : 1)

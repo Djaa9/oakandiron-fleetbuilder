@@ -107,9 +107,15 @@ function Ship(props) {
 
     // Handle change in flagship state
     useEffect(() => {
-        var availableUpgradeCards = UpgradeCards.allowed(faction, ship, isFlagship);
+        var availableUpgradeCards = UpgradeCards.allowed(faction, ship);
         setAvailableUpgrade1Cards(availableUpgradeCards);
         setAvailableUpgrade2Cards(availableUpgradeCards);
+
+        if(!availableUpgradeCards.find(card => card === selectedUpgradeCard1))
+            setSelectedUpgradeCard1("");
+
+        if(!availableUpgradeCards.find(card => card === selectedUpgradeCard2))
+            setSelectedUpgradeCard2("");
 
         if (isFlagship) {
             setSelectedCommander("");
