@@ -30,7 +30,9 @@ function FleetBuilder(props) {
       backgroundColor: grey[200]
     },
     shipContainer: {
-      padding: theme.spacing(2)
+      padding: theme.spacing(2),
+      margin: 0,
+      maxWidth: `100%`,
     },
     sectionHeader: {
       padding: theme.spacing(2),
@@ -42,7 +44,8 @@ function FleetBuilder(props) {
       paddingBottom: 0
     },
     addButton: {
-      margin: theme.spacing(2)
+      margin: theme.spacing(2),
+      backgroundColor: "#86A59C"
     },
     divider: {
       color: "#000000"
@@ -201,7 +204,7 @@ function FleetBuilder(props) {
       <AppBar position="sticky">
         <Toolbar>
           <Typography variant="subtitle1" className={classes.title}>
-            Oak And Iron Fleetbuilder
+            Oak &amp; Iron Fleetbuilder
           </Typography>
 
           {selectedGameMode ? (
@@ -280,7 +283,7 @@ function FleetBuilder(props) {
         </Grid>
         <Grid container
           className={classes.shipContainer}
-          spacing={2}>
+          spacing={1}>
           {selectedShips.map(selectedShip => (
             <Grid key={selectedShip.id} item xs={12} sm={6} md={4} lg={3} xl={2}>
               <Ship
