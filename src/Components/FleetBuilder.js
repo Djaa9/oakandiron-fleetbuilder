@@ -12,7 +12,6 @@ import ShipSelector from './ShipSelector';
 import InitiativecardSelector from './InitiativeCardSelector';
 import Ship from './Ship.js';
 import { AppBar } from '@material-ui/core';
-import { initiativeCards } from '../Data/initiativeCards';
 
 function FleetBuilder(props) {
 
@@ -96,7 +95,7 @@ function FleetBuilder(props) {
         ships: selectedShips,
         initiativeCards: selectedInitiativeCards
       });
-  }, [selectedGameMode, selectedFaction, selectedAdmiral, JSON.stringify(selectedShips), selectedInitiativeCards]);
+  }, [selectedGameMode, selectedFaction, selectedAdmiral, selectedShips, selectedInitiativeCards]);
 
   useEffect(() => {
     /*Update available admirals*/
@@ -156,7 +155,6 @@ function FleetBuilder(props) {
 
   const handleInitiativeCardSelectorSave = (initiativecards) => {
     setInitiativeCardSelectorIsOpen(false);
-    console.log("save?", initiativeCards);
     setSelectedInitiativeCards(initiativecards);
   };
 
@@ -184,6 +182,15 @@ function FleetBuilder(props) {
     var updatedListOfSelectedShips = selectedShips.map(ship => {
       return ship.id === updatedShip.id ? updatedShip : ship;
     });
+
+    if(updatedShip.isFlagship && selectedShips.filter(ship => ship.isFlagship).length > 1){
+      updatedListOfSelectedShips.map(ship => {
+        if(ship.id !== updatedShip.id)
+          ship.isFlagship = false;
+
+        return ship;
+      }); 
+    }
 
     setSelectedShips(updatedListOfSelectedShips);
   };

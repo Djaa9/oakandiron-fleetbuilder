@@ -16,8 +16,7 @@ function InitiativeCardSelector(props) {
   const [maxHandSize, setMaxHandSize] = useState(0);
 
   useEffect(() => {
-    console.log("InitiativeCardSelector adm or fac changed", admiral, faction);
-
+    
     if (faction && admiral) {
       let allowedCards = initiativeCardsProvider.allowed(faction, admiral);
       setAutoIncludedCards(allowedCards.filter(card => card.autoInclude))  

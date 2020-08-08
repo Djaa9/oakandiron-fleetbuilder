@@ -56,7 +56,8 @@ function Ship(props) {
     const [upgradeCard1SelectorEnabled, setUpgradeCard1SelectorEnabled] = useState(true);
     const [upgradeCard2SelectorEnabled, setUpgradeCard2SelectorEnabled] = useState(true);
 
-    // CONSTRUCTOR
+    //useEffect(() => {console.log(ship, ship.isFlagship);}); 
+
     useEffect(() => {       
         /*Update available Commanders*/
         if (faction) {
@@ -99,6 +100,10 @@ function Ship(props) {
         
         onShipChanged(ship);
     }, [isFlagship, selectedCommander, upgrades, selectedSkillLevel, selectedUpgradeCard1, selectedUpgradeCard2])
+
+    useEffect(() => {
+        setIsFlagship(ship.isFlagship);
+    }, [ship.isFlagship]);
 
     // Handle change in flagship state
     useEffect(() => {
@@ -191,7 +196,7 @@ function Ship(props) {
                     <FormGroup>
                         <FormControlLabel
                             control={
-                                <Checkbox name="flagship" onChange={(event) => setIsFlagship(event.target.checked)} />}
+                                <Checkbox key={ship.id} checked={isFlagship} name="flagship" onChange={(event) => setIsFlagship(event.target.checked)} />}
                             label="Flagship" />
                         <Grid
                             container
