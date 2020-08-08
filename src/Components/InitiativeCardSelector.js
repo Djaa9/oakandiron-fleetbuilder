@@ -101,10 +101,10 @@ function InitiativeCardSelector(props) {
         </List>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleCancel} color="primary">
+        <Button onClick={handleCancel} color="secondary">
           Cancel
         </Button>
-        <Button onClick={handleSave} color="secondary">
+        <Button onClick={handleSave} color="primary">
           Select
         </Button>
       </DialogActions>

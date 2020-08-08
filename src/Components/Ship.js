@@ -56,8 +56,6 @@ function Ship(props) {
     const [upgradeCard1SelectorEnabled, setUpgradeCard1SelectorEnabled] = useState(true);
     const [upgradeCard2SelectorEnabled, setUpgradeCard2SelectorEnabled] = useState(true);
 
-    //useEffect(() => {console.log(ship, ship.isFlagship);}); 
-
     useEffect(() => {       
         /*Update available Commanders*/
         if (faction) {
@@ -73,7 +71,7 @@ function Ship(props) {
         setUpgrades(unselectedUpgrades);
 
         /*Get available upgrade cards*/
-        var availableUpgradeCards = UpgradeCards.allowed(faction, ship, isFlagship);
+        var availableUpgradeCards = UpgradeCards.allowed(faction, ship);
         setAvailableUpgrade1Cards(availableUpgradeCards);
         setAvailableUpgrade2Cards(availableUpgradeCards);
     }, []);

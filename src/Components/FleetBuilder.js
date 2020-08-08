@@ -200,15 +200,15 @@ function FleetBuilder(props) {
 
       <AppBar position="sticky">
         <Toolbar>
-          <Typography variant="h7" className={classes.title}>
+          <Typography variant="subtitle1" className={classes.title}>
             Oak And Iron Fleetbuilder
           </Typography>
 
           {selectedGameMode ? (
-            <Typography variant="h7" className={classes.points}>
+            <Typography variant="subtitle1" className={classes.points}>
               {"Points: " + cost + "/" + selectedGameMode.maxPoints}
               </Typography>) : (
-              <Typography variant="h7" className={classes.points} align="right">
+              <Typography variant="subtitle1" className={classes.points} align="right">
             {"Points: 0/0"}
             </Typography>)}
         </Toolbar>        
@@ -364,20 +364,22 @@ function FleetBuilder(props) {
         )}>
       </Snackbar>
 
+      {selectedGameMode && selectedFaction && selectedAdmiral &&
         <InitiativecardSelector
           open={initiativeCardSelectorIsOpen}
           faction={selectedFaction}
           admiral={selectedAdmiral}
           onCancel={handleInitiativeCardSelectorCancel} 
           onSave={handleInitiativeCardSelectorSave} />
-
+      }
       {selectedGameMode && selectedFaction && selectedAdmiral &&
         <ShipSelector
           open={shipSelectorIsOpen}
           faction={selectedFaction}
           admiral={selectedAdmiral}
           gameMode={selectedGameMode}
-          onClose={handleShipSelectorFlowDone} />}
+          onClose={handleShipSelectorFlowDone} />
+      }
     </div>
   );
 };

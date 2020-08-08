@@ -69,7 +69,6 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 ### TODO
 
-- If "Fire ship" is selected, remove and disable other upgrade
 - Add multiple ships at a time (https://stackoverflow.com/questions/59305603/increment-and-decrement-button-via-material-ui-buttongroup)
 - Copy ship
 
@@ -80,10 +79,9 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 ? Save to storage
 - Show pictures of cards
 - Give list a name
-- Cost in floating sub header
 - Make initiative card selector a sortable table
 - Make available offline (manifest?)
-- Give better desktop icon for progressive webapp
+- Set desktop icon for progressive webapp
 
 3.0
 - Share list (backend generated link)
