@@ -102,6 +102,20 @@ function Ship(props) {
     }, [isFlagship, selectedCommander, upgrades, selectedSkillLevel, selectedUpgradeCard1, selectedUpgradeCard2])
 
     useEffect(() => {
+        if(selectedUpgradeCard1.onlyAllowedSolo){
+            setUpgradeCard2SelectorEnabled(false);
+            setSelectedUpgradeCard2("");
+        }
+    }, [selectedUpgradeCard1]);
+
+    useEffect(() => {
+        if(selectedUpgradeCard2.onlyAllowedSolo){
+            setUpgradeCard1SelectorEnabled(false);
+            setSelectedUpgradeCard1("");
+        }
+    }, [selectedUpgradeCard2]);
+
+    useEffect(() => {
         setIsFlagship(ship.isFlagship);
     }, [ship.isFlagship]);
 
