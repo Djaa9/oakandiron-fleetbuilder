@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import '../App.css';
 import { makeStyles } from '@material-ui/core/styles';
-import { MenuItem, Checkbox, FormGroup, FormControlLabel, Card, Divider, InputLabel, Grid, IconButton } from '@material-ui/core';
+import { MenuItem, Checkbox, FormGroup, FormControlLabel, Card, Divider, InputLabel, Grid, IconButton, Grow } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CloseIcon from '@material-ui/icons/Close';
 import FormControl from '@material-ui/core/FormControl';
@@ -191,6 +191,7 @@ function Ship(props) {
     };
 
     return (
+        <Grow in={true}>
         <Card className={classes.card}>
             <Grid
                 container
@@ -331,6 +332,7 @@ function Ship(props) {
                 </FormControl>
             </Grid>
         </Card>
+        </Grow>
     );
 };
 
