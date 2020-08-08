@@ -69,15 +69,10 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 ### TODO
 
-- Validate legal initiative card selection
-    Special condition card (add after)
-    Handle cancel of selector
-
 - Make sure only one flag ship can be chosen (Move selection)
-- Clear initiative Cards and ships when changing faction (Confirmation dialog)
+- If "Fire ship" is selected, remove and disable other upgrade
 - Add multiple ships at a time (https://stackoverflow.com/questions/59305603/increment-and-decrement-button-via-material-ui-buttongroup)
 - Copy ship
-- If "Fire ship" is selected, remove other upgrade
 
 2.0
 - Save to file
