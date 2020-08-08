@@ -32,7 +32,7 @@ function FleetBuilder(props) {
     shipContainer: {
       padding: theme.spacing(2),
       margin: 0,
-      maxWidth: `100%`,
+      maxWidth: "100%",
     },
     sectionHeader: {
       padding: theme.spacing(2),
@@ -54,7 +54,8 @@ function FleetBuilder(props) {
       "overflow-y": "auto"
     },
     title: {
-      flexGrow: 1
+      flexGrow: 1,
+      maxWidth: 550
     },
     topForm: {
       padding: theme.spacing(1)
