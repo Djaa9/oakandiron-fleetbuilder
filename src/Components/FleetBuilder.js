@@ -284,7 +284,7 @@ function FleetBuilder(props) {
         </Grid>
         <Grid container
           className={classes.shipContainer}
-          spacing={1}>
+          spacing={2}>
           {selectedShips.map(selectedShip => (
             <Grid key={selectedShip.id} item xs={12} sm={6} md={4} lg={3} xl={2}>
               <Ship

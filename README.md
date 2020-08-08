@@ -69,9 +69,6 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 ### TODO
 
-- Add multiple ships at a time (https://stackoverflow.com/questions/59305603/increment-and-decrement-button-via-material-ui-buttongroup)
-- Copy ship
-
 2.0
 - Save to file
 - Export as text
@@ -95,3 +92,9 @@ x.0
 - Se top lists
 - Like/dislike other lists
 - Top lists
+
+Ideas
+- Free for all game mode with no restrictions
+- Rearrange ships
+- Copy ship
+- Add multiple ships at a time (https://stackoverflow.com/questions/59305603/increment-and-decrement-button-via-material-ui-buttongroup)
