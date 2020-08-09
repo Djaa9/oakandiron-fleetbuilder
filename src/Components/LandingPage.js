@@ -23,7 +23,7 @@ function LandingPage() {
 
                 <Toolbar>
                     <Typography variant="subtitle1">
-                        Oak&#38;Iron Toolkit
+                        Oak &#38; Iron Toolkit
             </Typography>
                 </Toolbar>
             </AppBar>
@@ -38,15 +38,15 @@ function LandingPage() {
             </Typography>
                 <div className={classes.WelcomeMessage}>
                     <Typography variant="body1" align="center" >
-                        To this unofficial fan made toolkit app for the game Oak&#38;Iron by <a href="https://www.firelockgames.com/oak-iron/"> Firelock games </a>. The app offers a Fleet Builder which will help you build a legal fleet of ships and hand of initiative cards.
+                        To this unofficial fan made toolkit app for the game Oak &#38; Iron by <a href="https://www.firelockgames.com/oak-iron/"> Firelock games </a>. The app offers a Squadron Builder which will help you build a legal fleet of ships and hand of initiative cards.
             </Typography>
                     <Typography variant="body1" align="center" className={classes.WelcomeMessage}>
-                        You can download and access the app by adding it to the homepage of your android and iOS phone.
+                        You can download and use this toolkit as an App on your iOS or Android device by adding it to your home screen from Safari or Chrome.
             </Typography>
                 </div>
                 <Link to="/fleetBuilder">
                     <Button variant="contained"
-                        color="primary"> Go to fleet builder</Button>
+                        color="primary"> Go to squadron builder</Button>
                 </Link>
             </Grid>
 
