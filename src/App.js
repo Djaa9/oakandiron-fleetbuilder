@@ -4,6 +4,7 @@ import FleetBuilderView from './Components/FleetBuilderView.js';
 import { ThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import theme from './muiTheme'
+import LandingPage from './Components/LandingPage.js';
 
 function App() {
   return (
@@ -11,10 +12,8 @@ function App() {
       <CssBaseline />
     <Router>
       <Switch>
-        <Route path="/fleetbuilder/:fleet" render={(props) => <FleetBuilderView urlParams={props} /> }>
-        </Route>
         <Route exact path="/">
-          <FleetBuilderView />
+          <LandingPage />
         </Route>
         <Route exact path="/fleetBuilder">
           <FleetBuilderView />

@@ -3,15 +3,12 @@ import Proptypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import { factions } from '../Data/factions';
 import { gameModes } from '../Data/gameModes';
-import { Typography, List, ListItem, ListItemText, MenuItem, Button, InputLabel, Grid, Toolbar, Snackbar } from '@material-ui/core';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+import { FormControl, Select, Typography, List, ListItem, ListItemText, MenuItem, Button, InputLabel, Grid, Snackbar } from '@material-ui/core';
 import Admirals from "../Providers/admiralsProvider";
 import { grey } from '@material-ui/core/colors';
 import ShipSelector from './ShipSelector';
 import InitiativecardSelector from './InitiativeCardSelector';
 import Ship from './Ship.js';
-import { AppBar } from '@material-ui/core';
 
 function FleetBuilder(props) {
 
@@ -80,26 +77,26 @@ function FleetBuilder(props) {
   const [showTooManyPointsMessage, setShowTooManyPointsMessage] = useState(false);
 
   /*Handles default fleet*/
-  useEffect(() => {
-    if (fleet) {
-      setSelectedGameMode(fleet.gameMode ? fleet.gameMode : "");
-      setSelectedFaction(fleet.faction ? fleet.faction : "");
-      setSelectedAdmiral(fleet.admiral ? fleet.admiral : "");
-      setSelectedShips(fleet.ships ? fleet.ships : []);
-      setSelectedInitiativeCards(fleet.initiativeCards ? fleet.initiativeCards : []);
-    }
-  }, [fleet])
+  //useEffect(() => {
+  //  if (fleet) {
+  //    setSelectedGameMode(fleet.gameMode ? fleet.gameMode : "");
+  //    setSelectedFaction(fleet.faction ? fleet.faction : "");
+  //    setSelectedAdmiral(fleet.admiral ? fleet.admiral : "");
+  //    setSelectedShips(fleet.ships ? fleet.ships : []);
+  //    setSelectedInitiativeCards(fleet.initiativeCards ? fleet.initiativeCards : []);
+  //  }
+  //}, [fleet])
 
   useEffect(() => {
-    if (onFleetChanged)
       onFleetChanged({
         gameMode: selectedGameMode,
         faction: selectedFaction,
         admiral: selectedAdmiral,
         ships: selectedShips,
-        initiativeCards: selectedInitiativeCards
+        initiativeCards: selectedInitiativeCards,
+        cost: cost
       });
-  }, [selectedGameMode, selectedFaction, selectedAdmiral, selectedShips, selectedInitiativeCards]);
+  }, [selectedGameMode, selectedFaction, selectedAdmiral, selectedShips, selectedInitiativeCards, cost]);
 
   useEffect(() => {
     /*Update available admirals*/
@@ -130,7 +127,7 @@ function FleetBuilder(props) {
   }, [selectedGameMode]);
 
   useEffect(() => {
-    // Calculate cost
+    // Calculate cost TODO move this to its own component in FleetBuilderView
     if (selectedGameMode && selectedFaction && selectedGameMode) {
       var newCost = 0;
       newCost = newCost + selectedAdmiral.cost;
@@ -202,25 +199,9 @@ function FleetBuilder(props) {
   return (
     <div className={classes.root}>
 
-      <AppBar position="sticky">
-        <Toolbar>
-          <Typography variant="subtitle1" className={classes.title}>
-            Oak &amp; Iron Fleetbuilder
-          </Typography>
-
-          {selectedGameMode ? (
-            <Typography variant="subtitle1" className={classes.points}>
-              {"Points: " + cost + "/" + selectedGameMode.maxPoints}
-              </Typography>) : (
-              <Typography variant="subtitle1" className={classes.points} align="right">
-            {"Points: 0/0"}
-            </Typography>)}
-        </Toolbar>        
-      </AppBar>
-
       <Grid className={classes.topForm} container>
         <FormControl className={classes.formControl}>
-          <InputLabel>Choose Game Mode</InputLabel>
+          <InputLabel>Choose game size</InputLabel>
           <Select
             displayEmpty
             className={classes.selectEmpty}
@@ -236,7 +217,7 @@ function FleetBuilder(props) {
         </FormControl>
 
         <FormControl className={classes.formControl}>
-          <InputLabel>Choose Faction</InputLabel>
+          <InputLabel>Choose faction</InputLabel>
           <Select
             displayEmpty
             className={classes.selectEmpty}
@@ -252,7 +233,7 @@ function FleetBuilder(props) {
         </FormControl>
 
         <FormControl className={classes.formControl}>
-          <InputLabel>Choose Admiral</InputLabel>
+          <InputLabel>Choose admiral</InputLabel>
           <Select
             displayEmpty
             className={classes.selectEmpty}

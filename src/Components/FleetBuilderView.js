@@ -1,35 +1,60 @@
 import React, { useState, useEffect, } from 'react';
 import Proptypes from 'prop-types';
 import FleetBuilder from './FleetBuilder';
-import fleetProvider from '../Providers/fleetProvider.js';
-import { useHistory } from "react-router-dom";
+import { makeStyles } from '@material-ui/core/styles';
+import { Toolbar, AppBar, Typography, Button } from '@material-ui/core';
+import PublishIcon from '@material-ui/icons/Publish';
+import FleetExporter from './FleetExporter';
 
-function FleetBuilderView(props) {
+function FleetBuilderView() {
+    const useStyles = makeStyles((theme) => ({
+        title: {
+          flexGrow: 1
+        },
+        topForm: {
+          padding: theme.spacing(1)
+        },
+        toolbarIcons: {
+          color: theme.palette.background.default
+        }
+      }));
+    
+    const classes = useStyles();
 
-    let history = useHistory();
     const [fleet, setFleet] = useState("");
-    const { urlParams } = props;
+    const [fleetExporterOpen, setFleetExporterOpen] = useState(false);
 
-    useEffect(() => {
-        if (urlParams) {
-            const fleetToImport = fleetProvider.fromUrlParams(urlParams);
-            setFleet(fleetToImport);            
-        };
-    }, [urlParams]);
+    // #### IMPORT!
+    //useEffect(() => {
+    //    if (urlParams) {
+    //        const fleetToImport = fleetProvider.fromUrlParams(urlParams//);
+    //        //setFleet(fleetToImport);            
+    ////    };
+    //}, [urlParams]);
 
     const handleFleetChanged = (newFleet) => {
-        history.replace(fleetProvider.toUrlParams(newFleet));
+        console.log("handleFleetChanged", newFleet);
+        setFleet(newFleet); 
     };
 
-    if(!urlParams)
-        return (<FleetBuilder />);
+        return (
+            <div>
+            <AppBar position="sticky">
+            <Toolbar>
+              <Typography variant="subtitle1" className={classes.title}>
+                Untitled Squadron            
+                {fleet.gameMode ? " ( " + fleet.cost + "/" + fleet.gameMode.maxPoints + "points )" : " ( 0/0 points )" }            
+                </Typography>
+                <Button className={classes.toolbarIcons} startIcon={<PublishIcon  />} onClick={() => {setFleetExporterOpen(true)}} >Share</Button>
+            </Toolbar>        
+          </AppBar>
 
-    if (fleet) {
-        return (<FleetBuilder fleet={fleet} onFleetChanged={handleFleetChanged} />)
-    }
-    else {
-        return (<FleetBuilder onFleetChanged={handleFleetChanged} />);
-    }
+        <FleetBuilder fleet={fleet} onFleetChanged={handleFleetChanged} />
+        {fleetExporterOpen &&
+          <FleetExporter onClose={() => {setFleetExporterOpen(false)}} open={fleetExporterOpen} fleet={fleet} />
+        }
+        </div>
+        );
 };
 
 FleetBuilderView.propTypes = {

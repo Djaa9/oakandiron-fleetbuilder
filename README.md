@@ -97,4 +97,6 @@ Ideas
 - Free for all game mode with no restrictions
 - Rearrange ships
 - Copy ship
-- Add multiple ships at a time (https://stackoverflow.com/questions/59305603/increment-and-decrement-button-via-material-ui-buttongroup)
+- Add multiple ships at a time (https://stackoverflow.com/questions/59305603 increment-and-decrement-button-via-material-ui-buttongroup)
+- initiative cards shown as accordion https://material-ui.com/components/accordion/#controlled-accordion
+- Rename "game mode" to "game size"
