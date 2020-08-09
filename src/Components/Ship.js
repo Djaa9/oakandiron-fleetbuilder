@@ -236,9 +236,11 @@ function Ship(props) {
                                     ))}
                                 </Select>
                             </FormControl>
+                            {selectedCommander &&
                             <IconButton className={classes.removeButtons} onClick={() => setSelectedCommander("")}>
                                 <CloseIcon fontSize="small" />
                             </IconButton>
+                            }
                         </Grid>
 
                         <Grid
@@ -261,9 +263,11 @@ function Ship(props) {
                                     ))}
                                 </Select>
                             </FormControl>
+                            {selectedSkillLevel &&
                             <IconButton className={classes.removeButtons} onClick={() => setSelectedSkillLevel("")}>
                                 <CloseIcon fontSize="small" />
                             </IconButton>
+                            }
                         </Grid>
 
                         {ship.upgrades && ship.upgrades.length > 0 && <Divider className={classes.divider} />}
@@ -300,9 +304,11 @@ function Ship(props) {
                                     ))}
                                 </Select>
                             </FormControl>
+                            {selectedUpgradeCard1 &&
                             <IconButton className={classes.removeButtons} onClick={() => setSelectedUpgradeCard1("")}>
                                 <CloseIcon fontSize="small" />
                             </IconButton>
+                            }
                         </Grid>
                         <Grid
                             container
@@ -324,9 +330,11 @@ function Ship(props) {
                                     ))}
                                 </Select>
                             </FormControl>
+                            {selectedUpgradeCard2 &&
                             <IconButton className={classes.removeButtons} onClick={() => setSelectedUpgradeCard2("")}>
                                 <CloseIcon fontSize="small" />
                             </IconButton>
+                            }
                         </Grid>
                     </FormGroup>
                 </FormControl>
