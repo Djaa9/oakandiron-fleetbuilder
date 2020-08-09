@@ -44,13 +44,10 @@ function LandingPage() {
                         You can download and use this toolkit as an App on your iOS or Android device by adding it to your home screen from Safari or Chrome.
             </Typography>
                 </div>
-                <Link to="/fleetBuilder">
-                    <Button variant="contained"
-                        color="primary"> Go to squadron builder</Button>
-                </Link>
+                <Button to="/fleetBuilder" variant="contained" component={Link}
+                    color="primary"> Go to squadron builder
+                        </Button>
             </Grid>
-
-
         </div>
     );
 };
