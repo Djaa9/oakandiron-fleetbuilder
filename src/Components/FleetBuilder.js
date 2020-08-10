@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { factions } from '../Data/factions';
 import { gameModes } from '../Data/gameModes';
 import { FormControl, Select, Typography, List, ListItem, ListItemText, MenuItem, Button, InputLabel, Grid, Snackbar } from '@material-ui/core';
-import Admirals from "../Providers/admiralsProvider";
+import Admirals from '../Providers/admiralsProvider';
 import { grey } from '@material-ui/core/colors';
 import ShipSelector from './ShipSelector';
 import InitiativecardSelector from './InitiativeCardSelector';
