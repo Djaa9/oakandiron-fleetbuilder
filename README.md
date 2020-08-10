@@ -69,6 +69,8 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 ### TODO
 
+prompt for install of PWA https://web.dev/customize-install/
+
 2.0
 - Save to file
 - Export as text
