@@ -1,4 +1,4 @@
-import { allUpgradeCards } from "../Data/upgradeCards";
+import { allUpgradeCards } from "../data/upgradeCards";
 
 const upgradeCardsProvider = {
     allowed: function (faction, ship) {

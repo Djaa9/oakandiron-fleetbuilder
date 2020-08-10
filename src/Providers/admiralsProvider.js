@@ -1,5 +1,5 @@
-import { allAdmirals } from "../Data/admirals";
-import { factionTypes } from "../Data/factionTypes";
+import { allAdmirals } from "../data/admirals";
+import { factionTypes } from "../data/factionTypes";
 
 const admiralProvider = {
   allowed: function (faction) {

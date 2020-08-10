@@ -5,7 +5,7 @@ import { Dialog, DialogTitle, List, ListItem, DialogContent, DialogActions, Butt
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from '@material-ui/core/ListItemText';
 import Alert from '@material-ui/lab/Alert';
-import { factionTypes } from '../Data/factionTypes.js';
+import { factionTypes } from '../data/factionTypes.js';
 
 function InitiativeCardSelector(props) {
 

@@ -1,5 +1,5 @@
-import { factionTypes } from "../Data/factionTypes";
-import { ships } from "../Data/ships";
+import { factionTypes } from "../data/factionTypes";
+import { ships } from "../data/ships";
 
 const shipProvider = {
   all: () => { return ships },

@@ -1,6 +1,6 @@
-import { initiativeCards } from '../Data/initiativeCards.js';
-import { factions } from '../Data/factions.js';
-import { factionTypes } from '../Data/factionTypes.js'
+import { initiativeCards } from '../data/initiativeCards.js';
+import { factions } from '../data/factions.js';
+import { factionTypes } from '../data/factionTypes.js'
 
 const initiativeCardsProvider = {
     allowed: function (faction, admiral) {

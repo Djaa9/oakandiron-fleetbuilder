@@ -1,7 +1,7 @@
-import { gameModes } from '../Data/gameModes';
-import { factions } from '../Data/factions';
-import { allAdmirals } from "../Data/admirals";
-import Commanders from '../Data/commanders';
+import { gameModes } from '../data/gameModes';
+import { factions } from '../data/factions';
+import { allAdmirals } from "../data/admirals";
+import Commanders from '../data/commanders';
 import shipProvider from '../Providers/shipProvider';
 
 const fleetProvider = {
