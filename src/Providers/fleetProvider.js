@@ -61,7 +61,6 @@ const fleetProvider = {
   },
   toText: function (fleet) {
     let textString = "";
-    console.log("toText", fleet);
 
     textString += "GAME SIZE: " + (fleet.gameMode ? fleet.gameMode.name : "-") + "\n";
     textString += "FACTION: " + (fleet.faction ? fleet.faction.name : "-") + "\n";

@@ -137,7 +137,7 @@ export const allUpgradeCards = [
 {
     name:"Support Ship",
     cost: 1,
-    keywords: [],
+    keywords: ["Double Rations", "Valuable"],
     factions: ["English", "Spanish", "Dutch", "French", "Pirate"],
     notAllowedForClasses: ["Ship of the Line"],
     notAllowedForFlagship: true,

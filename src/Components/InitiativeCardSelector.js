@@ -9,7 +9,7 @@ import { factionTypes } from '../data/factionTypes.js';
 
 function InitiativeCardSelector(props) {
 
-  const { open, onSave, onCancel, faction, admiral } = props;
+  const { open, onSave, onCancel, faction, admiral, ships } = props;
 
   const [availableInitiativeCards, setAvailableInitiativeCards] = useState([]);
   const [autoIncludedCards, setAutoIncludedCards] = useState([]);
@@ -18,7 +18,7 @@ function InitiativeCardSelector(props) {
   useEffect(() => {
     
     if (faction && admiral) {
-      let allowedCards = initiativeCardsProvider.allowed(faction, admiral);
+      let allowedCards = initiativeCardsProvider.allowed(faction, admiral, ships);
       setAutoIncludedCards(allowedCards.filter(card => card.autoInclude))  
       setAvailableInitiativeCards(allowedCards.filter(card => !card.autoInclude));
       setMaxHandSize(5 + admiral.admiralValue);
@@ -28,7 +28,7 @@ function InitiativeCardSelector(props) {
       setAvailableInitiativeCards([]);
     }
 
-  }, [faction, admiral]);
+  }, [faction, admiral, ships]);
 
   const handleListItemClick = (checkedCard) => {
     checkedCard.selected = !checkedCard.selected;
@@ -81,7 +81,7 @@ function InitiativeCardSelector(props) {
         <Alert severity="info"> 
               <Typography style={{whiteSpace: 'pre-line'}} variant="body2">
               {"Your hand must include " + maxHandSize + " cards (5 + ADMIRAL " + admiral.admiralValue + ").\n"}
-              {autoIncludedCards.map(card => (<b> {card.name} </b> )) }{autoIncludedCards.length > 0 && " will be added when selection is done"} 
+              {autoIncludedCards.map(card => (<b> {card.name + "," } </b> )) }{autoIncludedCards.length > 0 && " will be added when selection is done"} 
               </Typography>
         </Alert>
 
@@ -116,6 +116,7 @@ InitiativeCardSelector.propTypes = {
   open: PropTypes.bool.isRequired,
   faction: PropTypes.object.isRequired,
   admiral: PropTypes.object.isRequired,
+  ships: PropTypes.array.isRequired,
   onClose: PropTypes.func,
   onCancel: PropTypes.func
 };

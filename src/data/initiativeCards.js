@@ -111,7 +111,7 @@ export const initiativeCards = Object.freeze({
       faction: "All",
       cardText: "During the Movement Phase, Ships in this squadron that move at Speed Rating 2 or less can place a Landing Party token on an opposing ship within Pistol Shot. During the Attack Phase, ships that deployed a Landing Party token this way may make a Close Combat Attack against the ship that it placed the token on. Landing Party tokens placed this way are removed at the end of the turn.",
       discardedAfterUse: false
-    }
+    },
   ],
   dutch: [
     {
@@ -173,7 +173,7 @@ export const initiativeCards = Object.freeze({
       discardedAfterUse: true
     },
     {
-      name: "Fast Loader",
+      name: "Fast Loaders",
       initiativeValue: 5,
       faction: "English",
       cardText: "Each ship in this Squadron may immediately remove a reload marker. Discard this Initiative Card instead of returning it to your hand during the end phase.",
@@ -285,5 +285,12 @@ export const initiativeCards = Object.freeze({
       cardText: "Each ship in this Squadron within Musket shot of their Flagship may immediately remove 1 poin of Fatigue. This card may only be included with a Squadron whose Admiral has the \"Intrepid\" special rule.",
       discardedAfterUse: true
     },
+    {
+      name: "Double Rations",
+      initiativeValue: 1,
+      faction: "All",
+      cardText: "All ships in this Squadron remove 1 point of Fatigue. This card may only be included with a ship that includes the \"Double Rations\" Special Rule. Discard this Initiative Card instead of returning it to your hand during the end phase.",
+      discardedAfterUse: true
+    }
   ]
 });

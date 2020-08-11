@@ -33,7 +33,6 @@ function FleetBuilderView() {
     //}, [urlParams]);
 
     const handleFleetChanged = (newFleet) => {
-        console.log("handleFleetChanged", newFleet);
         setFleet(newFleet); 
     };
 

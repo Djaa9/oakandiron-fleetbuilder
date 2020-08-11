@@ -72,28 +72,18 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 prompt for install of PWA https://web.dev/customize-install/
 
 2.0
-- Save to file
-- Export as text
-- Add pdf card packs
-? Save to storage
-- Show pictures of cards
+- Save to account
 - Give list a name
-- Make initiative card selector a sortable table
-- Make available offline (manifest?)
-- Set desktop icon for progressive webapp
-
-3.0
 - Share list (backend generated link)
-- Print friendly version
-- login and save in db on backend
 
 x.0
-- Save list on server
+- Print friendly version
+- Add pdf card packs
+- Show pictures of cards
 - Track win loss
 - Fork list
 - Se top lists
 - Like/dislike other lists
-- Top lists
 
 Ideas
 - Free for all game mode with no restrictions
@@ -102,3 +92,5 @@ Ideas
 - Add multiple ships at a time (https://stackoverflow.com/questions/59305603 increment-and-decrement-button-via-material-ui-buttongroup)
 - initiative cards shown as accordion https://material-ui.com/components/accordion/#controlled-accordion
 - Rename "game mode" to "game size"
+? Save to file
+- Make initiative card selector a sortable table

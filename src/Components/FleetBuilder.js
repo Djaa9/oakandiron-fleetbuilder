@@ -354,6 +354,7 @@ function FleetBuilder(props) {
           open={initiativeCardSelectorIsOpen}
           faction={selectedFaction}
           admiral={selectedAdmiral}
+          ships={selectedShips}
           onCancel={handleInitiativeCardSelectorCancel} 
           onSave={handleInitiativeCardSelectorSave} />
       }

@@ -9,6 +9,41 @@ import { factionTypes as faction } from "./factionTypes";
       cost: 0
     },
     {
+      name: "Untested Bold Admiral",
+      admiralValue: 0,
+      keywords: ["Bold"],
+      faction: faction.NONE,
+      cost: 1
+    },
+    {
+      name: "Untested Lucky Admiral",
+      admiralValue: 0,
+      keywords: ["Lucky"],
+      faction: faction.NONE,
+      cost: 1
+    },
+    {
+      name: "Untested Persistent Admiral",
+      admiralValue: 0,
+      keywords: ["Persistent"],
+      faction: faction.NONE,
+      cost: 2
+    },
+    {
+      name: "Untested Brilliant Admiral",
+      admiralValue: 0,
+      keywords: ["Brilliant"],
+      faction: faction.NONE,
+      cost: 4
+    },
+    {
+      name: "Untested Inspiring Admiral",
+      admiralValue: 0,
+      keywords: ["Inspiring"],
+      faction: faction.NONE,
+      cost: 4
+    },
+    {
       name: "Experienced Admiral",
       admiralValue: 1,
       keywords: [],
@@ -16,11 +51,81 @@ import { factionTypes as faction } from "./factionTypes";
       cost: 2
     },
     {
+      name: "Experienced Bold Admiral",
+      admiralValue: 1,
+      keywords: ["Bold"],
+      faction: faction.NONE,
+      cost: 3
+    },
+    {
+      name: "Experienced Lucky Admiral",
+      admiralValue: 1,
+      keywords: ["Lucky"],
+      faction: faction.NONE,
+      cost: 3
+    },      
+    {
+      name: "Experienced Persistent Admiral",
+      admiralValue: 1,
+      keywords: ["Persistent"],
+      faction: faction.NONE,
+      cost: 4
+    },   
+    {
+      name: "Experienced Brilliant Admiral",
+      admiralValue: 1,
+      keywords: ["Brilliant"],
+      faction: faction.NONE,
+      cost: 6
+    },  
+    {
+      name: "Experienced Inspiring Admiral",
+      admiralValue: 1,
+      keywords: ["Inspiring"],
+      faction: faction.NONE,
+      cost: 6
+    },  
+    {
       name: "Seasoned Admiral",
       admiralValue: 2,
       keywords: [],
       faction: faction.NONE,
       cost: 4
+    },
+    {
+      name: "Seasoned Bold Admiral",
+      admiralValue: 2,
+      keywords: ["Bold"],
+      faction: faction.NONE,
+      cost: 5
+    },
+    {
+      name: "Seasoned Lucky Admiral",
+      admiralValue: 2,
+      keywords: ["Lucky"],
+      faction: faction.NONE,
+      cost: 5
+    },
+    {
+      name: "Seasoned Persistent Admiral",
+      admiralValue: 2,
+      keywords: ["Persistent"],
+      faction: faction.NONE,
+      cost: 6
+    },
+    {
+      name: "Seasoned Brilliant Admiral",
+      admiralValue: 2,
+      keywords: ["Brilliant"],
+      faction: faction.NONE,
+      cost: 8
+    },
+    {
+      name: "Seasoned Inspiring Admiral",
+      admiralValue: 2,
+      keywords: ["Inspiring"],
+      faction: faction.NONE,
+      cost: 8
     },
     {
       name: "Abraham Crijinssen",
