@@ -1,10 +1,10 @@
 import React, { useState, useEffect, } from 'react';
-import Proptypes from 'prop-types';
 import FleetBuilder from './FleetBuilder';
 import { makeStyles } from '@material-ui/core/styles';
 import { Toolbar, AppBar, Typography, Button } from '@material-ui/core';
 import PublishIcon from '@material-ui/icons/Publish';
 import FleetExporter from './FleetExporter';
+import { useParams } from 'react-router-dom';
 
 function FleetBuilderView() {
     const useStyles = makeStyles((theme) => ({
@@ -19,18 +19,16 @@ function FleetBuilderView() {
         }
       }));
     
+    let { squadronId } = useParams();
     const classes = useStyles();
 
     const [fleet, setFleet] = useState("");
     const [fleetExporterOpen, setFleetExporterOpen] = useState(false);
 
-    // #### IMPORT!
-    //useEffect(() => {
-    //    if (urlParams) {
-    //        const fleetToImport = fleetProvider.fromUrlParams(urlParams//);
-    //        //setFleet(fleetToImport);            
-    ////    };
-    //}, [urlParams]);
+    useEffect(() => {
+        console.log("passed squadronId", squadronId);    
+        // TODO use Provider to get fleet from db
+    }, [squadronId]);
 
     const handleFleetChanged = (newFleet) => {
         setFleet(newFleet); 
@@ -54,10 +52,6 @@ function FleetBuilderView() {
         }
         </div>
         );
-};
-
-FleetBuilderView.propTypes = {
-    urlParams: Proptypes.object
 };
 
 export default FleetBuilderView;

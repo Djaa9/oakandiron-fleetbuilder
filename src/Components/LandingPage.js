@@ -17,21 +17,7 @@ function LandingPage() {
     }));
 
     const classes = useStyles();
-    
-    useEffect(() => {        
-        var backendUrl;
-
-        if(process.env.NODE_ENV === "production")
-            backendUrl = "https://oai-toolkit.herokuapp.com";
         
-        if(process.env.NODE_ENV === "development")
-            backendUrl ="http://localhost:5000";
-
-        fetch(backendUrl + '/squadron/publicUrl')
-            .then(res => res.json())
-            .then(res => console.log(res));
-    },[])
-    
     return (
         <div>
             <AppBar position="sticky">

@@ -15,7 +15,10 @@ function App() {
         <Route exact path="/">
           <LandingPage />
         </Route>
-        <Route exact path="/squadronBuilder">
+        <Route exact path="/squadron">
+          <FleetBuilderView />
+        </Route>
+        <Route exact path="/squadron/:squadronId">
           <FleetBuilderView />
         </Route>
       </Switch>

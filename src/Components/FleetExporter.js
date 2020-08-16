@@ -5,7 +5,23 @@ import { Dialog, DialogTitle, TextField, Grid, DialogContentText, DialogContent,
 import { makeStyles } from '@material-ui/core/styles';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 
+// TODO Put func in util file
 function FleetExporter(props) {
+
+    function appUrl(resourceUrl){
+
+        if(process.env.NODE_ENV === "production")
+          return "https://oai-toolkit.netlify.app";
+      
+        if(process.env.NODE_ENV === "development")
+          return "http://localhost:3000";
+      
+        if(process.env.NODE_ENV === "test")
+          return "http://localhost:3000";
+      
+          return "";
+      }
+
     const { open, onClose, fleet } = props;
 
     const useStyles = makeStyles((theme) => ({
@@ -24,7 +40,7 @@ function FleetExporter(props) {
 
     const classes = useStyles();
 
-    const [fleetJsonExport, setFleetJsonExport] = useState("");
+    const [fleetLink, setFleetLink] = useState("");
     const [fleetTextExport, setFleetTextExport] = useState("");
     const textExportInputField = useRef(null);
     const textAreaRef = useRef(null);
@@ -32,7 +48,17 @@ function FleetExporter(props) {
     useEffect(() => {
         if (!fleet) return;
 
-        setFleetJsonExport(fleetProvider.toJson(fleet));
+        const fetchData = async () => {
+
+            let link = appUrl() + "/squadron/";
+            link += await fleetProvider.SaveAndGetId(fleet);
+            
+            console.log(link);
+            setFleetLink(link);
+          };
+
+          fetchData();
+        
         setFleetTextExport(fleetProvider.toText(fleet));
     }, [fleet])
 
@@ -64,7 +90,7 @@ function FleetExporter(props) {
                     <TextField ref={textExportInputField} className={classes.textExportInputField} multiline variant="outlined" defaultValue={fleetTextExport} />
                     
                 </Grid>
-                    <textarea className={classes.hiddenForm} ref={textAreaRef} value=" "/>
+                    <textarea className={classes.hiddenForm} ref={textAreaRef}/>
                 </DialogContent>
                 <DialogActions>
                 

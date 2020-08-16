@@ -4,7 +4,36 @@ import { allAdmirals } from "../data/admirals";
 import Commanders from '../data/commanders';
 import shipProvider from '../Providers/shipProvider';
 
+// TODO Put func in util file
+function resource(resourceUrl){
+
+  if(process.env.NODE_ENV === "production")
+    return "https://oai-toolkit.herokuapp.com" + resourceUrl;
+
+  if(process.env.NODE_ENV === "development")
+    return "http://localhost:5000" + resourceUrl;
+
+  if(process.env.NODE_ENV === "test")
+    return "http://localhost:5000" + resourceUrl;
+
+    return "";
+}
+
 const fleetProvider = {
+  SaveAndGetId: async function (fleet) {
+    console.log("fleet to send", fleet);
+    // send fleet as json
+    let response = await fetch(
+      resource('/squadron/'), {
+      method: 'post',
+      body: JSON.stringify(fleet),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    });
+
+    return await response.json();;
+  },
   toJson: function (fleet) {
 
     var shortForm = {};
