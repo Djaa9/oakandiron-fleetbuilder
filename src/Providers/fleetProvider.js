@@ -32,7 +32,7 @@ const fleetProvider = {
       },
     });
 
-    return await response.json();;
+    return await response.json();
   },
   toJson: function (fleet) {
 

@@ -16,6 +16,18 @@ function LandingPage() {
         }
     }));
 
+    useEffect(() => {
+        var url;
+        if(process.env.NODE_ENV === "production")
+          url = "https://oai-toolkit.herokuapp.com/squadron/";
+      
+        if(process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test")
+          url = "http://localhost:5000/squadron/";
+
+          fetch(url).then((res) => res.json()).then(data => console.log("data", data));
+
+    },[]);
+
     const classes = useStyles();
         
     return (
