@@ -4,7 +4,7 @@ import { allAdmirals } from "../data/admirals";
 import Commanders from '../data/commanders';
 import shipProvider from '../Providers/shipProvider';
 
-// TODO Put func in util file
+// TODO Put in func in util file
 function resource(resourceUrl){
 
   if(process.env.NODE_ENV === "production")
@@ -21,23 +21,8 @@ function resource(resourceUrl){
 
 const fleetProvider = {
   SaveAndGetId: async function (fleet) {
-    console.log("fleet to send", fleet);
-    // send fleet as json
-    let response = await fetch(
-      resource('/squadron/'), {
-      method: 'post',
-      body: JSON.stringify(fleet),
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    });
-
-    return await response.json();
-  },
-  toJson: function (fleet) {
 
     var shortForm = {};
-
     shortForm.gameMode = fleet.gameMode ? fleet.gameMode.name : null;
     shortForm.faction = fleet.faction ? fleet.faction.name : null;
     shortForm.admiral = fleet.admiral ? fleet.admiral.name : null;
@@ -54,10 +39,26 @@ const fleetProvider = {
     ) : [];
     shortForm.initiativeCards = fleet.initiativeCards ? fleet.initiativeCards.map(card => card.name) : null;
 
-    return shortForm;
+    let response = await fetch(
+      resource('/squadron/'), {
+      method: 'post',
+      body: JSON.stringify(shortForm),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    });
+
+    return await response.json();
   },
-  fromJson: function (Json) {
-    var fleetProps = JSON.parse(Json);
+  GetFromId: async function (id) {
+
+    let response = await fetch(resource('/squadron/' + id));
+    console.log("response from be", response);
+    let data = await response.json();
+
+    console.log("data from be", data);
+
+    var fleetProps = JSON.parse(data);
     var fleet = [];
 
     fleetProps.forEach((fleetProp) => {

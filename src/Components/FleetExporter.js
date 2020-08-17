@@ -5,9 +5,10 @@ import { Dialog, DialogTitle, TextField, Grid, DialogContentText, DialogContent,
 import { makeStyles } from '@material-ui/core/styles';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 
-// TODO Put func in util file
 function FleetExporter(props) {
 
+
+// TODO Put func in util file
     function appUrl(resourceUrl){
 
         if(process.env.NODE_ENV === "production")
@@ -48,16 +49,15 @@ function FleetExporter(props) {
     useEffect(() => {
         if (!fleet) return;
 
-        const fetchData = async () => {
-
+        const callProviderAsync = async () => {
             let link = appUrl() + "/squadron/";
             link += await fleetProvider.SaveAndGetId(fleet);
             
             console.log(link);
             setFleetLink(link);
           };
-
-          fetchData();
+          
+          callProviderAsync();
         
         setFleetTextExport(fleetProvider.toText(fleet));
     }, [fleet])

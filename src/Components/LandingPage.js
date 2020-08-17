@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Typography, AppBar, Toolbar, Button, Grid } from '@material-ui/core';
 import { Link } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
@@ -15,18 +15,6 @@ function LandingPage() {
 
         }
     }));
-
-    useEffect(() => {
-        var url;
-        if(process.env.NODE_ENV === "production")
-          url = "https://oai-toolkit.herokuapp.com/squadron/";
-      
-        if(process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test")
-          url = "http://localhost:5000/squadron/";
-
-          fetch(url).then((res) => res.json()).then(data => console.log("data", data));
-
-    },[]);
 
     const classes = useStyles();
         

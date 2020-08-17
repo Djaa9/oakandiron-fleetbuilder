@@ -5,6 +5,7 @@ import { Toolbar, AppBar, Typography, Button } from '@material-ui/core';
 import PublishIcon from '@material-ui/icons/Publish';
 import FleetExporter from './FleetExporter';
 import { useParams } from 'react-router-dom';
+import fleetProvider from '../Providers/fleetProvider';
 
 function FleetBuilderView() {
     const useStyles = makeStyles((theme) => ({
@@ -27,7 +28,14 @@ function FleetBuilderView() {
 
     useEffect(() => {
         console.log("passed squadronId", squadronId);    
-        // TODO use Provider to get fleet from db
+
+        const callProviderAsync = async () => {
+          let fleet = fleetProvider.GetFromId(squadronId);
+
+        console.log("fleet from backend", fleet);
+        };
+        
+        callProviderAsync();
     }, [squadronId]);
 
     const handleFleetChanged = (newFleet) => {
