@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import fleetProvider from '../Providers/fleetProvider.js';
+import fleetProvider from '../Providers/squadronProvider.js';
 import { Dialog, DialogTitle, TextField, Grid, DialogContentText, DialogContent, Button, DialogActions } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import AssignmentIcon from '@material-ui/icons/Assignment';

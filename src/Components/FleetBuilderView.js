@@ -5,7 +5,7 @@ import { Toolbar, AppBar, Typography, Button } from '@material-ui/core';
 import PublishIcon from '@material-ui/icons/Publish';
 import FleetExporter from './FleetExporter';
 import { useParams } from 'react-router-dom';
-import fleetProvider from '../Providers/fleetProvider';
+import fleetProvider from '../Providers/squadronProvider';
 
 function FleetBuilderView() {
     const useStyles = makeStyles((theme) => ({
