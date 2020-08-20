@@ -1,11 +1,11 @@
 import React, { useState, useEffect, } from 'react';
-import FleetBuilder from './FleetBuilder';
+import FleetBuilder from './Squadron';
 import { makeStyles } from '@material-ui/core/styles';
 import { Toolbar, AppBar, Typography, Button } from '@material-ui/core';
 import PublishIcon from '@material-ui/icons/Publish';
 import FleetExporter from './FleetExporter';
 import { useParams } from 'react-router-dom';
-import fleetProvider from '../Providers/squadronProvider';
+import squadronProvider from '../Providers/squadronProvider';
 
 function SquadronBuilderView() {
   const useStyles = makeStyles((theme) => ({
@@ -28,15 +28,17 @@ function SquadronBuilderView() {
 
   useEffect(() => {
     const callProviderAsync = async () => {
-      let fleet = await fleetProvider.GetFromId(squadronId);
-      setSquadron(fleet);
+      let squadron = await squadronProvider.GetFromId(squadronId);
+     // console.log("SBV squad from params updated", squadron);
+      setSquadron(squadron);
     };
 
     callProviderAsync();
   }, [squadronId]);
 
-  const handleFleetChanged = (newFleet) => {
-    setSquadron(newFleet);
+  const handleSquadronChanged = (newSquadron) => {
+   // console.log("SBV squad from SQUAD updated", squadron);
+    setSquadron(newSquadron);
   };
 
   return (
@@ -51,7 +53,7 @@ function SquadronBuilderView() {
         </Toolbar>
       </AppBar>
 
-      <FleetBuilder fleet={squadron} onFleetChanged={handleFleetChanged} />
+      <FleetBuilder squadron={squadron} onSquadronChanged={handleSquadronChanged} />
       {fleetExporterOpen &&
         <FleetExporter onClose={() => { setFleetExporterOpen(false) }} open={fleetExporterOpen} fleet={squadron} />
       }

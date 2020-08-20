@@ -1,4 +1,4 @@
-import React, { useState, useEffect, } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Proptypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import { factions } from '../data/factions';
@@ -9,8 +9,9 @@ import { grey } from '@material-ui/core/colors';
 import ShipSelector from './ShipSelector';
 import InitiativecardSelector from './InitiativeCardSelector';
 import Ship from './Ship.js';
+import { ships } from '../data/ships';
 
-function FleetBuilder(props) {
+function Squadron(props) {
 
   const useStyles = makeStyles((theme) => ({
     root: {
@@ -60,71 +61,59 @@ function FleetBuilder(props) {
   }));
 
   const classes = useStyles();
-  const { fleet, onFleetChanged } = props;
+  const { squadron, onSquadronChanged } = props;
 
   const [selectedFaction, setSelectedFaction] = useState("");
   const [selectedGameMode, setSelectedGameMode] = useState("");
   const [selectedAdmiral, setSelectedAdmiral] = useState("");
-  const [availableAdmirals, setAvailableAdmiral] = useState([]);
+  const [availableAdmirals, setAvailableAdmirals] = useState([]);
   const [selectedShips, setSelectedShips] = useState([]);
   const [shipSelectorIsOpen, setShipSelectorIsOpen] = useState(false);
   const [initiativeCardSelectorIsOpen, setInitiativeCardSelectorIsOpen] = useState(false);
   const [selectedInitiativeCards, setSelectedInitiativeCards] = useState([]);
-  const [cost, setCost] = useState(0);
-  const [shipIdCounter, setShipIdCounter] = useState(0);
+  const [cost, setCost] = useState(0);  
   const [showTooFewShipsMessage, setShowTooFewShipsMessage] = useState(false);
   const [showTooManyShipsMessage, setShowTooManyShipsMessage] = useState(false);
   const [showTooManyPointsMessage, setShowTooManyPointsMessage] = useState(false);
 
-  /*Handles default fleet*/
-  //useEffect(() => {
-  //  if (fleet) {
-  //    setSelectedGameMode(fleet.gameMode ? fleet.gameMode : "");
-  //    setSelectedFaction(fleet.faction ? fleet.faction : "");
-  //    setSelectedAdmiral(fleet.admiral ? fleet.admiral : "");
-  //    setSelectedShips(fleet.ships ? fleet.ships : []);
-  //    setSelectedInitiativeCards(fleet.initiativeCards ? fleet.initiativeCards : []);
-  //  }
-  //}, [fleet])
+  const shipIdCounter = useRef(0);
 
   useEffect(() => {
-      onFleetChanged({
-        gameMode: selectedGameMode,
-        faction: selectedFaction,
-        admiral: selectedAdmiral,
-        ships: selectedShips,
-        initiativeCards: selectedInitiativeCards,
-        cost: cost
-      });
-  }, [selectedGameMode, selectedFaction, selectedAdmiral, selectedShips, selectedInitiativeCards, cost]);
-
-  useEffect(() => {
-    /*Update available admirals*/
-    if (selectedFaction){
-      setAvailableAdmiral(Admirals.allowed(selectedFaction));
-      setSelectedAdmiral("");
-      setSelectedShips([]);
-      setSelectedInitiativeCards([]);
+    if (squadron) {
+      let newAvailableAdmirals;
+      setSelectedGameMode(squadron.gameMode ? squadron.gameMode : "");
+      if(squadron.faction) { 
+        setSelectedFaction(squadron.faction ? squadron.faction : "");
+        newAvailableAdmirals = Admirals.allowed(squadron.faction);
+        setAvailableAdmirals(newAvailableAdmirals);
+      }
+      if(squadron.admiral) {
+        setSelectedAdmiral(newAvailableAdmirals.find(admiral => admiral.name === squadron.admiral.name));
+      }      
+      if(squadron.initiativeCards) 
+      setSelectedInitiativeCards(squadron.initiativeCards);
+      if(squadron.ships){
+        squadron.ships.map(ship => {
+          ship.id = shipIdCounter.current++;
+          return ship;
+        });
+      
+        setSelectedShips(squadron.ships);
+      }        
     }
-  }, [selectedFaction]);
+  }, [squadron])
 
-  useEffect(() => {
-    /*Update available admirals*/
-    if (selectedAdmiral){
-      setSelectedInitiativeCards([]);
-      setSelectedShips([]);
-    }
-  }, [selectedAdmiral]);
-
-  useEffect(() => {
-    /*Update available admirals*/
-    if (selectedGameMode){
-      setSelectedFaction("");
-      setSelectedAdmiral("");
-      setSelectedShips([]);
-      setSelectedInitiativeCards([]);
-    }
-  }, [selectedGameMode]);
+  useEffect(() => {   
+    if(selectedGameMode) squadron.gameMode = selectedGameMode;
+      if(selectedFaction) squadron.faction = selectedFaction;
+      if(selectedAdmiral) squadron.admiral = selectedAdmiral;
+      if(selectedShips && selectedShips.length > 0) squadron.ships = selectedShips;
+      if(selectedInitiativeCards) squadron.initiativeCards = selectedInitiativeCards;
+      if(cost) squadron.cost = cost;
+    
+    onSquadronChanged(squadron);
+    
+  }, [selectedGameMode, selectedFaction, selectedAdmiral, selectedShips, selectedInitiativeCards, cost, onSquadronChanged, squadron]);
 
   useEffect(() => {
     // Calculate cost TODO move this to its own component in FleetBuilderView
@@ -170,9 +159,7 @@ function FleetBuilder(props) {
       return;
 
     const copyOfShipToAdd = Object.assign({}, shipToAdd);
-    copyOfShipToAdd.id = shipIdCounter;
-
-    setShipIdCounter(shipIdCounter + 1);
+    copyOfShipToAdd.id = shipIdCounter.current++;
 
     const newList = selectedShips;
     newList.push(copyOfShipToAdd);
@@ -370,9 +357,9 @@ function FleetBuilder(props) {
   );
 };
 
-FleetBuilder.propTypes = {
-  fleet: Proptypes.object,
-  onFleetChanged: Proptypes.func
+Squadron.propTypes = {
+  squadron: Proptypes.object,
+  onSquadronChanged: Proptypes.func
 };
 
-export default FleetBuilder;
+export default Squadron;

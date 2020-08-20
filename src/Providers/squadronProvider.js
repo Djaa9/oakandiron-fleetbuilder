@@ -41,6 +41,7 @@ const squadronProvider = {
     let response = await fetch(apiUtil.url() + '/squadron/' + id);
     let shortForm = await response.json();
 
+    console.log(shortForm);
     var squadron = {};
 
     if (shortForm.gameMode) {
@@ -53,19 +54,20 @@ const squadronProvider = {
       squadron.admiral = allAdmirals.find(admiral => admiral.name === shortForm.admiral);
     }
     if (shortForm.ships) {
-      squadron.ships = shortForm.ships.map(shipFromUrl => {
-        return {
-          name: shipProvider.all().find(ship => ship.name === shipFromUrl),
-          isFlagship: shipFromUrl.isFlagship,
-          commander: shipFromUrl.commander ? Commanders.all().find(commander => commander.name === shipFromUrl.commander.name) : null,
-          skillLevel: shipFromUrl.skillLevel,
-          upgradeCards: [],
-          upgrades: []
-        }
-      }
-      );
-    }
+      squadron.ships = shortForm.ships.map(shipShortForm => {
+        let newShip = shipProvider.all().find(ship => ship.name === shipShortForm.name);
 
+          newShip.isFlagship = false;
+          newShip.commander = shipShortForm.commander ? Commanders.all().find(commander => commander.name === shipShortForm.commander.name) : "";
+          newShip.skillLevel = shipShortForm.skillLevel;
+          newShip.upgradeCard1 = shipShortForm.upgradeCards[0];
+          newShip.upgradeCard2 = shipShortForm.upgradeCards[1];
+          //newShip.upgrades.map(upgrade => upgrade.name )      
+          return newShip;            
+      }      
+      );
+  }  
+    console.log("provider squad", squadron);
     return squadron;
   },
   toText: (squadron) => {

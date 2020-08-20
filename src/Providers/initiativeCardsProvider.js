@@ -50,7 +50,7 @@ const initiativeCardsProvider = {
             autoIncludedIntrepidCard.autoInclude = true;
             initiativeCardsToReturn.push(autoIncludedIntrepidCard);
         }
-        console.log(ships);
+
         // Allow and Autoinclude "Double Rations" if the ship has the keyword (from Supply Ship upgrade card) 
         if(ships.find(ship => [ship.upgradeCard1, ship.upgradeCard2].find(card => (card ? card.keywords.includes("Double Rations") : false))))
             initiativeCardsToReturn.push(initiativeCards.special.filter(card => card.name === "Double Rations").map(card => { card.autoInclude = true; return card; }).find(card => true));
