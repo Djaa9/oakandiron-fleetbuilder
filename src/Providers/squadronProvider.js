@@ -25,7 +25,7 @@ const squadronProvider = {
     ) : [];
     shortForm.initiativeCards = squadron.initiativeCards ? squadron.initiativeCards.map(card => card.name) : null;
 
-    let response = await fetch(apiUtil.url + '/squadron/',
+    let response = await fetch(apiUtil.url() + '/squadron/',
       {
         method: 'post',
         body: JSON.stringify(shortForm),
@@ -34,11 +34,11 @@ const squadronProvider = {
         },
       }
     );
-
+    
     return await response.json();
   },
   GetFromId: async (id) => {
-    let response = await fetch(apiUtil.url + '/squadron/' + id);
+    let response = await fetch(apiUtil.url() + '/squadron/' + id);
     let shortForm = await response.json();
 
     var squadron = {};

@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import FleetBuilderView from './Components/FleetBuilderView.js';
+import SquadronBuilderView from './Components/SquadronBuilderView.js';
 import { ThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import theme from './muiTheme'
@@ -16,10 +16,10 @@ function App() {
           <LandingPage />
         </Route>
         <Route exact path="/squadron">
-          <FleetBuilderView />
+          <SquadronBuilderView />
         </Route>
         <Route exact path="/squadron/:squadronId">
-          <FleetBuilderView />
+          <SquadronBuilderView />
         </Route>
       </Switch>
     </Router>

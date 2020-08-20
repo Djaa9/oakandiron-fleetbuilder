@@ -371,7 +371,7 @@ function FleetBuilder(props) {
 };
 
 FleetBuilder.propTypes = {
-  fleet: Proptypes.array,
+  fleet: Proptypes.object,
   onFleetChanged: Proptypes.func
 };
 
