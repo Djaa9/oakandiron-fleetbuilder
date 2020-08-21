@@ -38,108 +38,108 @@ function Ship(props) {
     const classes = useStyles();
     const { ship, faction, onShipChanged, removeShip } = props;
 
-    const [availableSkillLevels] = useState([
-        { name: "Skill 1", cost: 2 },
-        { name: "Skill 2", cost: 4 }
-    ]); // TODO Move skills to ship definitions
-
     const [availableCommanders, setAvailableCommanders] = useState([]);
     const [availableUpgrade1Cards, setAvailableUpgrade1Cards] = useState([]);
     const [availableUpgrade2Cards, setAvailableUpgrade2Cards] = useState([]);
-    const [selectedSkillLevel, setSelectedSkillLevel] = useState("");
-    const [upgrades, setUpgrades] = useState(() => ship ? ship.upgrades : []);
-    const [selectedCommander, setSelectedCommander] = useState("");
+    const [skillLevels, setSkillLevels] = useState([]);
+    const [upgrades, setUpgrades] = useState([]);
+    const [commander, setCommander] = useState("");
     const [isFlagship, setIsFlagship] = useState(false);
     const [commanderSelectionDisabled, setCommanderSelectionDisabled] = useState(false);
     const [selectedUpgradeCard1, setSelectedUpgradeCard1] = useState("");
     const [selectedUpgradeCard2, setSelectedUpgradeCard2] = useState("");
     const [upgradeCard1SelectorEnabled, setUpgradeCard1SelectorEnabled] = useState(true);
     const [upgradeCard2SelectorEnabled, setUpgradeCard2SelectorEnabled] = useState(true);
+    const [selectedSkillLevel, setSelectedSkillLevel] = useState("");
 
-    useEffect(() => {       
+    useEffect(() => {
         /*Update available Commanders*/
-        if (faction) {
-            var commandersForFaction = Commanders.allowed(faction);
-            setAvailableCommanders(commandersForFaction);
-        };
+        if (faction) setAvailableCommanders(Commanders.allowed(faction));
 
-        /* Set slected property of all upgrades to false*/
-        var unselectedUpgrades = upgrades.map(upgrade => {
-            upgrade.selected = false
-            return upgrade;
-        });
-        setUpgrades(unselectedUpgrades);
+        /* Set selcted property of all upgrades to false*/
+        if (ship) {
+            ship.upgrades.forEach(upgrade => { upgrade.selected = false });
+            setUpgrades(ship.upgrades);
+
+            ship.skillUpgrades.forEach(skillLevel => { skillLevel.selected = false });
+            setSkillLevels(ship.skillUpgrades);
+        };
 
         /*Get available upgrade cards*/
         var availableUpgradeCards = UpgradeCards.allowed(faction, ship);
         setAvailableUpgrade1Cards(availableUpgradeCards);
         setAvailableUpgrade2Cards(availableUpgradeCards);
-    }, []);
+
+    }, [ship, faction])
 
     // Calculate new cost of ship when selections change
     useEffect(() => {
-        var newCostOfShip = ship.cost;
-        newCostOfShip = selectedCommander ? selectedCommander.cost + newCostOfShip : newCostOfShip;
-        newCostOfShip = selectedSkillLevel.cost ? newCostOfShip + selectedSkillLevel.cost : newCostOfShip;
-        newCostOfShip = selectedUpgradeCard1.cost ? newCostOfShip + selectedUpgradeCard1.cost : newCostOfShip;
-        newCostOfShip = selectedUpgradeCard2.cost ? newCostOfShip + selectedUpgradeCard2.cost : newCostOfShip;
-
-        upgrades.filter(upgrade => upgrade.selected).forEach(upgrade => {
-            newCostOfShip = newCostOfShip + upgrade.cost;
-        });;
-
+        //var newCostOfShip = ship.cost;
+        //newCostOfShip = commander ? commander.cost + newCostOfShip : newCostOfShip;
+        //newCostOfShip = selectedSkillLevel.cost ? newCostOfShip + selectedSkillLevel.cost : newCostOfShip;
+        //newCostOfShip = selectedUpgradeCard1.cost ? newCostOfShip + selectedUpgradeCard1.cost : newCostOfShip;
+        //newCostOfShip = selectedUpgradeCard2.cost ? newCostOfShip + selectedUpgradeCard2.cost : newCostOfShip;
+//
+        //upgrades.filter(upgrade => upgrade.selected).forEach(upgrade => {
+        //    newCostOfShip = newCostOfShip + upgrade.cost;
+        //});
+//
         ship.isFlagship = isFlagship;
-        ship.commander = selectedCommander;
-        ship.skillLevel = selectedSkillLevel;
+        ship.commander = commander;
+        ship.skillLevel = skillLevels;
         ship.upgrades = upgrades;
         ship.upgradeCard1 = selectedUpgradeCard1;
         ship.upgradeCard2 = selectedUpgradeCard2;
-        ship.costIncludingUpgrades = newCostOfShip;
+        //ship.costIncludingUpgrades = newCostOfShip;
         
         onShipChanged(ship);
-    }, [isFlagship, selectedCommander, upgrades, selectedSkillLevel, selectedUpgradeCard1, selectedUpgradeCard2, ship, onShipChanged])
+    }, [isFlagship, commander, upgrades, skillLevels]) // selectedUpgradeCard1, selectedUpgradeCard2, onShipChanged
 
-    useEffect(() => {
-        if(selectedUpgradeCard1.onlyAllowedSolo){
-            setUpgradeCard2SelectorEnabled(false);
-            setSelectedUpgradeCard2("");
-        }
-    }, [selectedUpgradeCard1]);
-
-    useEffect(() => {
-        if(selectedUpgradeCard2.onlyAllowedSolo){
-            setUpgradeCard1SelectorEnabled(false);
-            setSelectedUpgradeCard1("");
-        }
-    }, [selectedUpgradeCard2]);
+    //useEffect(() => {
+    //    if(selectedUpgradeCard1.onlyAllowedSolo){
+    //        setUpgradeCard2SelectorEnabled(false);
+    //        setSelectedUpgradeCard2("");
+    //    }
+    //}, [selectedUpgradeCard1]);
+//
+    //useEffect(() => {
+    //    if(selectedUpgradeCard2.onlyAllowedSolo){
+    //        setUpgradeCard1SelectorEnabled(false);
+    //        setSelectedUpgradeCard1("");
+    //    }
+    //}, [selectedUpgradeCard2]);
 
     useEffect(() => {
         setIsFlagship(ship.isFlagship);
     }, [ship.isFlagship]);
 
     // Handle change in flagship state
-    useEffect(() => {
-        var availableUpgradeCards = UpgradeCards.allowed(faction, ship);
-        setAvailableUpgrade1Cards(availableUpgradeCards);
-        setAvailableUpgrade2Cards(availableUpgradeCards);
+    //useEffect(() => {
+    //    var availableUpgradeCards = UpgradeCards.allowed(faction, ship);
+    //    setAvailableUpgrade1Cards(availableUpgradeCards);
+    //    setAvailableUpgrade2Cards(availableUpgradeCards);
+//
+    //    if(!availableUpgradeCards.find(card => card === selectedUpgradeCard1))
+    //        setSelectedUpgradeCard1("");
+//
+    //    if(!availableUpgradeCards.find(card => card === selectedUpgradeCard2))
+    //        setSelectedUpgradeCard2("");
+//
+    //    if (isFlagship) {
+    //        setCommander("");
+    //        setCommanderSelectionDisabled(true);
+    //    }
+    //    else {
+    //        setCommanderSelectionDisabled(false);
+    //    }
+//
+    //}, [isFlagship]);
 
-        if(!availableUpgradeCards.find(card => card === selectedUpgradeCard1))
-            setSelectedUpgradeCard1("");
+    const handleIsFlagShipChanged = (event) => {
+        setIsFlagship(event.target.checked)
+    };
 
-        if(!availableUpgradeCards.find(card => card === selectedUpgradeCard2))
-            setSelectedUpgradeCard2("");
-
-        if (isFlagship) {
-            setSelectedCommander("");
-            setCommanderSelectionDisabled(true);
-        }
-        else {
-            setCommanderSelectionDisabled(false);
-        }
-
-    }, [isFlagship]);
-
-    const handleSkillLevelChanged = (event) => {
+    const handleSkillLevelChanged = (event) => {        
         setSelectedSkillLevel(event.target.value);
     };
 
@@ -215,7 +215,7 @@ function Ship(props) {
                     <FormGroup>
                         <FormControlLabel
                             control={
-                                <Checkbox key={ship.id} checked={isFlagship} name="flagship" onChange={(event) => setIsFlagship(event.target.checked)} />}
+                                <Checkbox checked={isFlagship} onChange={handleIsFlagShipChanged} />}
                             label="Flagship" />
                         <Grid
                             container
@@ -227,8 +227,8 @@ function Ship(props) {
                                 <Select
                                     disabled={commanderSelectionDisabled}
                                     label="Select Commander"
-                                    value={selectedCommander}
-                                    onChange={(event) => setSelectedCommander(event.target.value)}>
+                                    value={commander}
+                                    onChange={(event) => setCommander(event.target.value)}>
                                     {availableCommanders.map((commander) => (
                                         <MenuItem key={commander.name} value={commander}>
                                             {commander.name + " (+" + commander.cost + ")"}
@@ -236,8 +236,8 @@ function Ship(props) {
                                     ))}
                                 </Select>
                             </FormControl>
-                            {selectedCommander &&
-                            <IconButton className={classes.removeButtons} onClick={() => setSelectedCommander("")}>
+                            {commander &&
+                            <IconButton className={classes.removeButtons} onClick={() => setCommander("")}>
                                 <CloseIcon fontSize="small" />
                             </IconButton>
                             }
@@ -256,7 +256,7 @@ function Ship(props) {
                                     label="Select Skills"
                                     value={selectedSkillLevel}
                                     onChange={handleSkillLevelChanged}>
-                                    {availableSkillLevels.map((skillLevel) => (
+                                    {skillLevels.map((skillLevel) => (
                                         <MenuItem key={skillLevel.name} value={skillLevel}>
                                             {skillLevel.name + " (+" + skillLevel.cost + ")"}
                                         </MenuItem>
@@ -264,15 +264,15 @@ function Ship(props) {
                                 </Select>
                             </FormControl>
                             {selectedSkillLevel &&
-                            <IconButton className={classes.removeButtons} onClick={() => setSelectedSkillLevel("")}>
+                            <IconButton className={classes.removeButtons} onClick={() => {setSelectedSkillLevel("")}}>
                                 <CloseIcon fontSize="small" />
                             </IconButton>
                             }
                         </Grid>
 
-                        {ship.upgrades && ship.upgrades.length > 0 && <Divider className={classes.divider} />}
+                        {upgrades && upgrades.length > 0 && <Divider className={classes.divider} />}
                         
-                        {ship.upgrades.map(upgrade =>
+                        {upgrades.map(upgrade =>
                             <FormControlLabel
                                 control={
                                     <Checkbox key={upgrade.name} 

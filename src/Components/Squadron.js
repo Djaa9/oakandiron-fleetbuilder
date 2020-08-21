@@ -74,7 +74,7 @@ function Squadron(props) {
   const [showTooManyShipsMessage, setShowTooManyShipsMessage] = useState(false);
   const [showTooManyPointsMessage, setShowTooManyPointsMessage] = useState(false);
 
-  const shipIdCounter = useRef(0);
+  const shipIdCounter = useRef(1);
   const cost = useRef(0);
 
   // Handle when the squadron parameter changes
@@ -259,7 +259,7 @@ function Squadron(props) {
           className={classes.shipContainer}
           spacing={2}>
           {selectedShips.map(selectedShip => (
-            <Grid key={selectedShip.id} item xs={12} sm={6} md={4} lg={3} xl={2}>
+            <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
               <Ship
                 key={selectedShip.id}
                 ship={selectedShip}

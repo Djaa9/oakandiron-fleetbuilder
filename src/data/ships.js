@@ -8,6 +8,10 @@ export const ships = [
       { name: "Additional Guns", cost: 2 },
       { name: "Sweeps", cost: 1 },
       { name: "Swift", cost: 1 }
+    ],
+    skillUpgrades: [
+      { name: "Skill 1", cost: 2 },
+      { name: "Skill 2", cost: 4 }
     ]
   },
   {
@@ -19,6 +23,10 @@ export const ships = [
       { name: "Additional Guns", cost: 2 },
       { name: "Sweeps", cost: 1 },
       { name: "Swift", cost: 1 }
+    ],
+    skillUpgrades: [
+      { name: "Skill 1", cost: 2 },
+      { name: "Skill 2", cost: 4 }
     ]
   },
   {
@@ -31,6 +39,10 @@ export const ships = [
       { name: "Sweeps", cost: 1 },
       { name: "Swift", cost: 1 },
       { name: "Weatherly", cost: 2 }
+    ],
+    skillUpgrades: [
+      { name: "Skill 1", cost: 2 },
+      { name: "Skill 2", cost: 4 }
     ]
   },
   {
@@ -41,6 +53,10 @@ export const ships = [
       { name: "Additional Crew", cost: 4 },
       { name: "Additional Guns", cost: 2 },
       { name: "Stout", cost: 4 }
+    ],
+    skillUpgrades: [
+      { name: "Skill 1", cost: 2 },
+      { name: "Skill 2", cost: 4 }
     ]
   },
   {
@@ -52,6 +68,10 @@ export const ships = [
       { name: "Additional Guns", cost: 2 },
       { name: "Sweeps", cost: 1 },
       { name: "Weatherly", cost: 2 }
+    ],
+    skillUpgrades: [
+      { name: "Skill 1", cost: 2 },
+      { name: "Skill 2", cost: 4 }
     ]
   },
   {
@@ -63,6 +83,10 @@ export const ships = [
       { name: "Additional Guns", cost: 2 },
       { name: "Stout", cost: 6 },
       { name: "Weatherly", cost: 2 }
+    ],
+    skillUpgrades: [
+      { name: "Skill 1", cost: 2 },
+      { name: "Skill 2", cost: 4 }
     ]
   },
   {
@@ -75,6 +99,10 @@ export const ships = [
       { name: "Stout", cost: 4 },
       { name: "Swift", cost: 1 },
       { name: "Weatherly", cost: 2 }
+    ],
+    skillUpgrades: [
+      { name: "Skill 1", cost: 2 },
+      { name: "Skill 2", cost: 4 }
     ]
   },
   {
@@ -87,6 +115,10 @@ export const ships = [
       { name: "Stout", cost: 4 },
       { name: "Swift", cost: 1 },
       { name: "Weatherly", cost: 2 }
+    ],
+    skillUpgrades: [
+      { name: "Skill 1", cost: 2 },
+      { name: "Skill 2", cost: 4 }
     ]
   },
   {
@@ -99,6 +131,10 @@ export const ships = [
       { name: "Stout", cost: 6 },
       { name: "Swift", cost: 1 },
       { name: "Weatherly", cost: 2 }
+    ],
+    skillUpgrades: [
+      { name: "Skill 1", cost: 2 },
+      { name: "Skill 2", cost: 4 }
     ]
   },
   {
@@ -110,6 +146,10 @@ export const ships = [
       { name: "Additional Guns", cost: 6 },
       { name: "Stout", cost: 6 },
       { name: "Swift", cost: 1 }
+    ],
+    skillUpgrades: [
+      { name: "Skill 1", cost: 2 },
+      { name: "Skill 2", cost: 4 }
     ]
   },
   {
@@ -122,6 +162,10 @@ export const ships = [
       { name: "Stout", cost: 8 },
       { name: "Swift", cost: 1 },
       { name: "Weatherly", cost: 2 }
+    ],
+    skillUpgrades: [
+      { name: "Skill 1", cost: 2 },
+      { name: "Skill 2", cost: 4 }
     ]
   },
   {
@@ -134,18 +178,30 @@ export const ships = [
       { name: "Stout", cost: 8 },
       { name: "Swift", cost: 1 },
       { name: "Weatherly", cost: 2 }
+    ],
+    skillUpgrades: [
+      { name: "Skill 1", cost: 2 },
+      { name: "Skill 2", cost: 4 }
     ]
   },
   {
     name: "Revenge",
     class: "Pirate",
     cost: 10,
-    upgrades: []
+    upgrades: [],
+    skillUpgrades: [
+      { name: "Skill 1", cost: 2 },
+      { name: "Skill 2", cost: 4 }
+    ]
   },
   {
     name: "Queen Anne's Revenge",
     class: "Pirate",
     cost: 16,
-    upgrades: []
+    upgrades: [],
+    skillUpgrades: [
+      { name: "Skill 1", cost: 2 },
+      { name: "Skill 2", cost: 4 }
+    ]
   }
 ];
