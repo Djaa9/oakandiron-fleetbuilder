@@ -57,7 +57,7 @@ const squadronProvider = {
       squadron.ships = shortForm.ships.map(shipShortForm => {
         let newShip = shipProvider.all().find(ship => ship.name === shipShortForm.name);
 
-          newShip.isFlagship = false;
+          newShip.isFlagship = shortForm.isFlagship;
           newShip.commander = shipShortForm.commander ? Commanders.all().find(commander => commander.name === shipShortForm.commander.name) : "";
           newShip.skillLevel = shipShortForm.skillLevel;
           newShip.upgradeCard1 = shipShortForm.upgradeCards[0];

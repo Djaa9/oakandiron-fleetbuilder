@@ -97,7 +97,7 @@ function Ship(props) {
         ship.costIncludingUpgrades = newCostOfShip;
         
         onShipChanged(ship);
-    }, [isFlagship, selectedCommander, upgrades, selectedSkillLevel, selectedUpgradeCard1, selectedUpgradeCard2])
+    }, [isFlagship, selectedCommander, upgrades, selectedSkillLevel, selectedUpgradeCard1, selectedUpgradeCard2, ship, onShipChanged])
 
     useEffect(() => {
         if(selectedUpgradeCard1.onlyAllowedSolo){

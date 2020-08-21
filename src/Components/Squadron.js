@@ -9,7 +9,6 @@ import { grey } from '@material-ui/core/colors';
 import ShipSelector from './ShipSelector';
 import InitiativecardSelector from './InitiativeCardSelector';
 import Ship from './Ship.js';
-import { ships } from '../data/ships';
 
 function Squadron(props) {
 
@@ -71,50 +70,50 @@ function Squadron(props) {
   const [shipSelectorIsOpen, setShipSelectorIsOpen] = useState(false);
   const [initiativeCardSelectorIsOpen, setInitiativeCardSelectorIsOpen] = useState(false);
   const [selectedInitiativeCards, setSelectedInitiativeCards] = useState([]);
-  const [cost, setCost] = useState(0);  
   const [showTooFewShipsMessage, setShowTooFewShipsMessage] = useState(false);
   const [showTooManyShipsMessage, setShowTooManyShipsMessage] = useState(false);
   const [showTooManyPointsMessage, setShowTooManyPointsMessage] = useState(false);
 
   const shipIdCounter = useRef(0);
+  const cost = useRef(0);
 
+  // Handle when the squadron parameter changes
   useEffect(() => {
     if (squadron) {
       let newAvailableAdmirals;
       setSelectedGameMode(squadron.gameMode ? squadron.gameMode : "");
-      if(squadron.faction) { 
+      if (squadron.faction) {
         setSelectedFaction(squadron.faction ? squadron.faction : "");
         newAvailableAdmirals = Admirals.allowed(squadron.faction);
         setAvailableAdmirals(newAvailableAdmirals);
       }
-      if(squadron.admiral) {
+      if (squadron.admiral) {
         setSelectedAdmiral(newAvailableAdmirals.find(admiral => admiral.name === squadron.admiral.name));
-      }      
-      if(squadron.initiativeCards) 
-      setSelectedInitiativeCards(squadron.initiativeCards);
-      if(squadron.ships){
+      }
+      if (squadron.initiativeCards)
+        setSelectedInitiativeCards(squadron.initiativeCards);
+      if (squadron.ships) {
         squadron.ships.map(ship => {
           ship.id = shipIdCounter.current++;
           return ship;
         });
-      
+
         setSelectedShips(squadron.ships);
-      }        
+      }
     }
   }, [squadron])
 
-  useEffect(() => {   
-    if(selectedGameMode) squadron.gameMode = selectedGameMode;
-      if(selectedFaction) squadron.faction = selectedFaction;
-      if(selectedAdmiral) squadron.admiral = selectedAdmiral;
-      if(selectedShips && selectedShips.length > 0) squadron.ships = selectedShips;
-      if(selectedInitiativeCards) squadron.initiativeCards = selectedInitiativeCards;
-      if(cost) squadron.cost = cost;
-    
-    onSquadronChanged(squadron);
-    
+  // Tell parent that the squadron has updated
+  useEffect(() => {
+    squadron.gameMode = selectedGameMode;
+    squadron.faction = selectedFaction;
+    squadron.admiral = selectedAdmiral;
+    squadron.ships = selectedShips;
+    squadron.initiativeCards = selectedInitiativeCards;
+    squadron.cost = cost; // TODO Move to own component
   }, [selectedGameMode, selectedFaction, selectedAdmiral, selectedShips, selectedInitiativeCards, cost, onSquadronChanged, squadron]);
 
+  // TODO Move to own component
   useEffect(() => {
     // Calculate cost TODO move this to its own component in FleetBuilderView
     if (selectedGameMode && selectedFaction && selectedGameMode) {
@@ -125,23 +124,23 @@ function Squadron(props) {
         newCost = newCost + ship.costIncludingUpgrades;
       });
 
-      setCost(newCost);
+      cost.current = newCost;
     };
 
     if (selectedGameMode) {
       setShowTooFewShipsMessage(selectedShips.length < selectedGameMode.minShips);
 
-    if (setSelectedShips.length > selectedGameMode.maxShips)
-      setShowTooManyShipsMessage(true);
+      if (setSelectedShips.length > selectedGameMode.maxShips)
+        setShowTooManyShipsMessage(true);
 
-    if (cost > selectedGameMode.maxPoints)
-      setShowTooManyPointsMessage(true);
+      if (cost.current > selectedGameMode.maxPoints)
+        setShowTooManyPointsMessage(true);
     }
 
-    if (cost <= selectedGameMode.maxPoints){
+    if (cost.current <= selectedGameMode.maxPoints) {
       setShowTooManyPointsMessage(false);
     }
-  }, [JSON.stringify(selectedShips), selectedAdmiral]);
+  }, [JSON.stringify(selectedShips), selectedAdmiral, selectedFaction, selectedGameMode, selectedShips]);
 
   const handleInitiativeCardSelectorSave = (initiativecards) => {
     setInitiativeCardSelectorIsOpen(false);
@@ -166,18 +165,24 @@ function Squadron(props) {
     setSelectedShips(newList);
   };
 
+  const handleNewfactionSelected = (event) => {
+    const newFaction = event.target.value;
+    setSelectedFaction(newFaction)
+    setAvailableAdmirals(Admirals.allowed(newFaction));
+  };
+
   const handleShipChanged = (updatedShip) => {
     var updatedListOfSelectedShips = selectedShips.map(ship => {
       return ship.id === updatedShip.id ? updatedShip : ship;
     });
 
-    if(updatedShip.isFlagship && selectedShips.filter(ship => ship.isFlagship).length > 1){
+    if (updatedShip.isFlagship && selectedShips.filter(ship => ship.isFlagship).length > 1) {
       updatedListOfSelectedShips.map(ship => {
-        if(ship.id !== updatedShip.id)
+        if (ship.id !== updatedShip.id)
           ship.isFlagship = false;
 
         return ship;
-      }); 
+      });
     }
 
     setSelectedShips(updatedListOfSelectedShips);
@@ -209,7 +214,7 @@ function Squadron(props) {
             displayEmpty
             className={classes.selectEmpty}
             label="Choose a faction"
-            onChange={(event) => setSelectedFaction(event.target.value)}
+            onChange={handleNewfactionSelected}
             value={selectedFaction}>
             {factions.map((faction) => (
               <MenuItem key={faction.type} value={faction}>
@@ -342,7 +347,7 @@ function Squadron(props) {
           faction={selectedFaction}
           admiral={selectedAdmiral}
           ships={selectedShips}
-          onCancel={handleInitiativeCardSelectorCancel} 
+          onCancel={handleInitiativeCardSelectorCancel}
           onSave={handleInitiativeCardSelectorSave} />
       }
       {selectedGameMode && selectedFaction && selectedAdmiral &&
