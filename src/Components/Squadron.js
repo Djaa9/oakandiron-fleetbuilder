@@ -259,9 +259,8 @@ function Squadron(props) {
           className={classes.shipContainer}
           spacing={2}>
           {selectedShips.map(selectedShip => (
-            <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
+            <Grid key={selectedShip.id.toString()} item xs={12} sm={6} md={4} lg={3} xl={2}>
               <Ship
-                key={selectedShip.id}
                 ship={selectedShip}
                 faction={selectedFaction}
                 onShipChanged={handleShipChanged}

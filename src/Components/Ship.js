@@ -53,24 +53,30 @@ function Ship(props) {
     const [selectedSkillLevel, setSelectedSkillLevel] = useState("");
 
     useEffect(() => {
-        /*Update available Commanders*/
-        if (faction) setAvailableCommanders(Commanders.allowed(faction));
+        if (!faction || !ship) 
+            return; 
 
-        /* Set selcted property of all upgrades to false*/
-        if (ship) {
-            ship.upgrades.forEach(upgrade => { upgrade.selected = false });
-            setUpgrades(ship.upgrades);
+        setAvailableCommanders(Commanders.allowed(faction));
 
-            ship.skillUpgrades.forEach(skillLevel => { skillLevel.selected = false });
-            setSkillLevels(ship.skillUpgrades);
-        };
+        ship.upgrades.forEach(upgrade => { 
+            upgrade.selected = upgrade.selected ? upgrade.selected : false; 
+        });
+        setUpgrades(ship.upgrades);
 
-        /*Get available upgrade cards*/
         var availableUpgradeCards = UpgradeCards.allowed(faction, ship);
         setAvailableUpgrade1Cards(availableUpgradeCards);
-        setAvailableUpgrade2Cards(availableUpgradeCards);
+        setSelectedUpgradeCard1(ship.upgradeCard1 ? ship.upgradeCard1 : "");
+        setAvailableUpgrade2Cards(availableUpgrade2Cards);
+        setSelectedUpgradeCard2(ship.upgradeCard2 ? ship.upgradeCard1 : "");
 
-    }, [ship, faction])
+        setSkillLevels(ship.skillUpgrades);
+
+        let newisFlagShip = ship.isFlagship ? ship.isFlagship : false;
+        setIsFlagship(newisFlagShip);
+        setCommander(ship.commander ? ship.commander : "");
+
+        setSelectedSkillLevel(ship.skillLevel ? ship.skillLevel : "");
+    }, [ship, faction]);
 
     // Calculate new cost of ship when selections change
     useEffect(() => {
@@ -86,57 +92,47 @@ function Ship(props) {
 //
         ship.isFlagship = isFlagship;
         ship.commander = commander;
-        ship.skillLevel = skillLevels;
+        ship.skillLevel = selectedSkillLevel;
         ship.upgrades = upgrades;
         ship.upgradeCard1 = selectedUpgradeCard1;
         ship.upgradeCard2 = selectedUpgradeCard2;
         //ship.costIncludingUpgrades = newCostOfShip;
         
-        onShipChanged(ship);
-    }, [isFlagship, commander, upgrades, skillLevels]) // selectedUpgradeCard1, selectedUpgradeCard2, onShipChanged
-
-    //useEffect(() => {
-    //    if(selectedUpgradeCard1.onlyAllowedSolo){
-    //        setUpgradeCard2SelectorEnabled(false);
-    //        setSelectedUpgradeCard2("");
-    //    }
-    //}, [selectedUpgradeCard1]);
-//
-    //useEffect(() => {
-    //    if(selectedUpgradeCard2.onlyAllowedSolo){
-    //        setUpgradeCard1SelectorEnabled(false);
-    //        setSelectedUpgradeCard1("");
-    //    }
-    //}, [selectedUpgradeCard2]);
+        //onShipChanged(ship);
+    }, [isFlagship, commander, upgrades, selectedSkillLevel, selectedUpgradeCard1, selectedUpgradeCard2]);
 
     useEffect(() => {
-        setIsFlagship(ship.isFlagship);
+        if(selectedUpgradeCard1.onlyAllowedSolo){
+            setUpgradeCard2SelectorEnabled(false);
+            setSelectedUpgradeCard2("");
+        }
+    }, [selectedUpgradeCard1]);
+
+    useEffect(() => {
+        if(selectedUpgradeCard2.onlyAllowedSolo){
+            setUpgradeCard1SelectorEnabled(false);
+            setSelectedUpgradeCard1("");
+        }
+    }, [selectedUpgradeCard2]);
+
+    useEffect(() => {
+        handleIsFlagShipChanged(ship.isFlagship);
     }, [ship.isFlagship]);
 
-    // Handle change in flagship state
-    //useEffect(() => {
-    //    var availableUpgradeCards = UpgradeCards.allowed(faction, ship);
-    //    setAvailableUpgrade1Cards(availableUpgradeCards);
-    //    setAvailableUpgrade2Cards(availableUpgradeCards);
-//
-    //    if(!availableUpgradeCards.find(card => card === selectedUpgradeCard1))
-    //        setSelectedUpgradeCard1("");
-//
-    //    if(!availableUpgradeCards.find(card => card === selectedUpgradeCard2))
-    //        setSelectedUpgradeCard2("");
-//
-    //    if (isFlagship) {
-    //        setCommander("");
-    //        setCommanderSelectionDisabled(true);
-    //    }
-    //    else {
-    //        setCommanderSelectionDisabled(false);
-    //    }
-//
-    //}, [isFlagship]);
+    const handleIsFlagShipChanged = (isNowFlagShip) => {
+        setIsFlagship(isNowFlagShip);
 
-    const handleIsFlagShipChanged = (event) => {
-        setIsFlagship(event.target.checked)
+        var availableUpgradeCards = UpgradeCards.allowed(faction, ship);
+        setAvailableUpgrade1Cards(availableUpgradeCards);
+        setAvailableUpgrade2Cards(availableUpgradeCards);
+
+        if (isNowFlagShip) {
+            setCommander("");
+            setCommanderSelectionDisabled(true);
+        }
+        else {
+            setCommanderSelectionDisabled(false);
+        }
     };
 
     const handleSkillLevelChanged = (event) => {        
@@ -215,7 +211,7 @@ function Ship(props) {
                     <FormGroup>
                         <FormControlLabel
                             control={
-                                <Checkbox checked={isFlagship} onChange={handleIsFlagShipChanged} />}
+                                <Checkbox checked={isFlagship} onChange={(event) => {handleIsFlagShipChanged(event.target.checked)}} />}
                             label="Flagship" />
                         <Grid
                             container
@@ -274,9 +270,11 @@ function Ship(props) {
                         
                         {upgrades.map(upgrade =>
                             <FormControlLabel
+                                key={upgrade.name}
                                 control={
-                                    <Checkbox key={upgrade.name} 
+                                    <Checkbox  
                                               name={upgrade.name} 
+                                              checked={upgrade.selected}
                                               onChange={(event) => handleUpgradeSelectionChanged(event, upgrade)} />}
                                 label={upgrade.name + " (+" + upgrade.cost + ")"}
                             />

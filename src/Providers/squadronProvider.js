@@ -4,6 +4,7 @@ import { allAdmirals } from "../data/admirals";
 import Commanders from '../data/commanders';
 import shipProvider from './shipProvider';
 import apiUtil from './apiUtil';
+import upgradeCardsProvider from './upgradeCardsProvider';
 
 const squadronProvider = {
   SaveAndGetId: async (squadron) => {
@@ -57,12 +58,19 @@ const squadronProvider = {
       squadron.ships = shortForm.ships.map(shipShortForm => {
         let newShip = shipProvider.all().find(ship => ship.name === shipShortForm.name);
 
-          newShip.isFlagship = shortForm.isFlagship;
-          newShip.commander = shipShortForm.commander ? Commanders.all().find(commander => commander.name === shipShortForm.commander.name) : "";
-          newShip.skillLevel = shipShortForm.skillLevel;
-          newShip.upgradeCard1 = shipShortForm.upgradeCards[0];
-          newShip.upgradeCard2 = shipShortForm.upgradeCards[1];
-          //newShip.upgrades.map(upgrade => upgrade.name )      
+          newShip.isFlagship = shipShortForm.isFlagship;
+          newShip.commander = shipShortForm.commander ? Commanders.all().find(commander => commander.name === shipShortForm.commander) : "";
+          newShip.skillLevel = newShip.skillUpgrades.find(skillUpgrade => skillUpgrade.name === shipShortForm.skillLevel);
+          newShip.upgradeCard1 = upgradeCardsProvider.all().find(upgradeCard => upgradeCard.name === shipShortForm.upgradeCards[0]);
+          newShip.upgradeCard2 = upgradeCardsProvider.all().find(upgradeCard => upgradeCard.name === shipShortForm.upgradeCards[1]);
+          shipShortForm.upgrades.forEach(upgradeShortForm => {
+            newShip.upgrades.forEach(newUpgrade => {
+              if (newUpgrade.name === upgradeShortForm)
+                newUpgrade.selected = true;
+              else
+                newUpgrade.selected = false;
+            })
+          })    
           return newShip;            
       }      
       );
