@@ -44,7 +44,9 @@ function Ship(props) {
     const [skillLevels, setSkillLevels] = useState([]);
     const [upgrades, setUpgrades] = useState([]);
     const [commander, setCommander] = useState("");
-    const [isFlagship, setIsFlagship] = useState(false);
+    const [isFlagship, setIsFlagship] = useState(() => {
+        return ship.isFlagship !== undefined ? ship.isFlagship : false;
+    });
     const [commanderSelectionDisabled, setCommanderSelectionDisabled] = useState(false);
     const [selectedUpgradeCard1, setSelectedUpgradeCard1] = useState("");
     const [selectedUpgradeCard2, setSelectedUpgradeCard2] = useState("");
@@ -89,16 +91,15 @@ function Ship(props) {
         //    newCostOfShip = newCostOfShip + upgrade.cost;
         //});
 //      
-        const changedShip = ship;
-        changedShip.isFlagship = isFlagship;
-        changedShip.commander = commander;
-        changedShip.skillLevel = selectedSkillLevel;
-        changedShip.upgrades = upgrades;
-        changedShip.upgradeCard1 = selectedUpgradeCard1;
-        changedShip.upgradeCard2 = selectedUpgradeCard2;
+        ship.isFlagship = isFlagship;
+        ship.commander = commander;
+        ship.skillLevel = selectedSkillLevel;
+        ship.upgrades = upgrades;
+        ship.upgradeCard1 = selectedUpgradeCard1;
+        ship.upgradeCard2 = selectedUpgradeCard2;
         //ship.costIncludingUpgrades = newCostOfShip;
         
-        onShipChanged(changedShip);
+        onShipChanged(ship);
     },[isFlagship, commander, selectedSkillLevel, upgrades, selectedUpgradeCard1, selectedUpgradeCard2]);
 
     useEffect(() => {
@@ -115,9 +116,9 @@ function Ship(props) {
         }
     }, [selectedUpgradeCard2]);
 
+     //This triggers when parent controls isFlagship prop
     useEffect(() => {
-        if(ship.isFlagship !== "undefined")
-        handleIsFlagShipChanged(ship.isFlagship);
+        setIsFlagship(ship.isFlagship);
     }, [ship.isFlagship]);
 
     const handleIsFlagShipChanged = (isNowFlagShip) => {

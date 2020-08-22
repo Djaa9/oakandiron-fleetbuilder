@@ -75,7 +75,7 @@ const squadronProvider = {
       }      
       );
   }  
-    console.log("provider squad", squadron);
+    console.log("provider squad", JSON.parse(JSON.stringify(squadron)));
     return squadron;
   },
   toText: (squadron) => {

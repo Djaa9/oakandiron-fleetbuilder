@@ -69,17 +69,22 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 ### TODO
 
-prompt for install of PWA https://web.dev/customize-install/
+1.0
+- Share list (backend generated link)
+    - isFlagship initial state after load
+    - Refactor cost. Put in own component 
 
 2.0
 - Save to account
 - Give list a name
-- Share list (backend generated link)
 
-x.0
+3.0
+- Minified view of ships (on mobile or with toggle)
 - Print friendly version
 - Add pdf card packs
 - Show pictures of cards
+
+x.0
 - Track win loss
 - Fork list
 - Se top lists
@@ -92,5 +97,6 @@ Ideas
 - Add multiple ships at a time (https://stackoverflow.com/questions/59305603 increment-and-decrement-button-via-material-ui-buttongroup)
 - initiative cards shown as accordion https://material-ui.com/components/accordion/#controlled-accordion
 - Rename "game mode" to "game size"
-? Save to file
 - Make initiative card selector a sortable table
+- prompt for install of PWA https://web.dev/customize-install/
+- ? Save to file
