@@ -35,7 +35,12 @@ function FleetExporter(props) {
         hiddenForm: {
             height: 0,
             width: 0,
-            border: "0px"
+            border: "none",
+            outline: "none",
+            resize: "none",
+            "*::-webkit-box-shadow": "none",
+            "*::moz-box-shadow": "none",
+            "*::box-shadow": "none"
         },
         linkDiv: {
             marginBottom: theme.spacing(2)
@@ -46,10 +51,7 @@ function FleetExporter(props) {
 
     const [fleetLink, setFleetLink] = useState("");
     const [fleetTextExport, setFleetTextExport] = useState("");
-    const textExportInputField = useRef(null);
-    const linkExportInputField = useRef(null);
     const textAreaRef = useRef(null);
-    const linkAreaRef = useRef(null);
 
     useEffect(() => {
         if (!fleet) return;
@@ -58,7 +60,7 @@ function FleetExporter(props) {
             let link = appUrl() + "/squadron/";
             link += await fleetProvider.SaveAndGetId(fleet);
 
-            setFleetLink(link);
+            setFleetLink(link.toString());
         };
 
         callProviderAsync();
@@ -66,18 +68,16 @@ function FleetExporter(props) {
         setFleetTextExport(fleetProvider.toText(fleet));
     }, [fleet])
 
-    const copyTextToClipboard = (e) => {
-        textAreaRef.current.value = textExportInputField.current.textContent;
+    const copyTextToClipboard = () => {
+        textAreaRef.current.value = fleetTextExport;
         textAreaRef.current.select();
         document.execCommand('copy');
-        e.target.focus();
     };
 
-    const copyLinkToClipboard = (e) => {
-        linkAreaRef.current.value = linkExportInputField.current.textContent;
-        linkAreaRef.current.select();
+    const copyLinkToClipboard = () => {
+        textAreaRef.current.value = fleetLink;
+        textAreaRef.current.select();
         document.execCommand('copy');
-        e.target.focus();
     };
 
     return (
@@ -95,14 +95,14 @@ function FleetExporter(props) {
                     container
                     direction="column"
                     justify="stretch"
-                    alignItems="flex-start">
+                    alignItems="stretch">
                     <div className={classes.linkDiv}>
                         <Button startIcon={<AssignmentIcon />} onClick={copyLinkToClipboard}> Copy to clipboard </Button>
-                        <TextField ref={linkExportInputField} className={classes.textExportInputField} variant="outlined" value={fleetLink} />
+                        <TextField className={classes.textExportInputField} variant="outlined" value={fleetLink} />
                     </div>
                     <div>
                         <Button startIcon={<AssignmentIcon />} onClick={copyTextToClipboard}> Copy to clipboard </Button>
-                        <TextField ref={textExportInputField} className={classes.textExportInputField} multiline variant="outlined" value={fleetTextExport} />
+                        <TextField className={classes.textExportInputField} multiline variant="outlined" value={fleetTextExport} />
                     </div>
                 </Grid>
                 <textarea className={classes.hiddenForm} ref={textAreaRef} />
