@@ -53,7 +53,6 @@ function FleetExporter(props) {
             let link = appUrl() + "/squadron/";
             link += await fleetProvider.SaveAndGetId(fleet);
             
-            console.log(link);
             setFleetLink(link);
           };
           

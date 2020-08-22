@@ -29,7 +29,6 @@ function SquadronBuilderView() {
   useEffect(() => {
     const callProviderAsync = async () => {
       let squadron = await squadronProvider.GetFromId(squadronId);
-     // console.log("SBV squad from params updated", squadron);
       setSquadron(squadron);
     };
 
@@ -37,7 +36,6 @@ function SquadronBuilderView() {
   }, [squadronId]);
 
   const handleSquadronChanged = (newSquadron) => {
-   // console.log("SBV squad from SQUAD updated", squadron);
     setSquadron(newSquadron);
   };
 

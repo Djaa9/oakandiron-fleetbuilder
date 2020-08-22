@@ -42,7 +42,6 @@ const squadronProvider = {
     let response = await fetch(apiUtil.url() + '/squadron/' + id);
     let shortForm = await response.json();
 
-    console.log(shortForm);
     var squadron = {};
 
     if (shortForm.gameMode) {
@@ -75,7 +74,6 @@ const squadronProvider = {
       }      
       );
   }  
-    console.log("provider squad", JSON.parse(JSON.stringify(squadron)));
     return squadron;
   },
   toText: (squadron) => {
