@@ -38,21 +38,20 @@ function Ship(props) {
     const classes = useStyles();
     const { ship, faction, onShipChanged, removeShip } = props;
 
-    const [availableCommanders, setAvailableCommanders] = useState([]);
-    const [availableUpgrade1Cards, setAvailableUpgrade1Cards] = useState([]);
-    const [availableUpgrade2Cards, setAvailableUpgrade2Cards] = useState([]);
-    const [skillLevels, setSkillLevels] = useState([]);
-    const [upgrades, setUpgrades] = useState([]);
-    const [commander, setCommander] = useState("");
-    const [isFlagship, setIsFlagship] = useState(() => {
-        return ship.isFlagship !== undefined ? ship.isFlagship : false;
-    });
-    const [commanderSelectionDisabled, setCommanderSelectionDisabled] = useState(false);
-    const [selectedUpgradeCard1, setSelectedUpgradeCard1] = useState("");
-    const [selectedUpgradeCard2, setSelectedUpgradeCard2] = useState("");
+    const [isFlagship, setIsFlagship] = useState(() => { return ship.isFlagship !== undefined ? ship.isFlagship : false });
+    const [availableCommanders, setAvailableCommanders] = useState([]);                 //TODO set default value from params
+    const [availableUpgrade1Cards, setAvailableUpgrade1Cards] = useState([]);           //TODO set default value from params
+    const [availableUpgrade2Cards, setAvailableUpgrade2Cards] = useState([]);           //TODO set default value from params
+    const [skillLevels, setSkillLevels] = useState([]);                                 //TODO set default value from params
+    const [upgrades, setUpgrades] = useState([]);                                       //TODO set default value from params
+    const [commander, setCommander] = useState("");                                     //TODO set default value from params    
+    const [selectedUpgradeCard1, setSelectedUpgradeCard1] = useState("");               //TODO set default value from params   
+    const [selectedUpgradeCard2, setSelectedUpgradeCard2] = useState("");               //TODO set default value from params   
+    const [selectedSkillLevel, setSelectedSkillLevel] = useState("");                   //TODO set default value from params 
+    const [commanderSelectionDisabled, setCommanderSelectionDisabled] = useState(false);        
     const [upgradeCard1SelectorEnabled, setUpgradeCard1SelectorEnabled] = useState(true);
     const [upgradeCard2SelectorEnabled, setUpgradeCard2SelectorEnabled] = useState(true);
-    const [selectedSkillLevel, setSelectedSkillLevel] = useState("");
+    
 
     useEffect(() => {
         if (!faction || !ship) 
@@ -68,7 +67,7 @@ function Ship(props) {
         var availableUpgradeCards = UpgradeCards.allowed(faction, ship);
         setAvailableUpgrade1Cards(availableUpgradeCards);
         setSelectedUpgradeCard1(ship.upgradeCard1 ? ship.upgradeCard1 : "");
-        setAvailableUpgrade2Cards(availableUpgrade2Cards);
+        setAvailableUpgrade2Cards(availableUpgradeCards);
         setSelectedUpgradeCard2(ship.upgradeCard2 ? ship.upgradeCard1 : "");
 
         setSkillLevels(ship.skillUpgrades);

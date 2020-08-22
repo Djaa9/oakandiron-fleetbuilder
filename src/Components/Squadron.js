@@ -346,6 +346,7 @@ function Squadron(props) {
           faction={selectedFaction}
           admiral={selectedAdmiral}
           ships={selectedShips}
+          selectedInitiativeCards={selectedInitiativeCards}
           onCancel={handleInitiativeCardSelectorCancel}
           onSave={handleInitiativeCardSelectorSave} />
       }

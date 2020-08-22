@@ -6,29 +6,40 @@ import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from '@material-ui/core/ListItemText';
 import Alert from '@material-ui/lab/Alert';
 import { factionTypes } from '../data/factionTypes.js';
+import { initiativeCards } from '../data/initiativeCards.js';
 
 function InitiativeCardSelector(props) {
 
-  const { open, onSave, onCancel, faction, admiral, ships } = props;
+  const { open, onSave, onCancel, faction, admiral, ships, selectedInitiativeCards } = props;
 
-  const [availableInitiativeCards, setAvailableInitiativeCards] = useState([]);
+  const [availableInitiativeCards, setAvailableInitiativeCards] = useState(() => {
+    if (selectedInitiativeCards.length > 0) {
+      return initiativeCardsProvider.allowed(faction, admiral, ships).map(initiativeCard => {
+        let match = selectedInitiativeCards.find(selectedInitiativeCards.name === initiativeCard.name);
+        if (match) match.selected = true;
+        return match;
+      });
+    }
+    else 
+      return [];
+  });
   const [autoIncludedCards, setAutoIncludedCards] = useState([]);
   const [maxHandSize, setMaxHandSize] = useState(0);
 
   useEffect(() => {
-    
+
     if (faction && admiral) {
       let allowedCards = initiativeCardsProvider.allowed(faction, admiral, ships);
-      setAutoIncludedCards(allowedCards.filter(card => card.autoInclude))  
+      setAutoIncludedCards(allowedCards.filter(card => card.autoInclude))
       setAvailableInitiativeCards(allowedCards.filter(card => !card.autoInclude));
       setMaxHandSize(5 + admiral.admiralValue);
     }
     else {
-      setAutoIncludedCards([])  
+      setAutoIncludedCards([])
       setAvailableInitiativeCards([]);
     }
 
-  }, [faction, admiral, ships]);
+  }, [faction, admiral, ships, selectedInitiativeCards]);
 
   const handleListItemClick = (checkedCard) => {
     checkedCard.selected = !checkedCard.selected;
@@ -78,11 +89,11 @@ function InitiativeCardSelector(props) {
     <Dialog onClose={handleCancel} open={open}>
       <DialogTitle> Choose initiative Cards </DialogTitle>
       <DialogContent>
-        <Alert severity="info"> 
-              <Typography style={{whiteSpace: 'pre-line'}} variant="body2">
-              {"Your hand must include " + maxHandSize + " cards (5 + ADMIRAL " + admiral.admiralValue + ").\n"}
-              {autoIncludedCards.map(card => (<b> {card.name + "," } </b> )) }{autoIncludedCards.length > 0 && " will be added when selection is done"} 
-              </Typography>
+        <Alert severity="info">
+          <Typography style={{ whiteSpace: 'pre-line' }} variant="body2">
+            {"Your hand must include " + maxHandSize + " cards (5 + ADMIRAL " + admiral.admiralValue + ").\n"}
+            {autoIncludedCards.map(card => (<b> {card.name + ","} </b>))}{autoIncludedCards.length > 0 && " will be added when selection is done"}
+          </Typography>
         </Alert>
 
         <List>
@@ -118,7 +129,8 @@ InitiativeCardSelector.propTypes = {
   admiral: PropTypes.object.isRequired,
   ships: PropTypes.array.isRequired,
   onClose: PropTypes.func,
-  onCancel: PropTypes.func
+  onCancel: PropTypes.func,
+  selectedInitiativeCards: PropTypes.array
 };
 
 function groupBy(arr, property) {

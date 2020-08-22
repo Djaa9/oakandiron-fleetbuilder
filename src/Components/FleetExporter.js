@@ -8,26 +8,26 @@ import AssignmentIcon from '@material-ui/icons/Assignment';
 function FleetExporter(props) {
 
 
-// TODO Put func in util file
-    function appUrl(resourceUrl){
+    // TODO Put func in util file
+    function appUrl(resourceUrl) {
 
-        if(process.env.NODE_ENV === "production")
-          return "https://oai-toolkit.netlify.app";
-      
-        if(process.env.NODE_ENV === "development")
-          return "http://localhost:3000";
-      
-        if(process.env.NODE_ENV === "test")
-          return "http://localhost:3000";
-      
-          return "";
-      }
+        if (process.env.NODE_ENV === "production")
+            return "https://oai-toolkit.netlify.app";
+
+        if (process.env.NODE_ENV === "development")
+            return "http://localhost:3000";
+
+        if (process.env.NODE_ENV === "test")
+            return "http://localhost:3000";
+
+        return "";
+    }
 
     const { open, onClose, fleet } = props;
 
     const useStyles = makeStyles((theme) => ({
         fleetExporterDialog: {
-            padding: theme.spacing(2)
+            padding: theme.spacing(3)
         },
         textExportInputField: {
             width: "100%"
@@ -35,7 +35,10 @@ function FleetExporter(props) {
         hiddenForm: {
             height: 0,
             width: 0,
-            border: "0px"        
+            border: "0px"
+        },
+        linkDiv: {
+            marginBottom: theme.spacing(2)
         }
     }));
 
@@ -44,7 +47,9 @@ function FleetExporter(props) {
     const [fleetLink, setFleetLink] = useState("");
     const [fleetTextExport, setFleetTextExport] = useState("");
     const textExportInputField = useRef(null);
+    const linkExportInputField = useRef(null);
     const textAreaRef = useRef(null);
+    const linkAreaRef = useRef(null);
 
     useEffect(() => {
         if (!fleet) return;
@@ -52,21 +57,28 @@ function FleetExporter(props) {
         const callProviderAsync = async () => {
             let link = appUrl() + "/squadron/";
             link += await fleetProvider.SaveAndGetId(fleet);
-            
+
             setFleetLink(link);
-          };
-          
-          callProviderAsync();
-        
+        };
+
+        callProviderAsync();
+
         setFleetTextExport(fleetProvider.toText(fleet));
     }, [fleet])
 
-    function copyToClipboard(e) {
+    const copyTextToClipboard = (e) => {
         textAreaRef.current.value = textExportInputField.current.textContent;
         textAreaRef.current.select();
         document.execCommand('copy');
         e.target.focus();
-      };
+    };
+
+    const copyLinkToClipboard = (e) => {
+        linkAreaRef.current.value = linkExportInputField.current.textContent;
+        linkAreaRef.current.select();
+        document.execCommand('copy');
+        e.target.focus();
+    };
 
     return (
         <Dialog fullWidth={true}
@@ -82,25 +94,26 @@ function FleetExporter(props) {
                 <Grid
                     container
                     direction="column"
-                    justify="flex-start"
+                    justify="stretch"
                     alignItems="flex-start">
-                                            
-                    <Button startIcon={<AssignmentIcon />} onClick={copyToClipboard}> Copy to clipboard </Button>
-                    <TextField ref={textExportInputField} className={classes.textExportInputField} multiline variant="outlined" defaultValue={fleetTextExport} />
-                    
+                    <div className={classes.linkDiv}>
+                        <Button startIcon={<AssignmentIcon />} onClick={copyLinkToClipboard}> Copy to clipboard </Button>
+                        <TextField ref={linkExportInputField} className={classes.textExportInputField} variant="outlined" value={fleetLink} />
+                    </div>
+                    <div>
+                        <Button startIcon={<AssignmentIcon />} onClick={copyTextToClipboard}> Copy to clipboard </Button>
+                        <TextField ref={textExportInputField} className={classes.textExportInputField} multiline variant="outlined" value={fleetTextExport} />
+                    </div>
                 </Grid>
-                    <textarea className={classes.hiddenForm} ref={textAreaRef}/>
-                </DialogContent>
-                <DialogActions>
-                
-                    <Button onClick={() => onClose()} color="secondary">
-                        Close
-                    </Button>      
-                   {/*<Button variant="contained" onClick={() => {}} color="primary">
-                        Save as file
-                    </Button> */}              
-                </DialogActions>
-            
+                <textarea className={classes.hiddenForm} ref={textAreaRef} />
+            </DialogContent>
+            <DialogActions>
+
+                <Button onClick={() => onClose()} color="secondary">
+                    Close
+                    </Button>
+            </DialogActions>
+
         </Dialog>
     );
 

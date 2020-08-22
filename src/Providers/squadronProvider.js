@@ -73,7 +73,11 @@ const squadronProvider = {
           return newShip;            
       }      
       );
-  }  
+  }
+  
+  if (shortForm.initiativeCards) {
+    
+  }
     return squadron;
   },
   toText: (squadron) => {
