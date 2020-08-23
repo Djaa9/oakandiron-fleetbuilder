@@ -24,7 +24,9 @@ useEffect(()=> {
 }, [admiral, faction, gameMode])
 
   const handleListItemClick = (ship) => {
-    onClose(ship);
+    const copyOfShip = Object.assign({}, ship);
+    copyOfShip.upgrades = ship.upgrades.map(upgrade => {return Object.assign({}, upgrade)});
+    onClose(copyOfShip);
   };
 
   const handleOnClose = () => {

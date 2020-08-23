@@ -66,7 +66,7 @@ function Squadron(props) {
   const [selectedGameMode, setSelectedGameMode] = useState(() => { return squadron.gameMode ? squadron.gameMode : "" });
   const [selectedAdmiral, setSelectedAdmiral] = useState(() => { return squadron.admiral ? squadron.admiral : "" });
   const [availableAdmirals, setAvailableAdmirals] = useState(() => { return squadron.admiral ? Admirals.allowed(squadron.faction) : [] });
-  const [selectedShips, setSelectedShips] = useState(() => { return squadron.ships ? squadron.ships.map(ship => {ship.id = shipIdCounter.current++; return ship; }) : []});  
+  const [selectedShips, setSelectedShips] = useState(() => { return squadron.ships ? squadron.ships.map(ship => { ship.id = shipIdCounter.current++; return ship; }) : [] });
   const [selectedInitiativeCards, setSelectedInitiativeCards] = useState(() => { return squadron.initiativeCards ? squadron.initiativeCards : [] });
   const [shipSelectorIsOpen, setShipSelectorIsOpen] = useState(false);
   const [initiativeCardSelectorIsOpen, setInitiativeCardSelectorIsOpen] = useState(false);
@@ -93,19 +93,23 @@ function Squadron(props) {
           ship.id = shipIdCounter.current++;
           return ship;
         });
-        
+
         setSelectedShips(squadron.ships);
       }
     }
   }, [squadron])
 
   const handleNewGameModeSelected = (newGameMode) => {
+    // TODO Validate squadron
+
     squadron.gameMode = newGameMode;
-    setSelectedGameMode(newGameMode); 
+    setSelectedGameMode(newGameMode);
     onSquadronChanged(squadron);
   };
 
   const handleNewfactionSelected = (newFaction) => {
+    // TODO Validate squadron
+    
     setAvailableAdmirals(Admirals.allowed(newFaction));
 
     squadron.faction = newFaction;
@@ -114,6 +118,8 @@ function Squadron(props) {
   };
 
   const handleNewAdmiralSelected = (newAdmiral) => {
+    // TODO Validate squadron
+
     setSelectedAdmiral(newAdmiral);
     squadron.admiral = newAdmiral;
     onSquadronChanged(squadron);
@@ -135,14 +141,12 @@ function Squadron(props) {
 
     if (!shipToAdd)
       return;
-
+    
     shipToAdd.id = shipIdCounter.current++;
 
-    const newList = selectedShips;
-    newList.push(shipToAdd);
-
-    squadron.ships = newList;
-    setSelectedShips(newList);
+    selectedShips.push(shipToAdd);
+    squadron.ships = selectedShips;
+    setSelectedShips(selectedShips);
     onSquadronChanged(squadron);
   };
 
@@ -167,7 +171,7 @@ function Squadron(props) {
 
   const handleShipRemoved = (shipToRemove) => {
     const newlist = selectedShips.filter(ship => ship.id !== shipToRemove.id);
-    
+
     squadron.ships = newlist;
     setSelectedShips(newlist);
     onSquadronChanged(squadron);

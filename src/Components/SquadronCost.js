@@ -4,7 +4,7 @@ import { Typography } from '@material-ui/core';
 
 function SquadronCost(props) {
 
-    const { squadron } = props;
+    const { squadron, onCostChanged } = props;
 
     const [squadronCost, setSquadronCost] = useState(0); // Set default if squad is loaded
 
@@ -31,6 +31,7 @@ function SquadronCost(props) {
             });
 
             setSquadronCost(newCost);
+            onCostChanged(newCost);
     }, [squadron])
 
     return (
@@ -43,7 +44,8 @@ function SquadronCost(props) {
 };
 
 SquadronCost.propTypes = {
-    squadron: Proptypes.object.isRequired
+    squadron: Proptypes.object.isRequired,
+    onCostChanged: Proptypes.func
 }
 
 export default SquadronCost;

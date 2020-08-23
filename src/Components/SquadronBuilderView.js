@@ -32,6 +32,7 @@ function SquadronBuilderView() {
   const [showTooManyShipsMessage, setShowTooManyShipsMessage] = useState(false);
   const [showTooManyPointsMessage, setShowTooManyPointsMessage] = useState(false);
 
+  // If new Id is passed get the squadron from backend
   useEffect(() => {
     const callProviderAsync = async () => {
       let squadron = await squadronProvider.GetFromId(squadronId);
@@ -41,88 +42,85 @@ function SquadronBuilderView() {
     callProviderAsync();
   }, [squadronId]);
 
+  // After innitial load and When user changes the squadron
   const handleSquadronChanged = (newSquadron) => {
     setSquadronDraft(Object.assign({}, newSquadron));
-  };
-
-  const handleSquadronRestrictions = () => {
-
-    if (squadronDraft.gameMode) {
-      setShowTooFewShipsMessage(squadronDraft.ships.length < squadronDraft.gameMode.minShips)
-
-      if (squadronDraft.ships.length > squadronDraft.gameMode.maxShips)
-        setShowTooManyShipsMessage(true)
-      if (cost.current > squadronDraft.gameMode.maxPoints)
-        setShowTooManyPointsMessage(true);
-    };
-
-    if (cost.current <= squadronDraft.gameMode.maxPoints) {
-      setShowTooManyPointsMessage(false);
-    };
-  };
     
-    return (
-      <div>
-        <AppBar position="sticky">
-          <Toolbar>
-            <Grid
-              container
-              direction="row"
-              justify="flex-start">
-              <Typography className={classes.squadronName} variant="subtitle1">
-                Untitled Squadron
-          </Typography>
-              <SquadronCost squadron={squadronDraft} />
-            </Grid>
-            <Button className={classes.toolbarIcons} startIcon={<PublishIcon />} onClick={() => { setFleetExporterOpen(true) }} >Share</Button>
-          </Toolbar>
-        </AppBar>
-
-        <Squadron squadron={squadron} onSquadronChanged={handleSquadronChanged} />
-        {fleetExporterOpen &&
-          <FleetExporter onClose={() => { setFleetExporterOpen(false) }} open={fleetExporterOpen} fleet={squadronDraft} />
-        }
-        { squadronDraft.gameMode &&
-        <Snackbar open={showTooFewShipsMessage}
-          autoHideDuration={4000}
-          onClose={() => setShowTooFewShipsMessage(false)}
-          message={"A fleet in " + squadronDraft.gameMode.name + " must have at least " + squadronDraft.gameMode.minShips + " ships"}
-          action={(
-            <Button color="secondary"
-              size="small" onClick={() => setShowTooFewShipsMessage(false)}>
-              hide
-            </Button>
-          )}>
-        </Snackbar>
-        }
-        { squadronDraft.gameMode &&
-        <Snackbar open={showTooManyShipsMessage}
-          autoHideDuration={4000}
-          onClose={() => setShowTooManyShipsMessage(false)}
-          message={"A fleet in " + squadronDraft.gameMode.name + " cannot include more than " + squadronDraft.gameMode.minShips + " ships"}
-          action={(
-            <Button color="secondary"
-              size="small" onClick={() => setShowTooManyShipsMessage(false)}>
-              hide
-            </Button>
-          )}>
-        </Snackbar>
-        }
-        { squadronDraft.gameMode &&
-        <Snackbar open={showTooManyPointsMessage}
-          autoHideDuration={4000}
-          onClose={() => setShowTooManyPointsMessage(false)}
-          message={"Your fleet is at " + cost + " points.  A fleet in " + squadronDraft.gameMode.name + " cannot cost more than " + squadronDraft.gameMode.maxPoints + " points"}
-          action={(
-            <Button color="secondary"
-              size="small" onClick={() => setShowTooManyPointsMessage(false)}>
-              hide
-            </Button>
-          )}>
-        </Snackbar>
-        }
-      </div>
-    );
+    if (squadronDraft.gameMode && squadronDraft.ships) {
+      setShowTooFewShipsMessage(squadronDraft.ships.length < squadronDraft.gameMode.minShips)
+      setShowTooManyShipsMessage(squadronDraft.ships.length > squadronDraft.gameMode.maxShips)
+    }
   };
 
-  export default SquadronBuilderView;
+  const handleCostChange = (newCost) => {
+    setCost(newCost);
+
+    setShowTooManyPointsMessage(newCost > squadronDraft.gameMode.maxPoints);
+};
+
+return (
+  <div>
+    <AppBar position="sticky">
+      <Toolbar>
+        <Grid
+          container
+          direction="row"
+          justify="flex-start">
+          <Typography className={classes.squadronName}
+            variant="subtitle1">
+            Untitled Squadron
+          </Typography>
+          <SquadronCost squadron={squadronDraft} onCostChanged={handleCostChange} />
+        </Grid>
+        <Button className={classes.toolbarIcons} startIcon={<PublishIcon />} onClick={() => { setFleetExporterOpen(true) }} >Share</Button>
+      </Toolbar>
+    </AppBar>
+
+    <Squadron squadron={squadron} onSquadronChanged={handleSquadronChanged} />
+    {fleetExporterOpen &&
+      <FleetExporter onClose={() => { setFleetExporterOpen(false) }} open={fleetExporterOpen} fleet={squadronDraft} />
+    }
+    {squadronDraft.gameMode &&
+      <Snackbar open={showTooFewShipsMessage}
+        autoHideDuration={4000}
+        onClose={() => setShowTooFewShipsMessage(false)}
+        message={"A fleet in " + squadronDraft.gameMode.name + " must have at least " + squadronDraft.gameMode.minShips + " ships"}
+        action={(
+          <Button color="secondary"
+            size="small" onClick={() => setShowTooFewShipsMessage(false)}>
+            hide
+          </Button>
+        )}>
+      </Snackbar>
+    }
+    {squadronDraft.gameMode &&
+      <Snackbar open={showTooManyShipsMessage}
+        autoHideDuration={4000}
+        onClose={() => setShowTooManyShipsMessage(false)}
+        message={"A fleet in " + squadronDraft.gameMode.name + " cannot include more than " + squadronDraft.gameMode.maxShips + " ships"}
+        action={(
+          <Button color="secondary"
+            size="small" onClick={() => setShowTooManyShipsMessage(false)}>
+            hide
+          </Button>
+        )}>
+      </Snackbar>
+    }
+    {squadronDraft.gameMode &&
+      <Snackbar open={showTooManyPointsMessage}
+        autoHideDuration={4000}
+        onClose={() => setShowTooManyPointsMessage(false)}
+        message={"Your fleet is at " + cost + " points.  A fleet in " + squadronDraft.gameMode.name + " cannot cost more than " + squadronDraft.gameMode.maxPoints + " points"}
+        action={(
+          <Button color="secondary"
+            size="small" onClick={() => setShowTooManyPointsMessage(false)}>
+            hide
+          </Button>
+        )}>
+      </Snackbar>
+    }
+  </div>
+);
+  };
+
+export default SquadronBuilderView;
