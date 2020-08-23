@@ -62,14 +62,14 @@ function Squadron(props) {
   const classes = useStyles();
   const { squadron, onSquadronChanged } = props;
 
-  const [selectedFaction, setSelectedFaction] = useState("");
-  const [selectedGameMode, setSelectedGameMode] = useState("");
-  const [selectedAdmiral, setSelectedAdmiral] = useState("");
-  const [availableAdmirals, setAvailableAdmirals] = useState([]);
-  const [selectedShips, setSelectedShips] = useState([]);
+  const [selectedFaction, setSelectedFaction] = useState(() => { return squadron.faction ? squadron.faction : "" });
+  const [selectedGameMode, setSelectedGameMode] = useState(() => { return squadron.gameMode ? squadron.gameMode : "" });
+  const [selectedAdmiral, setSelectedAdmiral] = useState(() => { return squadron.admiral ? squadron.admiral : "" });
+  const [availableAdmirals, setAvailableAdmirals] = useState(() => { return squadron.admiral ? Admirals.allowed(squadron.faction) : [] });
+  const [selectedShips, setSelectedShips] = useState(() => { return squadron.ships ? squadron.ships.map(ship => {ship.id = shipIdCounter.current++; return ship; }) : []});  
+  const [selectedInitiativeCards, setSelectedInitiativeCards] = useState(() => { return squadron.initiativeCards ? squadron.initiativeCards : [] });
   const [shipSelectorIsOpen, setShipSelectorIsOpen] = useState(false);
   const [initiativeCardSelectorIsOpen, setInitiativeCardSelectorIsOpen] = useState(false);
-  const [selectedInitiativeCards, setSelectedInitiativeCards] = useState(() => { return squadron.initiativeCards ? squadron.initiativeCards : [] });
   const [showTooFewShipsMessage, setShowTooFewShipsMessage] = useState(false);
   const [showTooManyShipsMessage, setShowTooManyShipsMessage] = useState(false);
   const [showTooManyPointsMessage, setShowTooManyPointsMessage] = useState(false);
