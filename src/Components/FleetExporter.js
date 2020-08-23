@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import fleetProvider from '../Providers/squadronProvider.js';
+import squadronProvider from '../Providers/squadronProvider.js';
 import { Dialog, DialogTitle, TextField, Grid, DialogContentText, DialogContent, Button, DialogActions } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import AssignmentIcon from '@material-ui/icons/Assignment';
@@ -58,14 +58,14 @@ function FleetExporter(props) {
 
         const callProviderAsync = async () => {
             let link = appUrl() + "/squadron/";
-            link += await fleetProvider.SaveAndGetId(fleet);
+            link += await squadronProvider.SaveAndGetId(fleet);
 
-            setFleetLink(link.toString());
+            setFleetLink(link);
         };
 
         callProviderAsync();
 
-        setFleetTextExport(fleetProvider.toText(fleet));
+        setFleetTextExport(squadronProvider.toText(fleet));
     }, [fleet])
 
     const copyTextToClipboard = () => {

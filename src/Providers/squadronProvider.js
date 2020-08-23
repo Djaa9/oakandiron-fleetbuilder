@@ -36,7 +36,7 @@ const squadronProvider = {
         },
       }
     );
-    
+
     return await response.json();
   },
   GetFromId: async (id) => {
@@ -58,29 +58,29 @@ const squadronProvider = {
       squadron.ships = shortForm.ships.map(shipShortForm => {
         let newShip = shipProvider.all().find(ship => ship.name === shipShortForm.name);
 
-          newShip.isFlagship = shipShortForm.isFlagship;
-          newShip.commander = shipShortForm.commander ? Commanders.all().find(commander => commander.name === shipShortForm.commander) : "";
-          newShip.skillLevel = newShip.skillUpgrades.find(skillUpgrade => skillUpgrade.name === shipShortForm.skillLevel);
-          newShip.upgradeCard1 = upgradeCardsProvider.all().find(upgradeCard => upgradeCard.name === shipShortForm.upgradeCards[0]);
-          newShip.upgradeCard2 = upgradeCardsProvider.all().find(upgradeCard => upgradeCard.name === shipShortForm.upgradeCards[1]);
-          shipShortForm.upgrades.forEach(upgradeShortForm => {
-            newShip.upgrades.forEach(newUpgrade => {
-              if (newUpgrade.name === upgradeShortForm)
-                newUpgrade.selected = true;
-              else
-                newUpgrade.selected = false;
-            })
-          })    
-          return newShip;            
-      }      
+        newShip.isFlagship = shipShortForm.isFlagship;
+        newShip.commander = shipShortForm.commander ? Commanders.all().find(commander => commander.name === shipShortForm.commander) : "";
+        newShip.skillLevel = newShip.skillUpgrades.find(skillUpgrade => skillUpgrade.name === shipShortForm.skillLevel);
+        newShip.upgradeCard1 = upgradeCardsProvider.all().find(upgradeCard => upgradeCard.name === shipShortForm.upgradeCards[0]);
+        newShip.upgradeCard2 = upgradeCardsProvider.all().find(upgradeCard => upgradeCard.name === shipShortForm.upgradeCards[1]);
+        shipShortForm.upgrades.forEach(upgradeShortForm => {
+          newShip.upgrades.forEach(newUpgrade => {
+            if (newUpgrade.name === upgradeShortForm)
+              newUpgrade.selected = true;
+            else
+              newUpgrade.selected = false;
+          })
+        })
+        return newShip;
+      }
       );
-  }
-  
-  if (shortForm.initiativeCards) {
-    squadron.initiativeCards = shortForm.initiativeCards.map(initiativeCardShortForm => {
-      return initiativeCardsProvider.all().find(card => card.name === initiativeCardShortForm ? initiativeCardShortForm : "");
-    })    
-  }
+    }
+
+    if (shortForm.initiativeCards) {
+      squadron.initiativeCards = shortForm.initiativeCards.map(initiativeCardShortForm => {
+        return initiativeCardsProvider.all().find(card => card.name === initiativeCardShortForm ? initiativeCardShortForm : "");
+      })
+    }
     return squadron;
   },
   toText: (squadron) => {
@@ -91,20 +91,24 @@ const squadronProvider = {
     text += "ADMIRAL: " + (squadron.admiral ? squadron.admiral.name : "-") + "\n";
     text += "\n"
     text += "SHIPS: \n";
-    squadron.ships.forEach(ship => {
-      text += ship.name + (ship.isFlagship ? " (Flagship)" : "") + "\n";
-      text += ship.commander ? ship.commander.name : "";
-      text += ship.skillLevel ? ship.skillLevel.name + "\n" : "";
-      text += ship.upgrades.filter(upgrade => upgrade.selected).length ? "Upgrades: \n" : "";
-      ship.upgrades.forEach(upgrade => {
-        text += upgrade.selected ? (upgrade.name + "\n") : "";
+
+    if (squadron.ships)
+      squadron.ships.forEach(ship => {
+        text += ship.name + (ship.isFlagship ? " (Flagship)" : "") + "\n";
+        text += ship.commander ? ship.commander.name : "";
+        text += ship.skillLevel ? ship.skillLevel.name + "\n" : "";
+        text += ship.upgrades.filter(upgrade => upgrade.selected).length ? "Upgrades: \n" : "";
+        ship.upgrades.forEach(upgrade => {
+          text += upgrade.selected ? (upgrade.name + "\n") : "";
+        });
+        text += ship.upgradeCard1 || ship.upgradeCard2 ? "Upgrade Cards: \n" : "";
+        text += ship.upgradeCard1 ? (ship.upgradeCard1.name + "\n") : "";
+        text += ship.upgradeCard2 ? (ship.upgradeCard2.name + "\n") : "";
+        text += "\n";
       });
-      text += ship.upgradeCard1 || ship.upgradeCard2 ? "Upgrade Cards: \n" : "";
-      text += ship.upgradeCard1 ? (ship.upgradeCard1.name + "\n") : "";
-      text += ship.upgradeCard2 ? (ship.upgradeCard2.name + "\n") : "";
-      text += "\n";
-    });
     text += "INITIATIVE HAND: \n"
+
+    if(squadron.initiativeCards)
     squadron.initiativeCards.forEach(card => {
       text += card.name + "\n";
     });

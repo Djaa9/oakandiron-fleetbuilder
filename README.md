@@ -71,8 +71,8 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 1.0
 - Share list (backend generated link)
-    - InitiativeCards not disabled after load
-    - Refactor cost. Put in own component 
+    - reimplement error messages in SquadronBuilderView
+
 
 2.0
 - Save to account
@@ -100,7 +100,12 @@ Ideas
 - Make initiative card selector a sortable table
 - prompt for install of PWA https://web.dev/customize-install/
 - ? Save to file
-
 - Diceroller
 - Rules
 - Card database
+- Refactor using immutalble helpers https://github.com/kolodny/immutability-helper 
+
+BUGS
+- Missing spinner when pressing share (Never implemented)
+- avoid doubletap on ship in selector
+

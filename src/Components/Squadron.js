@@ -3,7 +3,7 @@ import Proptypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import { factions } from '../data/factions';
 import { gameModes } from '../data/gameModes';
-import { FormControl, Select, Typography, List, ListItem, ListItemText, MenuItem, Button, InputLabel, Grid, Snackbar } from '@material-ui/core';
+import { FormControl, Select, Typography, List, ListItem, ListItemText, MenuItem, Button, InputLabel, Grid, } from '@material-ui/core';
 import Admirals from '../Providers/admiralsProvider';
 import { grey } from '@material-ui/core/colors';
 import ShipSelector from './ShipSelector';
@@ -70,17 +70,12 @@ function Squadron(props) {
   const [selectedInitiativeCards, setSelectedInitiativeCards] = useState(() => { return squadron.initiativeCards ? squadron.initiativeCards : [] });
   const [shipSelectorIsOpen, setShipSelectorIsOpen] = useState(false);
   const [initiativeCardSelectorIsOpen, setInitiativeCardSelectorIsOpen] = useState(false);
-  const [showTooFewShipsMessage, setShowTooFewShipsMessage] = useState(false);
-  const [showTooManyShipsMessage, setShowTooManyShipsMessage] = useState(false);
-  const [showTooManyPointsMessage, setShowTooManyPointsMessage] = useState(false);
 
-  const shipIdCounter = useRef(1);
-  const squadronLocal = useRef({});
+  const shipIdCounter = useRef(0);
 
   // Handle when the squadron parameter changes
   useEffect(() => {
-
-    if (squadron !== squadronLocal.current) {
+    if (squadron) {
       let newAvailableAdmirals;
       setSelectedGameMode(squadron.gameMode ? squadron.gameMode : "");
       if (squadron.faction) {
@@ -104,27 +99,10 @@ function Squadron(props) {
     }
   }, [squadron])
 
-  // TODO Move errorhandling to parent
-  //useEffect(() => {
-    //if (selectedGameMode) {
-      //setShowTooFewShipsMessage(selectedShips.length < selectedGameMode.minShips);
-
-      //if (setSelectedShips.length > selectedGameMode.maxShips)
-      //  setShowTooManyShipsMessage(true);
-
-    //  if (cost.current > selectedGameMode.maxPoints)
-    //    setShowTooManyPointsMessage(true);
-    //}
-//
-    //if (cost.current <= selectedGameMode.maxPoints) {
-    //  setShowTooManyPointsMessage(false);
-    //}
-  //}, [selectedAdmiral, selectedFaction, selectedGameMode, selectedShips]);
-
   const handleNewGameModeSelected = (newGameMode) => {
     squadron.gameMode = newGameMode;
     setSelectedGameMode(newGameMode); 
-    callOnSquadronChangedSafe();  
+    onSquadronChanged(squadron);
   };
 
   const handleNewfactionSelected = (newFaction) => {
@@ -132,20 +110,20 @@ function Squadron(props) {
 
     squadron.faction = newFaction;
     setSelectedFaction(newFaction);
-    callOnSquadronChangedSafe();
+    onSquadronChanged(squadron);
   };
 
   const handleNewAdmiralSelected = (newAdmiral) => {
     setSelectedAdmiral(newAdmiral);
     squadron.admiral = newAdmiral;
-    callOnSquadronChangedSafe();
+    onSquadronChanged(squadron);
   };
 
   const handleInitiativeCardSelectorSave = (newInitiativecards) => {
     setInitiativeCardSelectorIsOpen(false);
     squadron.initiativeCards = newInitiativecards;
     setSelectedInitiativeCards(newInitiativecards);
-    callOnSquadronChangedSafe();
+    onSquadronChanged(squadron);
   };
 
   const handleInitiativeCardSelectorCancel = () => {
@@ -158,7 +136,6 @@ function Squadron(props) {
     if (!shipToAdd)
       return;
 
-
     shipToAdd.id = shipIdCounter.current++;
 
     const newList = selectedShips;
@@ -166,7 +143,7 @@ function Squadron(props) {
 
     squadron.ships = newList;
     setSelectedShips(newList);
-    callOnSquadronChangedSafe();
+    onSquadronChanged(squadron);
   };
 
   const handleShipChanged = (updatedShip) => {
@@ -185,7 +162,7 @@ function Squadron(props) {
 
     squadron.ships = updatedListOfSelectedShips;
     setSelectedShips(squadron.ships);
-    callOnSquadronChangedSafe();
+    onSquadronChanged(squadron);
   };
 
   const handleShipRemoved = (shipToRemove) => {
@@ -193,11 +170,6 @@ function Squadron(props) {
     
     squadron.ships = newlist;
     setSelectedShips(newlist);
-    callOnSquadronChangedSafe();
-  };
-
-  const callOnSquadronChangedSafe = () => {
-    squadronLocal.current = Object.assign({}, squadron); // save state for comparission to avoid endless loop
     onSquadronChanged(squadron);
   };
 
@@ -316,39 +288,6 @@ function Squadron(props) {
           Choose Initiative Cards
         </Button>
       </Grid>
-      <Snackbar open={showTooFewShipsMessage}
-        autoHideDuration={4000}
-        onClose={() => setShowTooFewShipsMessage(false)}
-        message={"A fleet in " + selectedGameMode.name + " must have at least " + selectedGameMode.minShips + " ships"}
-        action={(
-          <Button color="secondary"
-            size="small" onClick={() => setShowTooFewShipsMessage(false)}>
-            hide
-          </Button>
-        )}>
-      </Snackbar>
-      <Snackbar open={showTooManyShipsMessage}
-        autoHideDuration={4000}
-        onClose={() => setShowTooManyShipsMessage(false)}
-        message={"A fleet in " + selectedGameMode.name + " cannot include more than " + selectedGameMode.minShips + " ships"}
-        action={(
-          <Button color="secondary"
-            size="small" onClick={() => setShowTooManyShipsMessage(false)}>
-            hide
-          </Button>
-        )}>
-      </Snackbar>
-      <Snackbar open={showTooManyPointsMessage}
-        autoHideDuration={4000}
-        onClose={() => setShowTooManyPointsMessage(false)}
-        message={"Your fleet is at " + "cost" + " points.  A fleet in " + selectedGameMode.name + " cannot cost more than " + selectedGameMode.maxPoints + " points"}
-        action={(
-          <Button color="secondary"
-            size="small" onClick={() => setShowTooManyPointsMessage(false)}>
-            hide
-          </Button>
-        )}>
-      </Snackbar>
 
       {selectedGameMode && selectedFaction && selectedAdmiral &&
         <InitiativecardSelector

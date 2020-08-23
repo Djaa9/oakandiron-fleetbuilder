@@ -8,7 +8,6 @@ function SquadronCost(props) {
 
     const [squadronCost, setSquadronCost] = useState(0); // Set default if squad is loaded
 
-
     useEffect(() => {
         if (!squadron.gameMode || !squadron.faction || !squadron.admiral)
             return;
