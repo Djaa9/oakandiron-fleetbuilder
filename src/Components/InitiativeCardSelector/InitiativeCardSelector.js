@@ -6,7 +6,6 @@ import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from '@material-ui/core/ListItemText';
 import Alert from '@material-ui/lab/Alert';
 import util from './util';
-import { factions } from '../../data/factions.js';
 
 function InitiativeCardSelector(props) {
 
@@ -25,8 +24,7 @@ function InitiativeCardSelector(props) {
       }
       return initiativeCard;
     });
-
-    util.enforceHandRestrictions(newList, admiral, faction, maxHandSize);
+    
     return newList;
   }
   else 
@@ -36,7 +34,23 @@ function InitiativeCardSelector(props) {
   
   useEffect(() => {  
     if (faction && admiral) {
-      let allowedCards = initiativeCardsProvider.allowed(faction, admiral, ships);
+      let allowedCards;
+
+      if (selectedInitiativeCards.length > 0) {
+        var newList = initiativeCardsProvider.allowed(faction, admiral, ships).map(initiativeCard => {
+          let match = selectedInitiativeCards.find(card => card.name === initiativeCard.name);
+          if (match) {
+            match.selected = true;
+            return match;
+          }
+          return initiativeCard;
+        });
+        
+        allowedCards = newList;
+      }
+      else 
+        allowedCards = initiativeCardsProvider.allowed(faction, admiral, ships);
+
       setAutoIncludedCards(allowedCards.filter(card => card.autoInclude))
       setAvailableInitiativeCards(allowedCards.filter(card => !card.autoInclude));
       setMaxHandSize(5 + admiral.admiralValue);      
