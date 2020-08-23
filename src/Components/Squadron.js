@@ -7,7 +7,7 @@ import { FormControl, Select, Typography, List, ListItem, ListItemText, MenuItem
 import Admirals from '../Providers/admiralsProvider';
 import { grey } from '@material-ui/core/colors';
 import ShipSelector from './ShipSelector';
-import InitiativecardSelector from './InitiativeCardSelector';
+import InitiativecardSelector from './InitiativeCardSelector/InitiativeCardSelector';
 import Ship from './Ship.js';
 
 function Squadron(props) {
