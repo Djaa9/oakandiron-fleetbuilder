@@ -110,23 +110,10 @@ function Squadron(props) {
     squadron.admiral = selectedAdmiral;
     squadron.ships = selectedShips;
     squadron.initiativeCards = selectedInitiativeCards;
-    squadron.cost = cost; // TODO Move to own component
   }, [selectedGameMode, selectedFaction, selectedAdmiral, selectedShips, selectedInitiativeCards, cost, onSquadronChanged, squadron]);
 
-  // TODO Move to own component
+  // TODO Move errorhandling to parent
   useEffect(() => {
-    // Calculate cost TODO move this to its own component in FleetBuilderView
-    if (selectedGameMode && selectedFaction && selectedGameMode) {
-      var newCost = 0;
-      newCost = newCost + selectedAdmiral.cost;
-
-      selectedShips.forEach(ship => {
-        newCost = newCost + ship.costIncludingUpgrades;
-      });
-
-      cost.current = newCost;
-    };
-
     if (selectedGameMode) {
       setShowTooFewShipsMessage(selectedShips.length < selectedGameMode.minShips);
 

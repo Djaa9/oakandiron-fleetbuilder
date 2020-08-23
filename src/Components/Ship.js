@@ -78,25 +78,13 @@ function Ship(props) {
         setSelectedSkillLevel(ship.skillLevel ? ship.skillLevel : "");
     }, [ship, faction]);
 
-    // Calculate new cost of ship when selections change
     useEffect(() => {
-        //var newCostOfShip = ship.cost;
-        //newCostOfShip = commander ? commander.cost + newCostOfShip : newCostOfShip;
-        //newCostOfShip = selectedSkillLevel.cost ? newCostOfShip + selectedSkillLevel.cost : newCostOfShip;
-        //newCostOfShip = selectedUpgradeCard1.cost ? newCostOfShip + selectedUpgradeCard1.cost : newCostOfShip;
-        //newCostOfShip = selectedUpgradeCard2.cost ? newCostOfShip + selectedUpgradeCard2.cost : newCostOfShip;
-//
-        //upgrades.filter(upgrade => upgrade.selected).forEach(upgrade => {
-        //    newCostOfShip = newCostOfShip + upgrade.cost;
-        //});
-//      
         ship.isFlagship = isFlagship;
         ship.commander = commander;
         ship.skillLevel = selectedSkillLevel;
         ship.upgrades = upgrades;
         ship.upgradeCard1 = selectedUpgradeCard1;
         ship.upgradeCard2 = selectedUpgradeCard2;
-        //ship.costIncludingUpgrades = newCostOfShip;
         
         onShipChanged(ship);
     },[isFlagship, commander, selectedSkillLevel, upgrades, selectedUpgradeCard1, selectedUpgradeCard2]);
