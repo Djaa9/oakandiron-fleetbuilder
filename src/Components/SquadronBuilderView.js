@@ -1,5 +1,5 @@
 import React, { useState, useEffect, } from 'react';
-import FleetBuilder from './Squadron';
+import Squadron from './Squadron';
 import { makeStyles } from '@material-ui/core/styles';
 import { Toolbar, AppBar, Typography, Button, Grid } from '@material-ui/core';
 import PublishIcon from '@material-ui/icons/Publish';
@@ -25,6 +25,7 @@ function SquadronBuilderView() {
   const classes = useStyles();
 
   const [squadron, setSquadron] = useState({});
+  const [squadronWithCosts, setSquadronWithCosts] = useState({});
   const [fleetExporterOpen, setFleetExporterOpen] = useState(false);
 
   useEffect(() => {
@@ -37,7 +38,7 @@ function SquadronBuilderView() {
   }, [squadronId]);
 
   const handleSquadronChanged = (newSquadron) => {
-    setSquadron(newSquadron);
+    setSquadronWithCosts(Object.assign({}, newSquadron));
   };
 
   return (
@@ -51,13 +52,13 @@ function SquadronBuilderView() {
           <Typography className={classes.squadronName} variant="subtitle1">
             Untitled Squadron
           </Typography>
-          <SquadronCost squadron={squadron} />
+          <SquadronCost squadron={squadronWithCosts} />
           </Grid>
           <Button className={classes.toolbarIcons} startIcon={<PublishIcon />} onClick={() => { setFleetExporterOpen(true) }} >Share</Button>
         </Toolbar>
       </AppBar>
 
-      <FleetBuilder squadron={squadron} onSquadronChanged={handleSquadronChanged} />
+      <Squadron squadron={squadron} onSquadronChanged={handleSquadronChanged} />
       {fleetExporterOpen &&
         <FleetExporter onClose={() => { setFleetExporterOpen(false) }} open={fleetExporterOpen} fleet={squadron} />
       }
