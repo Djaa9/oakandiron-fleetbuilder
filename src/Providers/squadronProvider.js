@@ -5,6 +5,7 @@ import Commanders from '../data/commanders';
 import shipProvider from './shipProvider';
 import apiUtil from './apiUtil';
 import upgradeCardsProvider from './upgradeCardsProvider';
+import initiativeCardsProvider from '../Providers/initiativeCardsProvider';
 
 const squadronProvider = {
   SaveAndGetId: async (squadron) => {
@@ -76,7 +77,9 @@ const squadronProvider = {
   }
   
   if (shortForm.initiativeCards) {
-    
+    squadron.initiativeCards = shortForm.initiativeCards.map(initiativeCardShortForm => {
+      return initiativeCardsProvider.all().find(card => card.name === initiativeCardShortForm ? initiativeCardShortForm : "");
+    })    
   }
     return squadron;
   },

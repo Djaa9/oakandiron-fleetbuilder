@@ -69,7 +69,7 @@ function Squadron(props) {
   const [selectedShips, setSelectedShips] = useState([]);
   const [shipSelectorIsOpen, setShipSelectorIsOpen] = useState(false);
   const [initiativeCardSelectorIsOpen, setInitiativeCardSelectorIsOpen] = useState(false);
-  const [selectedInitiativeCards, setSelectedInitiativeCards] = useState([]);
+  const [selectedInitiativeCards, setSelectedInitiativeCards] = useState(() => { return squadron.initiativeCards ? squadron.initiativeCards : [] });
   const [showTooFewShipsMessage, setShowTooFewShipsMessage] = useState(false);
   const [showTooManyShipsMessage, setShowTooManyShipsMessage] = useState(false);
   const [showTooManyPointsMessage, setShowTooManyPointsMessage] = useState(false);

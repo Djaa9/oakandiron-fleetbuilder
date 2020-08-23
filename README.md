@@ -71,7 +71,7 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 1.0
 - Share list (backend generated link)
-    - isFlagship initial state after load
+    - InitiativeCards not disabled after load
     - Refactor cost. Put in own component 
 
 2.0
@@ -100,3 +100,7 @@ Ideas
 - Make initiative card selector a sortable table
 - prompt for install of PWA https://web.dev/customize-install/
 - ? Save to file
+
+- Diceroller
+- Rules
+- Card database

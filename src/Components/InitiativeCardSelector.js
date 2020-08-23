@@ -6,7 +6,6 @@ import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from '@material-ui/core/ListItemText';
 import Alert from '@material-ui/lab/Alert';
 import { factionTypes } from '../data/factionTypes.js';
-import { initiativeCards } from '../data/initiativeCards.js';
 
 function InitiativeCardSelector(props) {
 
@@ -15,15 +14,18 @@ function InitiativeCardSelector(props) {
   const [availableInitiativeCards, setAvailableInitiativeCards] = useState(() => {
     if (selectedInitiativeCards.length > 0) {
       return initiativeCardsProvider.allowed(faction, admiral, ships).map(initiativeCard => {
-        let match = selectedInitiativeCards.find(selectedInitiativeCards.name === initiativeCard.name);
-        if (match) match.selected = true;
-        return match;
+        let match = selectedInitiativeCards.find(card => card.name === initiativeCard.name);
+        if (match) {
+          match.selected = true;
+          return match;
+        }
+        return initiativeCard;
       });
     }
     else 
       return [];
   });
-  const [autoIncludedCards, setAutoIncludedCards] = useState([]);
+  const [autoIncludedCards, setAutoIncludedCards] = useState(() => { return selectedInitiativeCards ? selectedInitiativeCards.filter(card => card.autoInclude) : [] });
   const [maxHandSize, setMaxHandSize] = useState(0);
 
   useEffect(() => {
