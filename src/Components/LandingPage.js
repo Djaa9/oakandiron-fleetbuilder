@@ -2,6 +2,7 @@ import React from 'react';
 import { Typography, AppBar, Toolbar, Button, Grid } from '@material-ui/core';
 import { Link } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
+import { useAuth0 } from '@auth0/auth0-react';
 
 function LandingPage() {
 
@@ -17,7 +18,9 @@ function LandingPage() {
     }));
 
     const classes = useStyles();
-        
+
+    const { loginWithRedirect } = useAuth0();
+
     return (
         <div>
             <AppBar position="sticky">
@@ -45,9 +48,15 @@ function LandingPage() {
                         You can download and use this toolkit as an App on your iOS or Android device by adding it to your home screen from Safari or Chrome.
             </Typography>
                 </div>
-                <Button to="/squadron" variant="contained" component={Link}
-                    color="primary"> Go to squadron builder
-                        </Button>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => loginWithRedirect()}>
+                    Log In
+                </Button>
+                <Button to="/squadron" component={Link}>
+                    Skip
+                </Button>
             </Grid>
         </div>
     );

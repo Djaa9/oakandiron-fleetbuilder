@@ -69,10 +69,6 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 ### TODO
 
-1.0
-- Share list (backend generated link)
-    - Ship upgrades not loaded from save correctly
-
 2.0
 - Save to account
 - Give list a name
