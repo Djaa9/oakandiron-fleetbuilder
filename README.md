@@ -71,8 +71,7 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 1.0
 - Share list (backend generated link)
-    - reimplement error messages in SquadronBuilderView
-
+    - Ship upgrades not loaded from save correctly
 
 2.0
 - Save to account

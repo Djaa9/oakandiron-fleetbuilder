@@ -66,10 +66,9 @@ function Ship(props) {
 
         var availableUpgradeCards = UpgradeCards.allowed(faction, ship);
         setAvailableUpgrade1Cards(availableUpgradeCards);
-        setSelectedUpgradeCard1(ship.upgradeCard1 ? ship.upgradeCard1 : "");
+        setSelectedUpgradeCard1(ship.upgradeCard1 ? availableUpgradeCards.find(card => {return card.name === ship.upgradeCard1.name}) : "");
         setAvailableUpgrade2Cards(availableUpgradeCards);
-        setSelectedUpgradeCard2(ship.upgradeCard2 ? ship.upgradeCard1 : "");
-
+        setSelectedUpgradeCard2(ship.upgradeCard2 ? availableUpgradeCards.find(card => {return card.name === ship.upgradeCard2.name}) : "");
         setSkillLevels(ship.skillUpgrades);
 
         setIsFlagship(ship.isFlagship);

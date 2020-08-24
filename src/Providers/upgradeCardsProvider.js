@@ -1,6 +1,9 @@
 import { allUpgradeCards } from "../data/upgradeCards";
 
 const upgradeCardsProvider = {
+    all: () => {
+        return copy(allUpgradeCards)
+    },
     allowed: function (faction, ship) {
         if (!ship)
             throw new Error("Ship not selected (ship = " + ship + "). Allowed Upgrade Cards could not be determined");
@@ -18,11 +21,15 @@ const upgradeCardsProvider = {
         if (ship.isFlagship)
             allowedUpgradeCards = allowedUpgradeCards.filter(card => !card.notAllowedForFlagship);
 
-         return allowedUpgradeCards.sort((a, b) => a.cost < b.cost ? -1 : 1)
+         let sorted = allowedUpgradeCards.sort((a, b) => a.cost < b.cost ? -1 : 1)
                                    .sort((a, b) => a.cost - b.cost || a.name.localeCompare(b.name)); // Sort same cost alphabetically
-    },
-    all: () => {
-        return allUpgradeCards;
-    }
+         
+         return copy(sorted);
+        }
 };
+
+function copy(cardsToCopy) {
+    return cardsToCopy = [...cardsToCopy].map(card => { return Object.assign({}, card); });
+  };
+
 export default upgradeCardsProvider;

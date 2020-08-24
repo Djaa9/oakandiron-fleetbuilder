@@ -2,13 +2,17 @@ import { factionTypes } from "../data/factionTypes";
 import { ships } from "../data/ships";
 
 const shipProvider = {
-  all: () => { return ships },
+  all: () => {
+    return copy(ships);
+  },
   allowed: function (gameMode, faction, admiral) {
     if (!gameMode || !faction || !admiral)
       return;
 
-    var allowedShips = ships.sort((a, b) => a.cost < b.cost ? -1 : 1)
-                            .sort((a, b) => a.cost - b.cost || a.name.localeCompare(b.name)); // Sort same cost alphabetically
+    let allowedShips = copy(ships);
+
+    allowedShips = allowedShips.sort((a, b) => a.cost < b.cost ? -1 : 1)
+      .sort((a, b) => a.cost - b.cost || a.name.localeCompare(b.name)); // Sort same cost alphabetically   
 
     // Handle Game Mode
     if (gameMode.name === "Patrol")
@@ -68,6 +72,14 @@ const shipProvider = {
     else
       return [];
   }
+};
+
+function copy(shipsToCopy) {
+  return shipsToCopy.map((shipToCopy) => {
+    let shipCopy = Object.assign({}, shipToCopy);
+    shipCopy.upgrades = [...shipCopy.upgrades].map(upgrade => { return Object.assign({}, upgrade); });
+    return shipCopy;
+  });
 };
 
 export default shipProvider;
