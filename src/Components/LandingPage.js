@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Typography, AppBar, Toolbar, Button, Grid } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import LoginButton from "./LoginButton";
+import { useAuth0 } from "@auth0/auth0-react";
 
 function LandingPage() {
   const useStyles = makeStyles((theme) => ({
@@ -15,7 +16,12 @@ function LandingPage() {
     },
   }));
 
+  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
   const classes = useStyles();
+
+  useEffect(() => {
+
+  },[]);
 
   return (
     <div>
@@ -53,10 +59,14 @@ function LandingPage() {
             Chrome.
           </Typography>
         </div>
-        <LoginButton />
-        <Button to="/squadron" component={Link}>
-          Skip
-        </Button>
+        {!isAuthenticated && (
+          <div>
+            <LoginButton />
+            <Button to="/squadron" component={Link}>
+              Skip
+            </Button>
+          </div>
+        )}
       </Grid>
     </div>
   );

@@ -1,5 +1,5 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import React, { useEffect } from "react";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import {
   Drawer,
   List,
@@ -8,6 +8,7 @@ import {
   ListItemIcon,
   Divider,
   Button,
+  Link
 } from "@material-ui/core";
 import SquadronBuilderView from "./Components/SquadronBuilderView.js";
 import LandingPage from "./Components/LandingPage.js";
@@ -48,13 +49,17 @@ const App = () => {
                 <ListItemIcon>
                   <ListIcon />
                 </ListItemIcon>
-                <ListItemText primary="My Squadrons" />
+                <Link href="/user">
+                  <ListItemText primary="My Squadrons"/>
+                </Link>
               </ListItem>
               <ListItem button>
                 <ListItemIcon>
                   <BuildIcon />
                 </ListItemIcon>
+                <Link href="/squadron">
                 <ListItemText primary="Squadron builder" />
+                </Link>
               </ListItem>
             </List>
           </div>
@@ -81,6 +86,9 @@ const App = () => {
               <SquadronBuilderView />
             </Route>
             <Route exact path="/callback">
+              <Redirect to="/user" />
+            </Route>
+            <Route exact path="/user">
               <UserLandingPage />
             </Route>
           </Switch>

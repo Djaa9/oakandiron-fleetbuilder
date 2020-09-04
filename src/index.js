@@ -17,7 +17,7 @@ ReactDOM.render(
     <Auth0Provider
       domain="djaa9.eu.auth0.com"
       clientId="WPo4R6orM8zJfGoss7R71Q2yDcqWB590"
-      redirectUri={window.location.origin}
+      redirectUri={window.location.origin + "/callback"}
     >
       <ThemeProvider theme={theme}>
         <CssBaseline />
