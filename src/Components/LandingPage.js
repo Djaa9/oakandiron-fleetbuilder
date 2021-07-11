@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Typography, AppBar, Toolbar, Button, Grid } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
@@ -14,14 +14,17 @@ function LandingPage() {
       maxWidth: 500,
       padding: theme.spacing(3),
     },
-  }));
+  }));  
 
-  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
+  const { isAuthenticated, isLoading, user } = useAuth0();
   const classes = useStyles();
 
-  useEffect(() => {
+  const [authenticated, setAuthenticated] = useState(isAuthenticated);
 
-  },[]);
+  useEffect(() => {
+    setAuthenticated(isAuthenticated);
+    console.log(user, isLoading, isAuthenticated)
+  },[isAuthenticated, isLoading, user]);
 
   return (
     <div>
@@ -41,11 +44,7 @@ function LandingPage() {
         <div className={classes.WelcomeMessage}>
           <Typography variant="body1" align="center">
             To this unofficial fan made toolkit app for the game Oak &#38; Iron
-            by{" "}
-            <a href="https://www.firelockgames.com/oak-iron/">
-              {" "}
-              Firelock games{" "}
-            </a>
+            by <a href="https://www.firelockgames.com/oak-iron/"> Firelock games </a>
             . The app offers a Squadron Builder which will help you build a
             legal fleet of ships and hand of initiative cards.
           </Typography>
@@ -59,7 +58,7 @@ function LandingPage() {
             Chrome.
           </Typography>
         </div>
-        {!isAuthenticated && (
+        {!authenticated && (
           <div>
             <LoginButton />
             <Button to="/squadron" component={Link}>

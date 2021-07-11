@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 const App = () => {
   const classes = useStyles();
   const theme = useTheme();
-  const { logout } = useAuth0();
+  const { isAuthenticated, logout } = useAuth0();
 
   return (
     <>
@@ -86,7 +86,7 @@ const App = () => {
               <SquadronBuilderView />
             </Route>
             <Route exact path="/callback">
-              <Redirect to="/user" />
+              <UserLandingPage />
             </Route>
             <Route exact path="/user">
               <UserLandingPage />
