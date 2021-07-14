@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import {
   Drawer,
   List,
@@ -7,16 +7,15 @@ import {
   ListItemText,
   ListItemIcon,
   Divider,
-  Button,
   Link
 } from "@material-ui/core";
 import SquadronBuilderView from "./Components/SquadronBuilderView.js";
 import LandingPage from "./Components/LandingPage.js";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import BuildIcon from "@material-ui/icons/Build";
 import ListIcon from "@material-ui/icons/List";
-import { useAuth0 } from "@auth0/auth0-react";
 import UserLandingPage from "./Components/UserLandingPage.js";
+import LoginLogOutButton from "./Components/auth/LoginLogOutButton.js";
 
 const drawerWidth = 240;
 
@@ -34,8 +33,6 @@ const useStyles = makeStyles((theme) => ({
 
 const App = () => {
   const classes = useStyles();
-  const theme = useTheme();
-  const { isAuthenticated, logout } = useAuth0();
 
   return (
     <>
@@ -65,11 +62,7 @@ const App = () => {
           </div>
           <Divider />
           <div>
-            <Button
-              onClick={() => logout({ returnTo: window.location.origin })}
-            >
-              Log Out
-            </Button>
+            <LoginLogOutButton/>
           </div>
         </Drawer>
       </div>
