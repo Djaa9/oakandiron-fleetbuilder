@@ -214,13 +214,13 @@ function Ship(props) {
         <Grid
           container
           direction="column"
-          justify="center"
+          justifyContent="center"
           alignItems="stretch"
         >
           <Grid
             container
             direction="row"
-            justify="flex-start"
+            justifyContent="flex-start"
             alignItems="center"
           >
             <h3>{ship.name + " (+" + ship.cost + ")"}</h3>
@@ -247,7 +247,7 @@ function Ship(props) {
               <Grid
                 container
                 direction="row"
-                justify="flex-start"
+                justifyContent="flex-start"
                 alignItems="center"
               >
                 <FormControl className={classes.formControl}>
@@ -280,7 +280,7 @@ function Ship(props) {
               <Grid
                 container
                 direction="row"
-                justify="flex-start"
+                justifyContent="flex-start"
                 alignItems="center"
               >
                 <FormControl className={classes.formControl}>
@@ -338,7 +338,7 @@ function Ship(props) {
               <Grid
                 container
                 direction="row"
-                justify="flex-start"
+                justifyContent="flex-start"
                 alignItems="center"
               >
                 <FormControl className={classes.formControl}>
@@ -373,7 +373,7 @@ function Ship(props) {
               <Grid
                 container
                 direction="row"
-                justify="flex-start"
+                justifyContent="flex-start"
                 alignItems="center"
               >
                 <FormControl className={classes.formControl}>

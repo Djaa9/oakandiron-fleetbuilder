@@ -26,7 +26,10 @@ const UserLandingPage = () => {
     <>
     <AppBar position="sticky">
     <Toolbar>
-      <Grid container direction="row" justify="flex-start">
+      <Grid 
+        container  
+        direction="row" 
+        justifyContent="flex-start">
         <Typography className={classes.AppBarHeader} variant="subtitle1">
           My Squadrons
         </Typography>        

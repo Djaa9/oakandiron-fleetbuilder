@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Typography, AppBar, Toolbar, Button, Grid } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import SignupButton from "./auth/SignupButton";
+import LoginLogOutButton from "./auth/LoginLogOutButton";
+import { useAuth0 } from "@auth0/auth0-react";
 
 function LandingPage() {
+
   const useStyles = makeStyles((theme) => ({
     LandingPageMainContainter: {
       padding: theme.spacing(2),
@@ -16,6 +19,7 @@ function LandingPage() {
   }));  
 
   const classes = useStyles();
+  const { isAutheticated } = useAuth0();
 
   return (
     <div>
@@ -27,7 +31,7 @@ function LandingPage() {
       <Grid
         container
         direction="column"
-        justify="flex-start"
+        justifyContent="center"
         alignItems="center"
         className={classes.LandingPageMainContainter}
       >
@@ -42,19 +46,39 @@ function LandingPage() {
           <Typography
             variant="body1"
             align="center"
-            className={classes.WelcomeMessage}
-          >
+            className={classes.WelcomeMessage}>
             You can download and use this toolkit as an App on your iOS or
             Android device by adding it to your home screen from Safari or
             Chrome.
           </Typography>
-        </div>
+          </div>
+          { isAutheticated &&
+          <>
+          <Typography
+            variant="body1"
+            align="center">
+            Soon you will be able to save your squadrons to your profile. You can sign up now and be ready for when the feature launches.
+          </Typography>
+        
           <div>
             <SignupButton />
             <Button to="/squadron" component={Link}>
               Skip
             </Button>
-          </div>        
+            <LoginLogOutButton />
+          </div>
+          </>        
+            }
+            { !isAutheticated &&
+            <Button 
+              variant="contained" 
+              color="primary" 
+              to="/squadron" 
+              component={Link}>
+              Continue
+            </Button>     
+            }
+
       </Grid>
     </div>
   );

@@ -75,7 +75,9 @@ function SquadronBuilderView() {
     <div>
       <AppBar position="sticky">
         <Toolbar>
-          <Grid container direction="row" justify="flex-start">
+          <Grid 
+            container direction="row" 
+            justifyContent="flex-start">
             <Typography className={classes.squadronName} variant="subtitle1">
               Untitled Squadron
             </Typography>

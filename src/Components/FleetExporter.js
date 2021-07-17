@@ -101,7 +101,7 @@ function FleetExporter(props) {
         <Grid
           container
           direction="column"
-          justify="stretch"
+          justifyContent="stretch"
           alignItems="stretch"
         >
           <div className={classes.linkDiv}>

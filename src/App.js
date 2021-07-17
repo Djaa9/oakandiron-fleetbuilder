@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import {
   Drawer,
@@ -16,6 +16,8 @@ import BuildIcon from "@material-ui/icons/Build";
 import ListIcon from "@material-ui/icons/List";
 import UserLandingPage from "./Components/UserLandingPage.js";
 import LoginLogOutButton from "./Components/auth/LoginLogOutButton.js";
+import { useAuth0 } from "@auth0/auth0-react";
+import { useHistory } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -25,19 +27,35 @@ const useStyles = makeStyles((theme) => ({
     flexShrink: 0,
   },
   appView: {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: drawerWidth,
+    //width: `calc(100% - ${drawerWidth}px)`,
+    //marginLeft: drawerWidth,
   },
   toolbar: theme.mixins.toolbar,
+  loginLogOutButton: { 
+    margin: "auto"
+  }
 }));
 
 const App = () => {
+
   const classes = useStyles();
+  const {isLoading, isAuthenticated} = useAuth0();
+  const history = useHistory();
+
+  useEffect(() => {
+    if(!isLoading && isAuthenticated) {
+      history.push("/squadron");
+    }
+  },
+  [isLoading, isAuthenticated, history])
+
+  if(isLoading)
+    return( <div> Loading </div>)
 
   return (
     <>
       <div className={classes.drawer}>
-        <Drawer open variant="permanent" classes={{ paper: classes.drawer }}>
+        <Drawer classes={{ paper: classes.drawer }}>
           <div>
             <div className={classes.toolbar} />
             <Divider />
@@ -60,10 +78,8 @@ const App = () => {
               </ListItem>
             </List>
           </div>
-          <Divider />
-          <div>
-            <LoginLogOutButton/>
-          </div>
+          <Divider />   
+            <LoginLogOutButton className={classes.loginLogOutButton}/>
         </Drawer>
       </div>
       <div className={classes.appView}>
@@ -77,9 +93,6 @@ const App = () => {
             </Route>
             <Route exact path="/squadron/:squadronId">
               <SquadronBuilderView />
-            </Route>
-            <Route exact path="/callback">
-              <UserLandingPage />
             </Route>
             <Route exact path="/user">
               <UserLandingPage />
