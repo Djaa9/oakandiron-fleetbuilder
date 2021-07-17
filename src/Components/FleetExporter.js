@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback, useMemo } from "react";
 import PropTypes from "prop-types";
 import squadronProvider from "../Providers/squadronProvider.js";
 import {
@@ -10,13 +10,39 @@ import {
   DialogContent,
   Button,
   DialogActions,
+  CircularProgress,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 
+const useStyles = makeStyles((theme) => ({
+  fleetExporterDialog: {
+    padding: theme.spacing(3),
+  },
+  textExportInputField: {
+    width: "100%",
+  },
+  hiddenForm: {
+    height: 0,
+    width: 0,
+    border: "none",
+    outline: "none",
+    resize: "none",
+    "*::-webkit-box-shadow": "none",
+    "*::moz-box-shadow": "none",
+    "*::box-shadow": "none",
+  },
+  linkDiv: {
+    marginBottom: theme.spacing(2),
+  },
+}));
+
 function FleetExporter(props) {
-  // TODO Put func in util file
-  function appUrl(resourceUrl) {
+  const classes = useStyles();
+  const { open, onClose, fleet } = props;
+  
+
+  const appUrl = useMemo(() => {
     if (process.env.NODE_ENV === "production")
       return "https://oai-toolkit.netlify.app";
 
@@ -25,52 +51,28 @@ function FleetExporter(props) {
     if (process.env.NODE_ENV === "test") return "http://localhost:3000";
 
     return "";
-  }
-
-  const { open, onClose, fleet } = props;
-
-  const useStyles = makeStyles((theme) => ({
-    fleetExporterDialog: {
-      padding: theme.spacing(3),
-    },
-    textExportInputField: {
-      width: "100%",
-    },
-    hiddenForm: {
-      height: 0,
-      width: 0,
-      border: "none",
-      outline: "none",
-      resize: "none",
-      "*::-webkit-box-shadow": "none",
-      "*::moz-box-shadow": "none",
-      "*::box-shadow": "none",
-    },
-    linkDiv: {
-      marginBottom: theme.spacing(2),
-    },
-  }));
-
-  const classes = useStyles();
+  },[]);  
 
   const [fleetLink, setFleetLink] = useState("");
+  const [fleetLinkisLoading, setFleetLinkisLoading] = useState(true);
   const [fleetTextExport, setFleetTextExport] = useState("");
   const textAreaRef = useRef(null);
 
-  useEffect(() => {
-    if (!fleet) return;
-
-    const callProviderAsync = async () => {
-      let link = appUrl() + "/squadron/";
-      link += await squadronProvider.SaveAndGetId(fleet);
-
+  const getFleetLink = useCallback( async () => {
+      setFleetLinkisLoading(true);  
+      let link = appUrl + "/squadron/";
+      
+      link += await squadronProvider.SaveAndGetId(fleet);      
       setFleetLink(link);
-    };
+      setFleetTextExport(squadronProvider.toText(fleet));
+      setFleetLinkisLoading(false);
+  },[fleet, appUrl]);
+  
+  useEffect(() => {
+    if (!fleet) return;   
 
-    callProviderAsync();
-
-    setFleetTextExport(squadronProvider.toText(fleet));
-  }, [fleet]);
+    getFleetLink();   
+  }, [fleet, getFleetLink]);
 
   const copyTextToClipboard = () => {
     textAreaRef.current.value = fleetTextExport;
@@ -112,11 +114,19 @@ function FleetExporter(props) {
               {" "}
               Copy to clipboard{" "}
             </Button>
+
+            {fleetLinkisLoading 
+            ?
+            <div>
+              <CircularProgress />
+            </div>
+            :
             <TextField
               className={classes.textExportInputField}
               variant="outlined"
-              value={fleetLink}
-            />
+              value={fleetLink} />
+            }
+
           </div>
           <div>
             <Button
